@@ -2,6 +2,8 @@
   padding: var(--spacing-xlarge);
   max-width: 800px;
   margin: 0 auto;
+  padding-bottom: calc(var(--spacing-xlarge) * 2); /* Add extra padding at the bottom */
+  margin-bottom: var(--spacing-xlarge); /* Add margin at the bottom */
 }
 
 .confirmation-header {
@@ -148,7 +150,14 @@
   font-size: 1.2rem;
   cursor: pointer;
   transition: opacity 0.3s;
-  margin-top: var(--spacing-medium);
+  margin-top: var(--spacing-xlarge);
+  margin-bottom: var(--spacing-xlarge);
+  height: 60px; /* Make button taller */
+  width: 100%; /* Make button full width */
+  max-width: 400px; /* Limit maximum width */
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .confirm-order-button:hover {
