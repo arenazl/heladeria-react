@@ -23,7 +23,7 @@
 .reset-order-button {
   background: transparent;
   border: none;
-  color: var(--text-medium);
+  color: var(--text-medium); 
   cursor: pointer;
   transition: color 0.3s;
   display: flex;
@@ -313,13 +313,6 @@
   
   .customer-info h3 {
     font-size: 1.2rem;
-  }
-  
-  .order-total-row {
-    font-size: 1.2rem;
-  }
-  
-  .confirm-order-button {
     font-size: 1rem;
     padding: 0.8rem;
   }
