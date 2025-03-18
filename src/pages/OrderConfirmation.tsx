@@ -7,7 +7,7 @@ import '../styles/OrderConfirmation.css';
 
 const OrderConfirmation: React.FC = () => {
   const navigate = useNavigate();
-  const { order, clearOrder, addToOrder } = useOrder();
+  const { order, addToOrder } = useOrder();
   const [recommendations, setRecommendations] = useState<Product[]>([]);
 
   useEffect(() => {
