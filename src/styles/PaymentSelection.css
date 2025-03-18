@@ -1,0 +1,199 @@
+/* Payment Selection Styles */
+
+.payment-order-summary {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-small);
+  padding: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
+}
+
+.payment-order-summary h3 {
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-medium);
+  text-align: center;
+}
+
+.payment-order-items {
+  margin-bottom: var(--spacing-large);
+}
+
+.payment-order-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-medium);
+  border-bottom: 1px solid var(--bg-dark);
+}
+
+.payment-order-item:last-child {
+  border-bottom: none;
+}
+
+.payment-item-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-small);
+}
+
+.payment-item-name {
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.payment-item-quantity {
+  color: var(--text-medium);
+}
+
+.payment-item-description {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  margin-bottom: var(--spacing-small);
+}
+
+.payment-item-price {
+  font-weight: bold;
+  color: var(--primary-color);
+  align-self: flex-end;
+}
+
+.payment-customer-info {
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+}
+
+.payment-customer-info h4 {
+  margin: 0 0 var(--spacing-small) 0;
+  color: var(--text-dark);
+}
+
+.payment-customer-info p {
+  margin: 0 0 var(--spacing-small) 0;
+  color: var(--text-medium);
+}
+
+.payment-customer-info p:last-child {
+  margin-bottom: 0;
+}
+
+.payment-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  padding-top: var(--spacing-medium);
+  border-top: 1px solid var(--bg-dark);
+}
+
+.payment-methods-container {
+  margin-bottom: var(--spacing-large);
+}
+
+.payment-methods-container h3 {
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-medium);
+  text-align: center;
+}
+
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-medium);
+}
+
+.payment-method-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  border: 2px solid var(--bg-dark);
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-large);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.payment-method-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.payment-method-card.selected {
+  border-color: var(--primary-color);
+  background-color: rgba(38, 180, 189, 0.05);
+}
+
+.payment-method-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-medium);
+}
+
+.payment-method-name {
+  font-weight: bold;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.confirm-payment-button {
+  display: block;
+  width: 100%;
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing-medium);
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.confirm-payment-button:hover {
+  opacity: 0.9;
+}
+
+.confirm-payment-button.disabled {
+  background: linear-gradient(270deg, #cccccc, #aaaaaa);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.back-to-customers-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: var(--spacing-large) auto 0;
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing-medium);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-to-customers-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-small);
+  }
+  
+  .payment-method-card {
+    padding: var(--spacing-medium);
+  }
+  
+  .payment-method-icon {
+    font-size: 2rem;
+  }
+}

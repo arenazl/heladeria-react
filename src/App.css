@@ -1,38 +1,90 @@
-.App {
-  text-align: center;
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-medium);
+  color: var(--text-dark);
+  line-height: 1.6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow: hidden; /* Prevent scrollbar from appearing during animations */
 }
 
-.App-link {
-  color: #61dafb;
+.app-content {
+  flex: 1;
+  padding: 0; /* Remove padding for full-screen pages like WelcomeScreen */
+  overflow: hidden; /* Prevent scrolling */
+  position: relative; /* Needed for framer-motion animations */
+  width: 100%;
+  z-index: 1; /* Ensure content is above header/footer */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+/* Ensure header and footer stay fixed during animations and scrolling */
+.app-header {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.app-footer {
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Common button styles */
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Common error message styles */
+.error-message {
+  text-align: center;
+  color: var(--error-color);
+  font-size: 1.5rem;
+  margin-top: var(--spacing-xlarge);
+  padding: var(--spacing-medium);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Common back button styles */
+.back-button {
+  background-color: var(--bg-dark);
+  border: none;
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
   }
 }

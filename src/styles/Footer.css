@@ -1,0 +1,140 @@
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow-small);
+  z-index: 1000;
+  padding: var(--spacing-small) var(--spacing-medium);
+}
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: var(--spacing-medium);
+}
+
+.cart-button {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+  border-radius: var(--border-radius-medium);
+  padding: 0.8rem var(--spacing-medium);
+  height: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+}
+
+.cart-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.cart-icon {
+  font-size: 1.5rem;
+  margin-right: var(--spacing-medium);
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--text-dark);
+  color: var(--text-light);
+  border-radius: var(--border-radius-circle);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.cart-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cart-item-count {
+  font-size: 0.9rem;
+}
+
+.cart-total {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cart-action {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.reset-order-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--border-radius-medium);
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset-order-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.reset-order-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    height: 60px;
+  }
+  
+  .cart-button {
+    padding: 0.5rem 0.8rem;
+  }
+  
+  .cart-icon {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+  }
+  
+  .cart-badge {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+  }
+  
+  .cart-item-count {
+    font-size: 0.8rem;
+  }
+  
+  .cart-total {
+    font-size: 1rem;
+  }
+  
+  .cart-action {
+    font-size: 0.9rem;
+  }
+
+  .reset-order-button {
+    padding: 0.5rem;
+  }
+
+  .reset-order-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}

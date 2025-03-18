@@ -1,0 +1,125 @@
+/* Customer search styles */
+.customer-search-container {
+  position: relative;
+  margin-bottom: var(--spacing-large);
+}
+
+.customer-search-input {
+  width: 100%;
+  padding: var(--spacing-medium) var(--spacing-large);
+  padding-right: 50px;
+  border: 1px solid var(--bg-dark);
+  border-radius: var(--border-radius-medium);
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.customer-search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(38, 180, 189, 0.2);
+}
+
+.customer-search-icon {
+  position: absolute;
+  right: var(--spacing-medium);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  color: var(--text-medium);
+  pointer-events: none;
+}
+
+.customer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.customer-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.customer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.customer-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 1.5rem;
+}
+
+.customer-info {
+  flex-grow: 1;
+}
+
+.customer-info h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.customer-address {
+  color: #666;
+  margin: 0 0 0.5rem 0;
+}
+
+.customer-phone {
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .customer-container {
+    padding: 1rem;
+  }
+  
+  .customer-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .back-button {
+    position: static;
+    margin-bottom: 1rem;
+  }
+  
+  .customer-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .customer-card {
+    padding: 1rem;
+  }
+  
+  .customer-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+  }
+  
+  .customer-info h2 {
+    font-size: 1.2rem;
+  }
+}

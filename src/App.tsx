@@ -1,25 +1,104 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { OrderProvider } from './context/OrderContext';
+import { useOrder } from './context/OrderContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import WelcomeScreen from './pages/WelcomeScreen';
+import CategorySelection from './pages/CategorySelection';
+import SubcategorySelection from './pages/SubcategorySelection';
+import ProductSelection from './pages/ProductSelection';
+import ProductDetail from './pages/ProductDetail';
+import QuantitySelection from './pages/QuantitySelection';
+import CustomerSelection from './pages/CustomerSelection';
+import OrderConfirmation from './pages/OrderConfirmation';
+import PaymentSelection from './pages/PaymentSelection';
 import './App.css';
+
+// Route guard component to check for existing customer
+const CustomerGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { order } = useOrder();
+  
+  // If a customer is already selected, redirect to confirmation
+  if (order.customer) {
+    return <Navigate to="/confirmation" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Animation variants
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: 30 // Minimal distance for very fast animation
+  },
+  in: {
+    opacity: 1,
+    x: 0
+  },
+  out: {
+    opacity: 0,
+    x: -30 // Minimal distance for very fast animation
+  }
+};
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'easeOut',
+  duration: 0.1 // Ultra fast animation
+};
+
+// Animated routes component
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <motion.main
+        key={location.pathname}
+        className="app-content"
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/categories" element={<CategorySelection />} />
+          <Route path="/categories/:categoryId/subcategories" element={<SubcategorySelection />} />
+          <Route path="/subcategories/:subcategoryId/products" element={<ProductSelection />} />
+          <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route path="/quantity" element={<QuantitySelection />} />
+          <Route 
+            path="/customers" 
+            element={
+              <CustomerGuard>
+                <CustomerSelection />
+              </CustomerGuard>
+            } 
+          />
+          <Route path="/confirmation" element={<OrderConfirmation />} />
+          <Route path="/payment" element={<PaymentSelection />} />
+        </Routes>
+      </motion.main>
+    </AnimatePresence>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <OrderProvider>
+      <Router>
+        <div className="app">
+          <Header />
+          <AnimatedRoutes />
+          <Footer />
+        </div>
+      </Router>
+    </OrderProvider>
   );
 }
 
