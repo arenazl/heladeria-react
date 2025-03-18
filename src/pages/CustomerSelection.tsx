@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { customers } from '../data/mockData';
 import { useOrder } from '../context/OrderContext';
-import { Order } from '../models/types';
 import '../styles/CustomerSelection.css';
 
 const CustomerSelection: React.FC = () => {
