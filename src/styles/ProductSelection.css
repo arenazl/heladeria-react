@@ -6,7 +6,7 @@
 
 .product-subtitle {
   text-align: center;
-  color: #333;
+  color: var(--text-dark);
   margin-bottom: 2rem;
   font-size: 1.5rem;
 }
@@ -18,9 +18,9 @@
 }
 
 .product-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
@@ -30,7 +30,7 @@
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-large);
 }
 
 .product-image-container {
@@ -58,12 +58,12 @@
 
 .product-info h2 {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--text-dark);
   margin: 0 0 0.5rem 0;
 }
 
 .product-description {
-  color: #666;
+  color: var(--text-medium);
   margin: 0 0 1rem 0;
   flex-grow: 1;
 }
@@ -71,13 +71,13 @@
 .product-price {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff6b6b;
+  color: var(--primary-color); /* Using the primary color variable instead of hardcoded red */
   margin: 0;
 }
 
 .error-message {
   text-align: center;
-  color: #ff5252;
+  color: var(--error-color);
   font-size: 1.5rem;
   margin-top: 2rem;
 }

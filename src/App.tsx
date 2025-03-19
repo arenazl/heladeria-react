@@ -6,9 +6,7 @@ import { useOrder } from './context/OrderContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WelcomeScreen from './pages/WelcomeScreen';
-import CategorySelection from './pages/CategorySelection';
-import SubcategorySelection from './pages/SubcategorySelection';
-import ProductSelection from './pages/ProductSelection';
+import ProductBrowsing from './pages/ProductBrowsing';
 import ProductDetail from './pages/ProductDetail';
 import QuantitySelection from './pages/QuantitySelection';
 import CustomerSelection from './pages/CustomerSelection';
@@ -67,9 +65,7 @@ const AnimatedRoutes = () => {
       >
         <Routes location={location}>
           <Route path="/" element={<WelcomeScreen />} />
-          <Route path="/categories" element={<CategorySelection />} />
-          <Route path="/categories/:categoryId/subcategories" element={<SubcategorySelection />} />
-          <Route path="/subcategories/:subcategoryId/products" element={<ProductSelection />} />
+          <Route path="/products" element={<ProductBrowsing />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/quantity" element={<QuantitySelection />} />
           <Route 

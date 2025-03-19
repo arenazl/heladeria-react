@@ -12,7 +12,7 @@ const WelcomeScreen: React.FC = () => {
         <p>Los mejores platillos mexicanos en un solo lugar</p>
         <button 
           className="start-button"
-          onClick={() => navigate('/categories')}
+          onClick={() => navigate('/products')}
         >
           Comenzar Pedido
         </button>

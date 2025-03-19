@@ -1,6 +1,10 @@
 @import './styles/variables.css';
 @import './styles/common.css';
 
+html {
+  scroll-behavior: smooth; /* Enable smooth scrolling for the entire page */
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

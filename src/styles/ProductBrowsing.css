@@ -1,0 +1,51 @@
+html {
+  scroll-behavior: smooth; /* Enable smooth scrolling for the entire page */
+}
+
+.product-browsing-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.fixed-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.product-content {
+  flex: 1;
+  padding-top: 170px; /* Reduced padding for better content visibility */
+  padding-bottom: 80px; /* Add padding at the bottom to prevent content from being cut off */
+  overflow-y: auto;
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+.select-category-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  text-align: center;
+  color: var(--text-medium);
+}
+
+.select-category-message h2 {
+  font-size: 1.5rem;
+  max-width: 80%;
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+
+  .product-content {
+    
+    padding-top: 19px;
+    padding-bottom: 20px;
+  }
+  
+  .select-category-message h2 {
+    font-size: 1.2rem;
+  }
+}

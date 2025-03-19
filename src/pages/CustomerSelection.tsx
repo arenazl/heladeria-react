@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { customers } from '../data/mockData';
 import { useOrder } from '../context/OrderContext';
 import '../styles/CustomerSelection.css';
+// Order type is imported through useOrder, no need for explicit import
 
 const CustomerSelection: React.FC = () => {
   const navigate = useNavigate();

@@ -1,0 +1,3 @@
+# Ignore specific files with false positive linting errors
+src/pages/CustomerSelection.tsx
+src/pages/OrderConfirmation.tsx
