@@ -26,34 +26,32 @@ const CustomerGuard: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return <>{children}</>;
 };
 
-// Animation variants
+// Simple fade animation
 const pageVariants = {
   initial: {
-    opacity: 0,
-    x: 30 // Minimal distance for very fast animation
+    opacity: 0
   },
   in: {
-    opacity: 1,
-    x: 0
+    opacity: 1
   },
   out: {
-    opacity: 0,
-    x: -30 // Minimal distance for very fast animation
+    opacity: 0
   }
 };
 
+// Fast fade transition
 const pageTransition = {
   type: 'tween',
-  ease: 'easeOut',
-  duration: 0.1 // Ultra fast animation
+  ease: 'linear',
+  duration: 0.1
 };
 
-// Animated routes component
+// Animated routes component with simple fade animation
 const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync" initial={false}>
       <motion.main
         key={location.pathname}
         className="app-content"

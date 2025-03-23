@@ -38,7 +38,7 @@ const QuantitySelection: React.FC = () => {
   };
 
   const handleAddMoreClick = () => {
-    navigate('/categories');
+    navigate('/products');
   };
 
   const handleAddRecommendedProduct = (productId: number) => {
@@ -74,51 +74,52 @@ const QuantitySelection: React.FC = () => {
   return (
     <div className="page-container">
       <div className="section-container">
-        <h2 className="section-title">Tu Pedido</h2>
-        
-        <div className="order-items">
-          {order.items.map((item) => (
-            <div key={item.productId} className="order-item">
-              <div className="order-item-image-container">
-                <img src={item.product.image} alt={item.product.name} className="order-item-image" />
-              </div>
-              
-              <div className="order-item-details">
-                <h3>{item.product.name}</h3>
-                <p className="order-item-description">{item.product.description}</p>
-                <div className="order-item-details-row">
-                  <span className="order-item-price">${item.product.price}</span>
-                  <div className="order-item-quantity">
-                    {item.quantity === 1 ? (
-                      <button 
-                        className="quantity-button trash-button"
-                        onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
-                      >
-                        🗑️
-                      </button>
-                    ) : (
+        <div className="order-card">
+          <h2 className="section-title order-title">Tu Pedido</h2>
+          <div className="order-items">
+            {order.items.map((item) => (
+              <div key={item.productId} className="order-item">
+                <div className="order-item-image-container">
+                  <img src={item.product.image} alt={item.product.name} className="order-item-image" />
+                </div>
+                
+                <div className="order-item-details">
+                  <h3>{item.product.name}</h3>
+                  <p className="order-item-description">{item.product.description}</p>
+                  <div className="order-item-details-row">
+                    <span className="order-item-price">${item.product.price}</span>
+                    <div className="order-item-quantity">
+                      {item.quantity === 1 ? (
+                        <button 
+                          className="quantity-button trash-button"
+                          onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                        >
+                          🗑️
+                        </button>
+                      ) : (
+                        <button 
+                          className="quantity-button"
+                          onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                        >
+                          -
+                        </button>
+                      )}
+                      <span className="quantity-value">{item.quantity}</span>
                       <button 
                         className="quantity-button"
-                        onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                        onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
                       >
-                        -
+                        +
                       </button>
-                    )}
-                    <span className="quantity-value">{item.quantity}</span>
-                    <button 
-                      className="quantity-button"
-                      onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="order-item-total">
-                    ${item.product.price * item.quantity}
+                    </div>
+                    <div className="order-item-total">
+                      ${item.product.price * item.quantity}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         
         {recommendations.length > 0 && (
@@ -148,7 +149,7 @@ const QuantitySelection: React.FC = () => {
                 )
               ))}
             </div>
-            <div className="recommendations-bottom-space"></div>
+        
           </div>
         )}
         
@@ -156,23 +157,6 @@ const QuantitySelection: React.FC = () => {
           <div className="order-total">
             <span>Total:</span>
             <span>${order.total}</span>
-          </div>
-          
-          <div className="order-actions">
-            <div className="action-buttons">
-              <button 
-                className="add-more-button"
-                onClick={handleAddMoreClick}
-              >
-                Agregar Más
-              </button>
-              <button 
-                className="continue-button"
-                onClick={handleContinueClick}
-              >
-                Finalizar
-              </button>
-            </div>
           </div>
         </div>
       </div>

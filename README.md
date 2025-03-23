@@ -1,46 +1,130 @@
-# Getting Started with Create React App
+# Heladeria App - React Native Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a cross-platform application for an ice cream shop, built with React Native Web. It allows the app to run on both web and mobile platforms (iOS and Android) with a shared codebase.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Browse ice cream products by categories and subcategories
+- View product details
+- Add products to cart with quantity selection
+- Customer selection
+- Order confirmation
+- Payment processing
+- Smooth screen transitions with native animations
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Node.js (v14 or newer)
+- npm or yarn
+- For iOS: macOS, Xcode
+- For Android: Android Studio, Android SDK
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository
+2. Install dependencies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+# or
+yarn install
+```
 
-### `npm run build`
+## Running the App
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Web
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run the app in the web browser:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run start:web
+# or
+yarn start:web
+```
 
-### `npm run eject`
+This will start the app at http://localhost:3000
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Android
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To run the app on an Android device or emulator:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm run start:android
+# or
+yarn start:android
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Make sure you have an Android emulator running or a device connected.
 
-## Learn More
+### iOS
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To run the app on an iOS simulator:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run start:ios
+# or
+yarn start:ios
+```
+
+This requires macOS and Xcode installed.
+
+## Project Structure
+
+- `/src`: Source code
+  - `/assets`: Images and other static assets
+  - `/components`: Reusable UI components
+  - `/context`: React Context for state management
+  - `/data`: Mock data for the app
+  - `/models`: TypeScript type definitions
+  - `/screens`: Screen components for React Native
+  - `/pages`: Page components for web
+  - `/styles`: CSS styles for web
+
+## Technology Stack
+
+- React / React Native
+- React Native Web
+- React Navigation
+- TypeScript
+- React Context API for state management
+
+## Animation and Transitions
+
+### Mobile (React Native)
+The app uses React Navigation's built-in animation capabilities to provide smooth transitions between screens:
+
+- Horizontal slide transitions for most screen navigations
+- Fade-in from bottom for quantity selection screen
+- Modal-style presentation for payment screen
+- Gesture-enabled navigation (swipe to go back)
+
+These animations are optimized using the native driver for better performance on mobile devices, resulting in smoother transitions with no stuttering.
+
+### Web
+For the web version, the app uses Framer Motion to create fluid, direction-aware transitions:
+
+- Direction-aware animations that slide in from the right when moving forward in the flow and from the left when going back
+- Custom animations for specific screens:
+  - Product detail pages slide in vertically
+  - Quantity selection slides up from the bottom
+  - Payment screen uses a subtle 3D rotation effect
+- Spring physics for natural, responsive motion
+- Hardware-accelerated animations with CSS transforms
+
+The web animations are enhanced with 3D perspective, backface visibility, and will-change optimizations for smooth performance across browsers.
+
+## Building for Production
+
+### Web
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+This will create a production build in the `build` folder.
+
+### Mobile
+
+For mobile builds, refer to the React Native documentation for generating APK/AAB (Android) or IPA (iOS) files.

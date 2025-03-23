@@ -102,7 +102,7 @@
 @media (max-width: 768px) {
   .all-products-listing {
     padding: 10px;
-    padding-top: 180px; /* Adjusted to match the top navigation bars */
+    /* padding-top removed as requested */
   }
   
   .category-title {

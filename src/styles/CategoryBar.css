@@ -4,13 +4,9 @@
   background-color: white;
   padding: 12px 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 60px; /* Position directly below the header */
-  left: 0;
-  right: 0;
-  z-index: 100;
   white-space: nowrap;
   justify-content: space-around;
+  width: 100%;
 }
 
 .category-item {

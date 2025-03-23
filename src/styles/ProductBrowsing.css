@@ -6,20 +6,36 @@ html {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: 60px; /* Height of the header */
 }
 
+/* This div will contain the CategoryBar and SubcategoryBar */
 .fixed-navigation {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 60px; /* Position below the header */
+  left: 0;
+  right: 0;
   z-index: 100;
+  background-color: white;
 }
 
 .product-content {
   flex: 1;
-  padding-top: 170px; /* Reduced padding for better content visibility */
-  padding-bottom: 80px; /* Add padding at the bottom to prevent content from being cut off */
+  padding-top: 60px; /* Just enough space for the header */
+  padding-bottom: 70px; /* Just enough space for the footer */
   overflow-y: auto;
   scroll-behavior: smooth; /* Enable smooth scrolling */
+  transition: padding-top 0.3s ease; /* Smooth transition when padding changes */
+}
+
+/* When category bar is visible */
+.product-content.with-category {
+  padding-top: 110px; /* Header (60px) + category bar (50px) */
+}
+
+/* When both category and subcategory bars are visible */
+.product-content.with-category.with-subcategory {
+  padding-top: 140px; /* Header (60px) + category bar (50px) + subcategory bar (30px) */
 }
 
 .select-category-message {
@@ -38,11 +54,27 @@ html {
 
 /* For mobile devices */
 @media (max-width: 768px) {
+  .product-browsing-container {
+    padding-top: 50px; /* Height of the header on mobile */
+  }
+
+  .fixed-navigation {
+    top: 50px; /* Position below the header on mobile */
+  }
 
   .product-content {
-    
-    padding-top: 19px;
-    padding-bottom: 20px;
+    padding-top: 50px; /* Just enough space for the header */
+    padding-bottom: 60px; /* Just enough space for the footer */
+  }
+  
+  /* When category bar is visible on mobile */
+  .product-content.with-category {
+    padding-top: 90px; /* Header (50px) + category bar (40px) */
+  }
+  
+  /* When both category and subcategory bars are visible on mobile */
+  .product-content.with-category.with-subcategory {
+    padding-top: 120px; /* Header (50px) + category bar (40px) + subcategory bar (30px) */
   }
   
   .select-category-message h2 {

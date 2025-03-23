@@ -1,0 +1,140 @@
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { Order, OrderItem, Product, Customer } from '../models/types';
+
+interface OrderContextType {
+  order: Order;
+  addToOrder: (product: Product, quantity: number) => void;
+  removeFromOrder: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
+  setCustomer: (customer: Customer) => void;
+  clearOrder: () => void;
+}
+
+const OrderContext = createContext<OrderContextType | undefined>(undefined);
+
+export const useOrder = () => {
+  const context = useContext(OrderContext);
+  if (!context) {
+    throw new Error('useOrder must be used within an OrderProvider');
+  }
+  return context;
+};
+
+interface OrderProviderProps {
+  children: ReactNode;
+}
+
+export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
+  const [order, setOrder] = useState<Order>({
+    items: [],
+    total: 0,
+  });
+
+  const calculateTotal = (items: OrderItem[]): number => {
+    return items.reduce((total, item) => {
+      return total + (item.product.price * item.quantity);
+    }, 0);
+  };
+
+  const addToOrder = (product: Product, quantity: number) => {
+    setOrder((prevOrder) => {
+      // Check if the product is already in the order
+      const existingItemIndex = prevOrder.items.findIndex(
+        (item) => item.productId === product.id
+      );
+
+      let updatedItems: OrderItem[];
+
+      if (existingItemIndex >= 0) {
+        // Update quantity if product already exists in order
+        updatedItems = [...prevOrder.items];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: updatedItems[existingItemIndex].quantity + quantity,
+        };
+      } else {
+        // Add new item to order
+        updatedItems = [
+          ...prevOrder.items,
+          {
+            productId: product.id,
+            quantity,
+            product,
+          },
+        ];
+      }
+
+      return {
+        ...prevOrder,
+        items: updatedItems,
+        total: calculateTotal(updatedItems),
+      };
+    });
+  };
+
+  const removeFromOrder = (productId: number) => {
+    setOrder((prevOrder) => {
+      const updatedItems = prevOrder.items.filter(
+        (item) => item.productId !== productId
+      );
+
+      return {
+        ...prevOrder,
+        items: updatedItems,
+        total: calculateTotal(updatedItems),
+      };
+    });
+  };
+
+  const updateQuantity = (productId: number, quantity: number) => {
+    setOrder((prevOrder) => {
+      const updatedItems = prevOrder.items.map((item) => {
+        if (item.productId === productId) {
+          return {
+            ...item,
+            quantity,
+          };
+        }
+        return item;
+      });
+
+      return {
+        ...prevOrder,
+        items: updatedItems,
+        total: calculateTotal(updatedItems),
+      };
+    });
+  };
+
+  const setCustomer = (customer: Customer) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      customerId: customer.id,
+      customer,
+    }));
+  };
+
+  const clearOrder = () => {
+    setOrder({
+      items: [],
+      total: 0,
+      customerId: undefined,
+      customer: undefined
+    });
+  };
+
+  return (
+    <OrderContext.Provider
+      value={{
+        order,
+        addToOrder,
+        removeFromOrder,
+        updateQuantity,
+        setCustomer,
+        clearOrder,
+      }}
+    >
+      {children}
+    </OrderContext.Provider>
+  );
+};

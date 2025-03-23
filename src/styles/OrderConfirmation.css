@@ -249,6 +249,11 @@
   overflow: hidden;
 }
 
+.recommendation-padding-clean {
+  padding-bottom: 0px !IMPORTANT;
+  margin-bottom: 0px ! IMPORTANT;
+}
+
 .recommendation-price-action {
   display: flex;
   justify-content: space-between;

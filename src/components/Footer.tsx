@@ -19,8 +19,11 @@ const Footer: React.FC = () => {
   const location = useLocation();
   const { order, clearOrder } = useOrder();
   
-  // Don't show footer on welcome screen or when already in cart
-  const showFooter = location.pathname !== '/' && location.pathname !== '/quantity';
+  // Don't show footer only on welcome screen
+  const showFooter = location.pathname !== '/';
+  
+  // Check if we're on the quantity selection page
+  const isQuantityPage = location.pathname === '/quantity';
   
   const handleCartClick = () => {
     navigate('/quantity');
@@ -38,10 +41,26 @@ const Footer: React.FC = () => {
   
   const itemCount = order.items.reduce((total, item) => total + item.quantity, 0);
   
+  const handleAddMoreClick = () => {
+    navigate('/products');
+  };
+
+  const handleFinalizeClick = () => {
+    navigate('/customers');
+  };
+
+  // Plus Icon SVG
+  const PlusIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  );
+
   return (
     <footer className="app-footer">
       <div className="cart-actions">
-        <div className="cart-button" onClick={handleCartClick}>
+        <div className="cart-button" onClick={isQuantityPage ? handleFinalizeClick : handleCartClick}>
           <div className="cart-icon">
             🛒
             {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
@@ -51,16 +70,27 @@ const Footer: React.FC = () => {
             <span className="cart-total">${order.total}</span>
           </div>
           <div className="cart-action">
-            Ver Pedido →
+            {isQuantityPage ? 'Finalizar →' : 'Ver Pedido →'}
           </div>
         </div>
-        <button 
-          className="reset-order-button" 
-          onClick={handleResetOrder}
-          title="Limpiar Carrito"
-        >
-          <TrashIcon />
-        </button>
+        {isQuantityPage ? (
+          <button 
+            className="add-products-button" 
+            onClick={handleAddMoreClick}
+            title="Agregar Productos"
+          >
+            <span className="add-products-text">Agregar</span>
+            <PlusIcon />
+          </button>
+        ) : (
+          <button 
+            className="reset-order-button" 
+            onClick={handleResetOrder}
+            title="Limpiar Carrito"
+          >
+            <TrashIcon />
+          </button>
+        )}
       </div>
     </footer>
   );

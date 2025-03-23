@@ -4,12 +4,8 @@
   background-color: #f8f8f8;
   padding: 10px 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  position: fixed;
-  top: 142px; /* Position below the header (60px) + category bar (82px) */
-  left: 0;
-  right: 0;
-  z-index: 99;
   white-space: nowrap;
+  width: 100%;
 }
 
 .subcategory-item {

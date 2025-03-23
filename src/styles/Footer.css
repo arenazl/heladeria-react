@@ -17,6 +17,30 @@
   gap: var(--spacing-medium);
 }
 
+/* Add products button */
+.add-products-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--border-radius-medium);
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.add-products-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.add-products-text {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .cart-button {
   display: flex;
   align-items: center;
@@ -136,5 +160,19 @@
   .reset-order-button svg {
     width: 20px;
     height: 20px;
+  }
+  
+  /* Mobile styles for add products button */
+  .add-products-button {
+    padding: 0.5rem;
+  }
+  
+  .add-products-text {
+    font-size: 0.9rem;
+  }
+  
+  .add-products-button svg {
+    width: 14px;
+    height: 14px;
   }
 }

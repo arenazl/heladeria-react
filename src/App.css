@@ -16,16 +16,28 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Prevent scrollbar from appearing during animations */
+  background-color: var(--bg-medium);
+  position: relative;
 }
 
 .app-content {
   flex: 1;
   padding: 0; /* Remove padding for full-screen pages like WelcomeScreen */
-  overflow: hidden; /* Prevent scrolling */
   position: relative; /* Needed for framer-motion animations */
   width: 100%;
   z-index: 1; /* Ensure content is above header/footer */
+  margin-top: 60px; /* Height of the header */
+  margin-bottom: 70px; /* Height of the footer */
+  overflow-y: auto; /* Allow content to scroll */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .app-content {
+    margin-top: 50px; /* Height of the header on mobile */
+    margin-bottom: 60px; /* Height of the footer on mobile */
+  }
 }
 
 /* Ensure header and footer stay fixed during animations and scrolling */
@@ -35,6 +47,9 @@ body {
   top: 0;
   left: 0;
   right: 0;
+  transform: translateZ(0); /* Force hardware acceleration */
+  will-change: transform; /* Hint for browser optimization */
+  backface-visibility: hidden; /* Prevent flickering */
 }
 
 .app-footer {
@@ -43,6 +58,9 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translateZ(0); /* Force hardware acceleration */
+  will-change: transform; /* Hint for browser optimization */
+  backface-visibility: hidden; /* Prevent flickering */
 }
 
 /* Common button styles */

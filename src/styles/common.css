@@ -8,11 +8,11 @@
 }
 
 .section-title {
-  padding-top: 2rem;
+  padding-top: 1rem;
   font-size: 1.3rem;
   color: var(--text-dark);
   margin-bottom: var(--spacing-large);
-  text-align: center;
+  text-align: left;
   font-weight: bold;
 }
 

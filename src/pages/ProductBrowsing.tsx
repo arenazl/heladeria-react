@@ -50,17 +50,22 @@ const ProductBrowsing: React.FC = () => {
 
   return (
     <div className="product-browsing-container">
-      <CategoryBar 
-        selectedCategoryId={selectedCategoryId} 
-        onCategorySelect={handleCategorySelect} 
-      />
-      <SubcategoryBar 
-        categoryId={selectedCategoryId} 
-        selectedSubcategoryId={selectedSubcategoryId} 
-        onSubcategorySelect={handleSubcategorySelect} 
-      />
+      <div className="fixed-navigation">
+        <CategoryBar 
+          selectedCategoryId={selectedCategoryId} 
+          onCategorySelect={handleCategorySelect} 
+        />
+        <SubcategoryBar 
+          categoryId={selectedCategoryId} 
+          selectedSubcategoryId={selectedSubcategoryId} 
+          onSubcategorySelect={handleSubcategorySelect} 
+        />
+      </div>
       
-      <div className="product-content" ref={contentRef}>
+      <div 
+        className={`product-content ${selectedCategoryId ? 'with-category' : ''} ${selectedCategoryId && selectedSubcategoryId ? 'with-subcategory' : ''}`} 
+        ref={contentRef}
+      >
         {selectedCategoryId ? (
           <ProductListing 
             categoryId={selectedCategoryId} 
