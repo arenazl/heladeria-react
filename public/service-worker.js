@@ -38,7 +38,15 @@ self.addEventListener('notificationclick', (event) => {
 
   event.notification.close();
 
-  const url = event.notification.data.url || '/order-ready';
+  // Get the base URL from the service worker scope
+  const baseUrl = self.registration.scope;
+  
+  // Create a full URL by combining the base URL with the relative path
+  // Remove any trailing slash from baseUrl and leading slash from url
+  const relativeUrl = event.notification.data.url || '/order-ready';
+  const fullUrl = baseUrl + (relativeUrl.startsWith('/') ? relativeUrl.substring(1) : relativeUrl);
+  
+  console.log('[Service Worker] Opening URL:', fullUrl);
   
   event.waitUntil(
     clients.matchAll({
@@ -48,14 +56,18 @@ self.addEventListener('notificationclick', (event) => {
       for (let i = 0; i < windowClients.length; i++) {
         const client = windowClients[i];
         // If so, focus it
-        if (client.url.includes(url) && 'focus' in client) {
+        if (client.url.includes(relativeUrl) && 'focus' in client) {
+          console.log('[Service Worker] Focusing existing client:', client.url);
           return client.focus();
         }
       }
       // If not, open a new window/tab
       if (clients.openWindow) {
-        return clients.openWindow(url);
+        console.log('[Service Worker] Opening new window with URL:', fullUrl);
+        return clients.openWindow(fullUrl);
       }
+    }).catch(error => {
+      console.error('[Service Worker] Error handling notification click:', error);
     })
   );
 });

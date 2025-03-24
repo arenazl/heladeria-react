@@ -60,10 +60,16 @@ const OrderStatus: React.FC = () => {
               console.log('[OrderStatus] Permission is granted, sending notification');
               
               try {
+                // Get the base URL for the application
+                const baseUrl = window.location.origin;
+                
                 const notificationOptions = {
                   body: `Hola ${name}, tu pedido está listo para retirar en mostrador.`,
                   icon: '/logo192.png',
                   requireInteraction: true,
+                  data: {
+                    url: `${baseUrl}/order-ready` // Use full URL for better compatibility
+                  }
                   // The extended options will be applied automatically
                 };
                 

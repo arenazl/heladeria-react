@@ -108,10 +108,12 @@ export const sendNotification = (title: string, options?: NotificationOptions): 
             console.log('[Notification] Service Worker ready, showing notification');
             
             // Add data for navigation when notification is clicked
+            // Use full URL for better compatibility with PWAs
+            const baseUrl = window.location.origin;
             const notificationOptions = {
               ...defaultOptions,
               data: {
-                url: '/order-ready'
+                url: `${baseUrl}/order-ready`
               }
             };
             
