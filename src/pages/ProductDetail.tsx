@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProductById, getRelatedProducts } from '../data/mockData';
+import { dataService } from '../services/data.service';
 import { useOrder } from '../context/OrderContext';
 import QuantitySelector from '../components/QuantitySelector';
 import '../styles/ProductDetail.css';
@@ -12,7 +12,7 @@ const ProductDetail: React.FC = () => {
   const [recommendations, setRecommendations] = useState<any[]>([]);
   
   const productIdNumber = productId ? parseInt(productId, 10) : 0;
-  const product = getProductById(productIdNumber);
+  const product = dataService.getProductById(productIdNumber);
   
   // Check if this product is in the cart and get its quantity
   const existingItem = order.items.find(item => item.productId === productIdNumber);
@@ -23,7 +23,7 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleAddRecommendedProduct = (productId: number) => {
-    const product = getProductById(productId);
+    const product = dataService.getProductById(productId);
     if (product) {
       addToOrder(product, 1);
       navigate('/cart');
@@ -32,7 +32,7 @@ const ProductDetail: React.FC = () => {
 
   useEffect(() => {
     if (product) {
-      const relatedProducts = getRelatedProducts(product.id, 5);
+      const relatedProducts = dataService.getRelatedProducts(product.id, 5);
       setRecommendations(relatedProducts);
     }
   }, [product]);
@@ -64,7 +64,7 @@ const ProductDetail: React.FC = () => {
               className="continue-button"
               onClick={handleContinueClick}
             >
-              Continuar
+              Volver al menu
             </button>
           )}
         </div>

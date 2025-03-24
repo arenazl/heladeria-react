@@ -1,5 +1,6 @@
-import React from 'react';
-import { categories } from '../data/mockData';
+import React, { useEffect, useState } from 'react';
+import { dataService } from '../services/data.service';
+import { Category } from '../models/types';
 import '../styles/CategoryBar.css';
 
 // Custom icons for each category
@@ -55,6 +56,13 @@ interface CategoryBarProps {
 }
 
 const CategoryBar: React.FC<CategoryBarProps> = ({ selectedCategoryId, onCategorySelect }) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    // Get categories from data service
+    setCategories(dataService.getCategories());
+  }, []);
+
   return (
     <div className="category-bar">
       {categories.map((category) => {

@@ -45,6 +45,52 @@
   background-color: #ff5252;
 }
 
+.qr-test-button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: var(--spacing-medium) var(--spacing-xlarge);
+  font-size: 1.1rem;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-bottom: var(--spacing-medium);
+}
+
+.qr-test-button:hover {
+  background-color: #2980b9;
+}
+
+.qr-test-button::before {
+  content: "📱";
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.qr-generator-button {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: var(--spacing-medium) var(--spacing-xlarge);
+  font-size: 1.1rem;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-bottom: var(--spacing-medium);
+}
+
+.qr-generator-button:hover {
+  background-color: #219653;
+}
+
+.qr-generator-button::before {
+  content: "🔄";
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
 .pwa-install-button {
   background: transparent;
   color: white;

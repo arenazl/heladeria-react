@@ -1,11 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  getCategoryById, 
-  getSubcategoriesByCategoryId, 
-  getProductsBySubcategoryId,
-  getSubcategoryById
-} from '../data/mockData';
+import { dataService } from '../services/data.service';
 import QuantitySelector from './QuantitySelector';
 import '../styles/ProductListing.css';
 
@@ -17,9 +12,12 @@ interface ProductListingProps {
 const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSubcategoryId }) => {
   const navigate = useNavigate();
   
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   if (!categoryId) return null;
   
-  const category = getCategoryById(categoryId);
+  const category = dataService.getCategoryById(categoryId);
   if (!category) return <div className="error-message">Categoría no encontrada</div>;
 
   const handleProductClick = (productId: number) => {
@@ -28,10 +26,10 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
 
   // If a subcategory is selected, show only products from that subcategory
   if (selectedSubcategoryId) {
-    const subcategory = getSubcategoryById(selectedSubcategoryId);
+    const subcategory = dataService.getSubcategoryById(selectedSubcategoryId);
     if (!subcategory) return <div className="error-message">Subcategoría no encontrada</div>;
     
-    const products = getProductsBySubcategoryId(selectedSubcategoryId);
+    const products = dataService.getProductsBySubcategoryId(selectedSubcategoryId);
     
     return (
       <div className="product-listing">
@@ -67,12 +65,12 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
   }
   
   // If no subcategory is selected, group products by subcategory
-  const subcategories = getSubcategoriesByCategoryId(categoryId);
+  const subcategories = dataService.getSubcategoriesByCategoryId(categoryId);
   
   return (
     <div className="product-listing">
       {subcategories.map((subcategory) => {
-        const products = getProductsBySubcategoryId(subcategory.id);
+        const products = dataService.getProductsBySubcategoryId(subcategory.id);
         
         return (
           <div key={subcategory.id} className="subcategory-section">

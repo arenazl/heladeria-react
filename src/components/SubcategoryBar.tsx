@@ -1,5 +1,6 @@
-import React from 'react';
-import { getSubcategoriesByCategoryId } from '../data/mockData';
+import React, { useEffect, useState } from 'react';
+import { dataService } from '../services/data.service';
+import { Subcategory } from '../models/types';
 import '../styles/SubcategoryBar.css';
 
 // Custom icons for each subcategory
@@ -106,9 +107,16 @@ const SubcategoryBar: React.FC<SubcategoryBarProps> = ({
   selectedSubcategoryId, 
   onSubcategorySelect 
 }) => {
-  if (!categoryId) return null;
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
 
-  const subcategories = getSubcategoriesByCategoryId(categoryId);
+  useEffect(() => {
+    if (categoryId) {
+      // Get subcategories from data service
+      setSubcategories(dataService.getSubcategoriesByCategoryId(categoryId));
+    }
+  }, [categoryId]);
+
+  if (!categoryId) return null;
 
   return (
     <div className="subcategory-bar">

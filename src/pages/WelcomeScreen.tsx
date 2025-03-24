@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import IOSInstallPrompt from '../components/IOSInstallPrompt';
 import { isIOS, isInStandaloneMode } from '../utils/pwaUtils';
+import { dataService } from '../services/data.service';
 import '../styles/WelcomeScreen.css';
 
 const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
   const [showPWAButton, setShowPWAButton] = useState<boolean>(false);
   const [showInstallPrompt, setShowInstallPrompt] = useState<boolean>(false);
+  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  const [companyName, setCompanyName] = useState<string>('');
   
   useEffect(() => {
     // Check if we should show the PWA button (iOS device and not in standalone mode)
@@ -20,6 +23,14 @@ const WelcomeScreen: React.FC = () => {
       // Clear any previous localStorage entry to ensure the prompt shows
       localStorage.removeItem('iosInstallPromptLastShown');
       setShowInstallPrompt(true);
+    }
+    
+    // Check if data is loaded
+    const isLoaded = dataService.isLoaded();
+    setDataLoaded(isLoaded);
+    
+    if (isLoaded) {
+      setCompanyName(dataService.getCompanyName());
     }
   }, []);
 
@@ -37,14 +48,36 @@ const WelcomeScreen: React.FC = () => {
   return (
     <div className="welcome-container">
       <div className="welcome-content">
-        <h1>Bienvenidos a Mexican Food</h1>
-        <p>Los mejores platillos mexicanos en un solo lugar</p>
-        <button 
-          className="start-button"
-          onClick={() => navigate('/products')}
-        >
-          Comenzar Pedido
-        </button>
+        <h1>Bienvenidos a {dataLoaded ? companyName : 'Menú Digital'}</h1>
+        <p>{dataLoaded ? 'Explora nuestro menú digital' : 'Escanea un código QR para comenzar'}</p>
+        {dataLoaded && (
+          <button 
+            className="start-button"
+            onClick={() => navigate('/products')}
+          >
+            Comenzar Pedido
+          </button>
+        )}
+
+        {!dataLoaded && (
+          <>
+            {/* Test link for QR code functionality - in a real app this would be scanned */}
+            <button 
+              className="qr-test-button"
+              onClick={() => navigate('/menu/192/1')}
+            >
+              Probar Escaneo QR
+            </button>
+            
+            {/* Link to QR code generator page */}
+            <button 
+              className="qr-generator-button"
+              onClick={() => navigate('/qr-example')}
+            >
+              Ver Código QR de Ejemplo
+            </button>
+          </>
+        )}
         
         {showPWAButton && (
           <button 

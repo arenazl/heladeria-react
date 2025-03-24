@@ -1,0 +1,94 @@
+.menu-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.menu-loader h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.loader-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #3498db;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.menu-loader.error {
+  color: #e74c3c;
+}
+
+.menu-loader.error p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.menu-loader button {
+  padding: 0.8rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-loader button:hover {
+  background-color: #2980b9;
+}
+
+/* Company name display */
+.menu-loader.company-name {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.menu-loader.company-name h1 {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.menu-loader.company-name .company-title {
+  font-size: 2.5rem;
+  color: #7EA940;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.menu-loader.company-name p {
+  color: #777;
+  font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

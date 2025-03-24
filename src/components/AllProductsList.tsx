@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  categories, 
-  getSubcategoriesByCategoryId, 
-  getProductsBySubcategoryId 
-} from '../data/mockData';
+import { dataService } from '../services/data.service';
+import { Category } from '../models/types';
 import QuantitySelector from './QuantitySelector';
 import '../styles/AllProductsListing.css';
 
 const AllProductsList: React.FC = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Get categories from data service
+    setCategories(dataService.getCategories());
+    setLoading(false);
+  }, []);
 
   const handleProductClick = (productId: number) => {
     navigate(`/products/${productId}`);
   };
+
+  if (loading) {
+    return <div className="loading">Cargando productos...</div>;
+  }
 
   return (
     <div className="all-products-listing">
@@ -21,8 +30,8 @@ const AllProductsList: React.FC = () => {
         <div key={category.id} className="category-section">
           <h1 className="category-title">{category.name}</h1>
           
-          {getSubcategoriesByCategoryId(category.id).map(subcategory => {
-            const products = getProductsBySubcategoryId(subcategory.id);
+          {dataService.getSubcategoriesByCategoryId(category.id).map(subcategory => {
+            const products = dataService.getProductsBySubcategoryId(subcategory.id);
             
             if (products.length === 0) return null;
             

@@ -14,6 +14,8 @@ import PaymentSelection from './pages/PaymentSelection';
 import PaymentProcessor from './pages/PaymentProcessor';
 import OrderStatus from './pages/OrderStatus';
 import OrderReady from './pages/OrderReady';
+import MenuLoader from './pages/MenuLoader';
+import QRCodePage from './pages/QRCodePage';
 import './App.css';
 
 // Route guard component to check for existing customer
@@ -65,6 +67,7 @@ const AnimatedRoutes = () => {
       >
         <Routes location={location}>
           <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/menu/:companyId/:priceListId" element={<MenuLoader />} />
           <Route path="/products" element={<ProductBrowsing />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
@@ -73,6 +76,8 @@ const AnimatedRoutes = () => {
           <Route path="/payment-processor" element={<PaymentProcessor />} />
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
+          <Route path="/qr" element={<QRCodePage />} />
+          <Route path="/qr-example" element={<QRCodePage defaultCompanyId="192" defaultPriceListId="1" />} />
         </Routes>
       </motion.main>
     </AnimatePresence>
