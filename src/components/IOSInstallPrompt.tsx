@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { shouldShowInstallPrompt, getIOSInstallInstructions } from '../utils/pwaUtils';
+import React from 'react';
+import { getIOSInstallInstructions } from '../utils/pwaUtils';
 import '../styles/IOSInstallPrompt.css';
 
 interface IOSInstallPromptProps {
@@ -7,39 +7,13 @@ interface IOSInstallPromptProps {
 }
 
 const IOSInstallPrompt: React.FC<IOSInstallPromptProps> = ({ onClose }) => {
-  const [showPrompt, setShowPrompt] = useState<boolean>(false);
   const { title, steps } = getIOSInstallInstructions();
 
-  useEffect(() => {
-    // Check if we should show the prompt
-    const shouldShow = shouldShowInstallPrompt();
-    setShowPrompt(shouldShow);
-    
-    // Store in localStorage that we've shown the prompt
-    if (shouldShow) {
-      const lastPromptTime = localStorage.getItem('iosInstallPromptLastShown');
-      const currentTime = new Date().getTime();
-      
-      // Only show once per day
-      if (!lastPromptTime || (currentTime - parseInt(lastPromptTime)) > 24 * 60 * 60 * 1000) {
-        localStorage.setItem('iosInstallPromptLastShown', currentTime.toString());
-      } else {
-        // Don't show if we've shown it in the last 24 hours
-        setShowPrompt(false);
-      }
-    }
-  }, []);
-
   const handleClose = () => {
-    setShowPrompt(false);
     if (onClose) {
       onClose();
     }
   };
-
-  if (!showPrompt) {
-    return null;
-  }
 
   return (
     <div className="ios-install-prompt">
