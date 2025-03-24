@@ -51,34 +51,62 @@ const OrderStatus: React.FC = () => {
       } else if (countdown === 0) {
         // Send notification when order is ready
         if (name) {
+          console.log('[OrderStatus] Order is ready, attempting to send notification');
+          console.log('[OrderStatus] Notification permission status:', notificationPermission);
+          
           try {
             // Try to send notification if permission is granted
             if (notificationPermission === 'granted') {
-              const notification = sendNotification(
-                '¡Tu pedido está listo!',
-                {
+              console.log('[OrderStatus] Permission is granted, sending notification');
+              
+              try {
+                const notificationOptions = {
                   body: `Hola ${name}, tu pedido está listo para retirar en mostrador.`,
                   icon: '/favicon.ico',
                   requireInteraction: true,
                   // The extended options will be applied automatically
-                }
-              );
-              
-              if (notification) {
-                // Navigate to order-ready page when notification is clicked
-                notification.onclick = () => {
-                  window.focus();
-                  navigate('/order-ready');
                 };
+                
+                console.log('[OrderStatus] Notification options:', notificationOptions);
+                
+                const notification = sendNotification(
+                  '¡Tu pedido está listo!',
+                  notificationOptions
+                );
+                
+                console.log('[OrderStatus] Notification result:', notification ? 'Success' : 'Failed');
+                
+                if (notification) {
+                  console.log('[OrderStatus] Setting up notification click handler');
+                  // Navigate to order-ready page when notification is clicked
+                  notification.onclick = () => {
+                    console.log('[OrderStatus] Notification clicked, navigating to order-ready');
+                    window.focus();
+                    navigate('/order-ready');
+                  };
+                } else {
+                  console.log('[OrderStatus] Notification object is null, cannot set click handler');
+                }
+              } catch (notificationError) {
+                console.error('[OrderStatus] Error sending notification:', notificationError);
+                console.log('[OrderStatus] Using fallback navigation');
               }
+            } else {
+              console.log('[OrderStatus] Permission not granted, skipping notification');
             }
           } catch (error) {
-            // Silently handle notification errors
-            console.log('Could not send notification, but order is ready');
+            // Log detailed error information
+            console.error('[OrderStatus] Unexpected error during notification process:', error);
           }
           
           // Show button to view order details regardless of notification status
           setOrderStatus('ready');
+          
+          // FALLBACK: Automatically navigate to order-ready page after a short delay
+          // This ensures the user sees the order is ready even if notifications fail
+          setTimeout(() => {
+            navigate('/order-ready');
+          }, 3000); // 3 second delay to allow the user to see the "ready" status first
         }
       }
     }

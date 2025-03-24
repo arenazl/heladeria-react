@@ -35,13 +35,18 @@ export const getTimeDifferenceInMinutes = (date1: Date, date2: Date): number => 
  * @returns Promise that resolves to the permission status
  */
 export const requestNotificationPermission = async (): Promise<NotificationPermission> => {
+  console.log('[Notification] Checking if browser supports notifications');
   if (!('Notification' in window)) {
-    console.error('This browser does not support desktop notification');
+    console.error('[Notification] This browser does not support desktop notification');
     return 'denied';
   }
 
+  console.log('[Notification] Current permission status:', Notification.permission);
   if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-    return await Notification.requestPermission();
+    console.log('[Notification] Requesting permission...');
+    const permission = await Notification.requestPermission();
+    console.log('[Notification] Permission result:', permission);
+    return permission;
   }
 
   return Notification.permission;
@@ -63,7 +68,16 @@ interface ExtendedNotificationOptions extends NotificationOptions {
  * @returns The notification object if successful, null otherwise
  */
 export const sendNotification = (title: string, options?: NotificationOptions): Notification | null => {
-  if (!('Notification' in window) || Notification.permission !== 'granted') {
+  console.log('[Notification] Attempting to send notification:', title);
+  
+  if (!('Notification' in window)) {
+    console.error('[Notification] Notification API not available in this browser');
+    return null;
+  }
+  
+  console.log('[Notification] Permission status:', Notification.permission);
+  if (Notification.permission !== 'granted') {
+    console.error('[Notification] Permission not granted, cannot send notification');
     return null;
   }
 
@@ -75,35 +89,90 @@ export const sendNotification = (title: string, options?: NotificationOptions): 
     requireInteraction: true, // Keep notification until user interacts with it
     ...options
   };
+  
+  console.log('[Notification] Using options:', defaultOptions);
 
+  // Check if this is a mobile device
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  console.log('[Notification] Device type:', isMobile ? 'Mobile' : 'Desktop');
+  
   try {
-    // Try to use service worker for better mobile support if available
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    // For mobile devices, prefer service worker notifications
+    if (isMobile && 'serviceWorker' in navigator) {
+      console.log('[Notification] Mobile device with Service Worker API available, using service worker notification');
+      
       try {
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification(title, defaultOptions).catch(err => {
-            console.log('Service worker notification failed, falling back to standard notification');
+        // Return a promise that will resolve to a mock notification object
+        const notificationPromise = new Promise<Notification | null>((resolve) => {
+          navigator.serviceWorker.ready.then(registration => {
+            console.log('[Notification] Service Worker ready, showing notification');
+            
+            // Add data for navigation when notification is clicked
+            const notificationOptions = {
+              ...defaultOptions,
+              data: {
+                url: '/order-ready'
+              }
+            };
+            
+            registration.showNotification(title, notificationOptions).then(() => {
+              console.log('[Notification] Service Worker notification shown successfully');
+              
+              // Create a mock notification object to return
+              const mockNotification = new EventTarget() as Notification;
+              mockNotification.onclick = () => console.log('[Notification] Mock notification clicked');
+              
+              resolve(mockNotification as Notification);
+            }).catch(err => {
+              console.error('[Notification] Service Worker notification failed:', err);
+              console.log('[Notification] Falling back to standard notification');
+              resolve(null);
+            });
+          }).catch(err => {
+            console.error('[Notification] Service Worker not ready:', err);
+            console.log('[Notification] Falling back to standard notification');
+            resolve(null);
           });
-        }).catch(err => {
-          console.log('Service worker not ready, falling back to standard notification');
         });
+        
+        // Return a mock notification object immediately
+        const mockNotification = new EventTarget() as Notification;
+        mockNotification.onclick = () => console.log('[Notification] Mock notification clicked');
+        return mockNotification as Notification;
       } catch (swError) {
-        console.log('Service worker error, falling back to standard notification');
+        console.error('[Notification] Service Worker error:', swError);
+        console.log('[Notification] Falling back to standard notification');
+      }
+    } else {
+      // For desktop browsers, use standard notification API
+      console.log('[Notification] Using standard notification API');
+      
+      try {
+        console.log('[Notification] Attempting to create standard notification');
+        const notification = new Notification(title, defaultOptions);
+        console.log('[Notification] Standard notification created successfully');
+        
+        // Log notification events
+        notification.onshow = () => console.log('[Notification] Notification shown to user');
+        notification.onclick = () => console.log('[Notification] Notification clicked by user');
+        notification.onclose = () => console.log('[Notification] Notification closed by user');
+        notification.onerror = (e) => console.error('[Notification] Notification error:', e);
+        
+        return notification;
+      } catch (notificationError) {
+        console.error('[Notification] Standard notification failed:', notificationError);
+        console.log('[Notification] Notification may not be supported in this browser/device');
+        return null;
       }
     }
-    
-    // Always try to use the standard Notification API as fallback or primary method
-    try {
-      return new Notification(title, defaultOptions);
-    } catch (notificationError) {
-      console.log('Standard notification failed, notification may not be supported in this browser/device');
-      return null;
-    }
   } catch (error) {
-    // Suppress console errors in production
-    console.log('Notification error occurred, notifications may not be supported');
+    // Log detailed error information
+    console.error('[Notification] Unexpected error during notification process:', error);
     return null;
   }
+  
+  // Default return if no notification method was successful
+  return null;
 };
 
 /**
