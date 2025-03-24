@@ -4,7 +4,7 @@ import '../styles/SubcategoryBar.css';
 
 // Custom icons for each subcategory
 const getSubcategoryIcon = (subcategoryId: number, isActive: boolean) => {
-  const color = isActive ? '#ffffff' : '#26b4bd';
+  const color = isActive ? '#ffffff' : '#7ea940';
   
   // Different icons based on subcategory ID
   switch(subcategoryId) {

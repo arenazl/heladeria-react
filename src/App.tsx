@@ -8,10 +8,12 @@ import Footer from './components/Footer';
 import WelcomeScreen from './pages/WelcomeScreen';
 import ProductBrowsing from './pages/ProductBrowsing';
 import ProductDetail from './pages/ProductDetail';
-import QuantitySelection from './pages/QuantitySelection';
-import CustomerSelection from './pages/CustomerSelection';
+import Cart from './pages/Cart';
 import OrderConfirmation from './pages/OrderConfirmation';
 import PaymentSelection from './pages/PaymentSelection';
+import PaymentProcessor from './pages/PaymentProcessor';
+import OrderStatus from './pages/OrderStatus';
+import OrderReady from './pages/OrderReady';
 import './App.css';
 
 // Route guard component to check for existing customer
@@ -65,17 +67,12 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<WelcomeScreen />} />
           <Route path="/products" element={<ProductBrowsing />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
-          <Route path="/quantity" element={<QuantitySelection />} />
-          <Route 
-            path="/customers" 
-            element={
-              <CustomerGuard>
-                <CustomerSelection />
-              </CustomerGuard>
-            } 
-          />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/confirmation" element={<OrderConfirmation />} />
           <Route path="/payment" element={<PaymentSelection />} />
+          <Route path="/payment-processor" element={<PaymentProcessor />} />
+          <Route path="/order-status" element={<OrderStatus />} />
+          <Route path="/order-ready" element={<OrderReady />} />
         </Routes>
       </motion.main>
     </AnimatePresence>

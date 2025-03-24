@@ -46,9 +46,9 @@ const OrderConfirmation: React.FC = () => {
         </div>
         <button 
           className="back-to-customers-button"
-          onClick={() => navigate('/customers')}
+          onClick={() => navigate('/cart')}
         >
-          Seleccionar Cliente
+          Volver al Carrito
         </button>
       </div>
     );

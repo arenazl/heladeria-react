@@ -38,4 +38,6 @@ export interface Order {
   customerId?: number;
   customer?: Customer;
   total: number;
+  estimatedPickupTime?: Date;
+  customerName?: string;
 }

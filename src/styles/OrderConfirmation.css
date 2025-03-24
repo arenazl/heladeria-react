@@ -23,7 +23,7 @@
 .reset-order-button {
   background: transparent;
   border: none;
-  color: var(--text-medium); 
+  color: white;
   cursor: pointer;
   transition: color 0.3s;
   display: flex;
@@ -71,7 +71,7 @@
   width: 60px;
   height: 60px;
   border-radius: var(--border-radius-circle);
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-light);
   display: flex;
   align-items: center;
@@ -142,7 +142,7 @@
 }
 
 .confirm-order-button {
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-light);
   border: none;
   border-radius: var(--border-radius-small);
@@ -176,7 +176,7 @@
 }
 
 .back-to-customers-button {
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-light);
   border: none;
   border-radius: var(--border-radius-small);
@@ -267,7 +267,7 @@
 }
 
 .add-recommendation-button {
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-light);
   border: none;
   border-radius: var(--border-radius-small);

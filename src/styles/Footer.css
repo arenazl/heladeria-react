@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 70px;
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   box-shadow: var(--shadow-small);
   z-index: 1000;
   padding: var(--spacing-small) var(--spacing-medium);
@@ -44,6 +44,7 @@
 .cart-button {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.2);
   color: var(--text-light);
   border-radius: var(--border-radius-medium);
@@ -60,15 +61,16 @@
 
 .cart-icon {
   font-size: 1.5rem;
-  margin-right: var(--spacing-medium);
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .cart-badge {
   position: absolute;
-  top: -8px;
+  top: 0;
   right: -8px;
-  background-color: var(--text-dark);
+  background-color: #373737;
   color: var(--text-light);
   border-radius: var(--border-radius-circle);
   width: 20px;
@@ -81,8 +83,7 @@
 
 .cart-info {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  align-items: center;
 }
 
 .cart-item-count {
@@ -92,16 +93,24 @@
 .cart-total {
   font-size: 1.2rem;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
 }
 
 .cart-action {
   font-size: 1rem;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
 }
 
 .reset-order-button {
   background-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-light);
+  color: white;
   border: none;
   border-radius: var(--border-radius-medium);
   padding: 0.8rem;

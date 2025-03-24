@@ -29,7 +29,7 @@
 }
 
 .start-button {
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-light);
   border: none;
   padding: var(--spacing-medium) var(--spacing-xlarge);

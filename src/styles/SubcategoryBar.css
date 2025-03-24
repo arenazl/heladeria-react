@@ -3,7 +3,7 @@
   overflow-x: auto;
   background-color: #f8f8f8;
   padding: 10px 15px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 36%);
   white-space: nowrap;
   width: 100%;
 }
@@ -29,12 +29,12 @@
 }
 
 .subcategory-item:hover {
-  background-color: rgba(38, 180, 189, 0.05);
+  background-color: rgba(97, 134, 45, 0.05);
   border-color: var(--primary-color);
 }
 
 .subcategory-item.active {
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: white;
   font-weight: bold;
   border-color: var(--primary-color);

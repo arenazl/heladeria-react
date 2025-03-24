@@ -19,14 +19,15 @@ const Footer: React.FC = () => {
   const location = useLocation();
   const { order, clearOrder } = useOrder();
   
-  // Don't show footer only on welcome screen
-  const showFooter = location.pathname !== '/';
+  // Don't show footer on welcome screen or when cart is empty
+  const itemCount = order.items.reduce((total, item) => total + item.quantity, 0);
+  const showFooter = location.pathname !== '/' && itemCount > 0;
   
-  // Check if we're on the quantity selection page
-  const isQuantityPage = location.pathname === '/quantity';
+  // Check if we're on the cart page
+  const isCartPage = location.pathname === '/cart';
   
   const handleCartClick = () => {
-    navigate('/quantity');
+    navigate('/cart');
   };
 
   const handleResetOrder = () => {
@@ -34,12 +35,6 @@ const Footer: React.FC = () => {
     clearOrder();
     navigate('/');
   };
-  
-  if (!showFooter) {
-    return null;
-  }
-  
-  const itemCount = order.items.reduce((total, item) => total + item.quantity, 0);
   
   const handleAddMoreClick = () => {
     navigate('/products');
@@ -57,23 +52,26 @@ const Footer: React.FC = () => {
     </svg>
   );
 
+  if (!showFooter) {
+    return null;
+  }
+
   return (
     <footer className="app-footer">
       <div className="cart-actions">
-        <div className="cart-button" onClick={isQuantityPage ? handleFinalizeClick : handleCartClick}>
+        <div className="cart-button" onClick={isCartPage ? handleFinalizeClick : handleCartClick}>
           <div className="cart-icon">
             🛒
-            {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
+            <span className="cart-badge">{itemCount}</span>
           </div>
           <div className="cart-info">
-            <span className="cart-item-count">{itemCount} {itemCount === 1 ? 'item' : 'items'}</span>
-            <span className="cart-total">${order.total}</span>
+            {itemCount > 0 && <span className="cart-total">$ {order.total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>}
           </div>
           <div className="cart-action">
-            {isQuantityPage ? 'Finalizar →' : 'Ver Pedido →'}
+            {isCartPage ? 'Finalizar →' : 'Ver Carrito →'}
           </div>
         </div>
-        {isQuantityPage ? (
+        {isCartPage ? (
           <button 
             className="add-products-button" 
             onClick={handleAddMoreClick}

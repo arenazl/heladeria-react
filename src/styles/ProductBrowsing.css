@@ -63,8 +63,8 @@ html {
   }
 
   .product-content {
-    padding-top: 50px; /* Just enough space for the header */
-    padding-bottom: 60px; /* Just enough space for the footer */
+    padding-top: 25px; /* Just enough space for the header */
+    padding-bottom: 25px; /* Just enough space for the footer */
   }
   
   /* When category bar is visible on mobile */

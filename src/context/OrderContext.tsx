@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Order, OrderItem, Product, Customer } from '../models/types';
+import { generateEstimatedPickupTime } from '../utils/orderUtils';
 
 interface OrderContextType {
   order: Order;
@@ -7,6 +8,8 @@ interface OrderContextType {
   removeFromOrder: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   setCustomer: (customer: Customer) => void;
+  setCustomerName: (name: string) => void;
+  setEstimatedPickupTime: () => void;
   clearOrder: () => void;
 }
 
@@ -114,6 +117,21 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
     }));
   };
 
+  const setCustomerName = (name: string) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      customerName: name,
+    }));
+  };
+
+  const setEstimatedPickupTime = () => {
+    const estimatedTime = generateEstimatedPickupTime();
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      estimatedPickupTime: estimatedTime,
+    }));
+  };
+
   const clearOrder = () => {
     setOrder(prevOrder => ({
       items: [],
@@ -131,6 +149,8 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
         removeFromOrder,
         updateQuantity,
         setCustomer,
+        setCustomerName,
+        setEstimatedPickupTime,
         clearOrder,
       }}
     >

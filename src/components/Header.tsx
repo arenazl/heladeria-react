@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     if (path.includes('/subcategories/') && path.includes('/products')) return 'Productos';
     if (path.includes('/subcategories')) return 'Subcategorías';
     if (path.includes('/products') && !path.includes('/products/')) return 'Productos';
-    if (path === '/quantity') return 'Tu Pedido';
+    if (path === '/cart') return 'Tu Carrito';
     if (path === '/customers') return 'Seleccionar Cliente';
     if (path === '/confirmation') return 'Confirmar Pedido';
     

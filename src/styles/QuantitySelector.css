@@ -3,12 +3,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 32px; /* Ensure minimum width to prevent layout shifts */
 }
 
 /* Initial add button */
 .add-button {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 4px;
   background-color: white;
   border: 1px solid #e0e0e0;
@@ -16,7 +17,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #333;
   transition: all 0.2s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -31,11 +32,14 @@
   display: flex;
   align-items: center;
   background-color: #eeeeee;
-  border-radius: 20px;
-  padding: 2px 6px;
+  border-radius: 16px;
+  padding: 2px 4px;
   animation: expand 0.3s ease;
   white-space: nowrap;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  right: 0;
+  z-index: 10;
 }
 
 .quantity-controls.animating {
@@ -45,8 +49,8 @@
 /* Increment/decrement buttons */
 .increment-button,
 .decrement-button {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 22px;
   border-radius: 50%;
   border: none;
   background-color: #eeeeee;
@@ -56,7 +60,7 @@
   justify-content: center;
   cursor: pointer;
   transition: background-color 0.2s;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
 }
 
@@ -71,10 +75,10 @@
 
 /* Quantity display when expanded */
 .quantity-display {
-  margin: 0 8px;
+  margin: 0 6px;
   font-weight: bold;
-  font-size: 14px;
-  min-width: 20px;
+  font-size: 13px;
+  min-width: 16px;
   text-align: center;
 }
 
@@ -83,26 +87,26 @@
   width: 28px;
   height: 28px;
   border-radius: 4px;
-  background-color: #1e1e1e;
+  background-color: var(--primary-color);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
 @keyframes expand {
   from {
-    width: 28px;
+    width: 24px;
     opacity: 0.8;
     transform: scale(0.9);
   }
   to {
-    width: 90px;
+    width: 80px;
     opacity: 1;
     transform: scale(1);
   }
@@ -110,12 +114,12 @@
 
 @keyframes contract {
   from {
-    width: 90px;
+    width: 80px;
     opacity: 1;
     transform: scale(1);
   }
   to {
-    width: 28px;
+    width: 24px;
     opacity: 0.8;
     transform: scale(0.9);
   }
@@ -126,25 +130,25 @@
   /* Make controls a bit larger for touch */
   .add-button,
   .quantity-badge {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   
   .increment-button,
   .decrement-button {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
   
   /* Adjust animations */
   @keyframes expand {
     from {
-      width: 32px;
+      width: 28px;
       opacity: 0.8;
       transform: scale(0.9);
     }
     to {
-      width: 100px;
+      width: 90px;
       opacity: 1;
       transform: scale(1);
     }
@@ -152,12 +156,12 @@
   
   @keyframes contract {
     from {
-      width: 100px;
+      width: 90px;
       opacity: 1;
       transform: scale(1);
     }
     to {
-      width: 32px;
+      width: 28px;
       opacity: 0.8;
       transform: scale(0.9);
     }

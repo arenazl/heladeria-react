@@ -21,8 +21,13 @@ const PaymentSelection: React.FC = () => {
       return;
     }
 
-    // Here we would process the payment
-    // For now, we'll just show a success message and clear the order
+    // For MercadoPago, navigate to payment processor
+    if (selectedPayment === 'mercado_pago') {
+      navigate('/payment-processor', { state: { paymentMethod: selectedPayment } });
+      return;
+    }
+
+    // For other payment methods, show success message and clear order
     alert(`¡Pago con ${getPaymentMethodName(selectedPayment)} procesado con éxito! En un futuro, esto se enviará a un endpoint.`);
     clearOrder();
     navigate('/');
@@ -41,28 +46,12 @@ const PaymentSelection: React.FC = () => {
     }
   };
 
-  if (!order.customer) {
-    return (
-      <div className="page-container">
-        <div className="section-container">
-          <div className="error-message">
-            Por favor selecciona un cliente antes de elegir el método de pago.
-          </div>
-          <button 
-            className="back-to-customers-button"
-            onClick={() => navigate('/customers')}
-          >
-            Seleccionar Cliente
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // No longer requiring customer selection before payment
 
   return (
     <div className="page-container">
       <div className="section-container">
-        <h2 className="section-title"> Completar Pago</h2>
+        <h2 className="section-title">Completar Pago</h2>
         
         <div className="payment-order-summary">
           <h3>Resumen del Pedido</h3>
@@ -79,11 +68,7 @@ const PaymentSelection: React.FC = () => {
             ))}
           </div>
           
-          <div className="payment-customer-info">
-            <h4>Cliente:</h4>
-            <p>{order.customer.name}</p>
-            <p>{order.customer.address}</p>
-          </div>
+          {/* Customer info section removed as it's no longer required */}
           
           <div className="payment-total">
             <span>Total:</span>

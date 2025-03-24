@@ -77,6 +77,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  min-height: 32px;
+  padding: 4px 0;
+}
+
+.product-footer > div {
+  flex: 0 0 auto;
+  margin-left: 8px;
 }
 
 .product-price {
@@ -97,6 +105,7 @@
 @media (max-width: 768px) {
   .product-listing {
     padding: 10px;
+    margin-top: 10px;
     /* padding-top removed as requested */
   }
   

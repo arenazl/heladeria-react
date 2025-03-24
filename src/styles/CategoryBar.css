@@ -22,13 +22,13 @@
 }
 
 .category-item:hover {
-  background-color: rgba(38, 180, 189, 0.1);
+  background-color: rgba(97, 134, 45, 0.1);
 }
 
 .category-item.active {
   color: white;
   font-weight: bold;
-  background: var(--primary-gradient);
+  background: var(--primary-color);
 }
 
 .category-icon {
@@ -39,20 +39,21 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
-  background-color: rgba(38, 180, 189, 0.1);
+  background-color: rgba(97, 134, 45, 0.1);
   padding: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .category-item.active .category-icon {
   background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 8px rgba(38, 180, 189, 0.3);
+  box-shadow: 0 2px 8px rgba(97, 134, 45, 0.3);
 }
 
 .category-icon svg {
   width: 28px;
   height: 28px;
   stroke-width: 2.5;
+  stroke: var(--primary-color);
 }
 
 .category-name {
@@ -79,6 +80,7 @@
     width: 22px;
     height: 22px;
     stroke-width: 2.5;
+    stroke: var(--primary-color);
   }
   
   .category-name {
