@@ -138,12 +138,18 @@ class DataService {
 
   // Get company name
   getCompanyName(): string {
-    return this.companyName;
+  if (API_CONFIG.USE_MOCK_DATA) {
+    return 'Mexican Food';
+  }
+  return this.companyName;
   }
 
   // Get country name
   getCountryName(): string {
-    return this.countryName;
+  if (API_CONFIG.USE_MOCK_DATA) {
+    return 'Argentina';
+  }
+  return this.countryName;
   }
 
   // Get all categories

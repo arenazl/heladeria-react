@@ -1,7 +1,7 @@
-/* Payment Selection Styles */
-
-.payment-order-summary {
-  background-color: var(--bg-light);
+.payment-method-image {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
   border-radius: var(--border-radius-medium);
   box-shadow: var(--shadow-small);
   padding: var(--spacing-large);
@@ -100,13 +100,17 @@
 }
 
 .payment-methods-grid {
-  display: grid;
+  display: flex;
+  justify-content: space-between;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-medium);
 }
 
 .payment-method-card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% / 3 - 10px); /* Adjust width based on number of buttons */
   flex-direction: column;
   align-items: center;
   justify-content: center;

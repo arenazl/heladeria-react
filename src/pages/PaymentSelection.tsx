@@ -48,9 +48,7 @@ const PaymentSelection: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="section-container">
-        <h2 className="section-title">Completar Pago</h2>
-        
+      <div className="section-container">      
         <div className="payment-order-summary">
           <h3>Resumen del Pedido</h3>
           <div className="payment-order-items">
