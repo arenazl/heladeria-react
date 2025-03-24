@@ -52,8 +52,8 @@ const MenuLoader: React.FC = () => {
       }
     };
 
-    // If using mock data and not in development, skip the loading screen
-    if (API_CONFIG.USE_MOCK_DATA && process.env.NODE_ENV !== 'development') {
+    // If using mock data and not in development, skip hte loading screen
+    if (API_CONFIG.USE_MOCK_DATA) {
       navigate('/products');
     } else {
       loadData();

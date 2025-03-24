@@ -14,7 +14,7 @@ const WelcomeScreen: React.FC = () => {
   
   useEffect(() => {
     // Check if we should show the PWA button (iOS device and not in standalone mode)
-    const shouldShowButton = isIOS() && !isInStandaloneMode();
+    const shouldShowButton = !isInStandaloneMode();
     setShowPWAButton(shouldShowButton);
     
     // Automatically show the install prompt on first load for iOS devices
@@ -37,6 +37,8 @@ const WelcomeScreen: React.FC = () => {
   const handleInstallClick = () => {
     // Show the iOS install prompt when the button is clicked
     setShowInstallPrompt(true);
+    // Force reload to ensure PWA is reinstalled
+    window.location.reload();
   };
 
   const handleClosePrompt = () => {
