@@ -42,9 +42,11 @@ self.addEventListener('notificationclick', (event) => {
   const baseUrl = self.registration.scope;
   
   // Create a full URL by combining the base URL with the relative path
-  // Remove any trailing slash from baseUrl and leading slash from url
-  const relativeUrl = event.notification.data.url || '/order-ready';
-  const fullUrl = baseUrl + (relativeUrl.startsWith('/') ? relativeUrl.substring(1) : relativeUrl);
+  // For HashRouter compatibility, we need to use the hash (#) in the URL
+  const relativeUrl = event.notification.data.url || '/#/order-ready';
+  
+  // If the URL already contains the full path (including origin), use it directly
+  const fullUrl = relativeUrl.startsWith('http') ? relativeUrl : baseUrl + (relativeUrl.startsWith('/') ? relativeUrl.substring(1) : relativeUrl);
   
   console.log('[Service Worker] Opening URL:', fullUrl);
   

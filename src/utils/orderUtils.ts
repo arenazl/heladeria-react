@@ -113,7 +113,7 @@ export const sendNotification = (title: string, options?: NotificationOptions): 
             const notificationOptions = {
               ...defaultOptions,
               data: {
-                url: `${baseUrl}/order-ready`
+                url: `${baseUrl}/#/order-ready` // Use hash for HashRouter compatibility
               }
             };
             

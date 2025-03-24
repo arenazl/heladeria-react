@@ -4,3 +4,9 @@
 
 [build.environment]
   CI = "false"
+
+# Handle client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

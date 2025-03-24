@@ -68,7 +68,7 @@ const OrderStatus: React.FC = () => {
                   icon: '/logo192.png',
                   requireInteraction: true,
                   data: {
-                    url: `${baseUrl}/order-ready` // Use full URL for better compatibility
+                    url: `${baseUrl}/#/order-ready` // Use hash for HashRouter compatibility
                   }
                   // The extended options will be applied automatically
                 };
