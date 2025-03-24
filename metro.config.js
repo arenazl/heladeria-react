@@ -1,23 +1,16 @@
-const { getDefaultConfig } = require('metro-config');
+const { getDefaultConfig } = require('@expo/metro-config');
 
-module.exports = (async () => {
-  const {
-    resolver: { sourceExts, assetExts },
-  } = await getDefaultConfig();
+module.exports = (() => {
+  const config = getDefaultConfig(__dirname);
   
-  return {
-    transformer: {
-      getTransformOptions: async () => ({
-        transform: {
-          experimentalImportSupport: false,
-          inlineRequires: true,
-        },
-      }),
-      babelTransformerPath: require.resolve('react-native-web/babel'),
-    },
-    resolver: {
-      sourceExts: [...sourceExts, 'ts', 'tsx'],
-      assetExts: [...assetExts, 'ttf'],
-    },
+  const { transformer, resolver } = config;
+
+  // Add additional file extensions
+  config.resolver = {
+    ...resolver,
+    sourceExts: [...resolver.sourceExts, 'ts', 'tsx'],
+    assetExts: [...resolver.assetExts, 'ttf'],
   };
+
+  return config;
 })();

@@ -1,4 +1,59 @@
 {
-  "name": "heladeriaApp",
-  "displayName": "Heladeria App"
+  "expo": {
+    "name": "Núcleo Pedidos App",
+    "slug": "nucleo-pedidos-app-2025",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/mexicanico.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/mexicanico.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nucleopedidosapp",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Esta aplicación necesita acceso a la cámara para escanear códigos QR",
+        "NSPhotoLibraryUsageDescription": "Esta aplicación necesita acceso a la galería para seleccionar imágenes",
+        "NSLocationWhenInUseUsageDescription": "Esta aplicación necesita acceso a tu ubicación para mostrar tiendas cercanas",
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/mexicanico.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.nucleopedidosapp",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "favicon": "./public/favicon.ico"
+    },
+    "plugins": [
+      "expo-notifications"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b626d5d4-3e9f-4982-9f10-6288b014e73e"
+      }
+    },
+    "owner": "p041219"
+  },
+  "name": "nucleoPedidosApp",
+  "displayName": "Núcleo Pedidos App"
 }
