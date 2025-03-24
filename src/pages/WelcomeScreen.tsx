@@ -37,8 +37,6 @@ const WelcomeScreen: React.FC = () => {
   const handleInstallClick = () => {
     // Show the iOS install prompt when the button is clicked
     setShowInstallPrompt(true);
-    // Force reload to ensure PWA is reinstalled
-    window.location.reload();
   };
 
   const handleClosePrompt = () => {

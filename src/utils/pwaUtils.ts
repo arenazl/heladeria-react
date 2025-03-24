@@ -15,10 +15,8 @@ export const isIOS = (): boolean => {
  * @returns boolean indicating if the app is in standalone mode
  */
 export const isInStandaloneMode = (): boolean => {
-  
-  return (window.matchMedia('(display-mode: standalone)').matches) ||
-         (window.navigator as any).standalone === true ||
-         localStorage.getItem('iosInstallPromptDismissed') === 'true';
+  return (window.matchMedia('(display-mode: standalone)').matches) || 
+         (window.navigator as any).standalone === true;
 };
 
 /**
