@@ -6,6 +6,7 @@ import {
   getProductsBySubcategoryId,
   getSubcategoryById
 } from '../data/mockData';
+import QuantitySelector from './QuantitySelector';
 import '../styles/ProductListing.css';
 
 interface ProductListingProps {
@@ -50,6 +51,12 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
                 <p className="product-description">{product.description}</p>
                 <div className="product-footer">
                   <p className="product-price">${product.price}</p>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <QuantitySelector 
+                      productId={product.id} 
+                      product={product}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -85,6 +92,12 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
                     <p className="product-description">{product.description}</p>
                     <div className="product-footer">
                       <p className="product-price">${product.price}</p>
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <QuantitySelector 
+                          productId={product.id} 
+                          product={product}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

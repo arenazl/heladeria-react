@@ -1,6 +1,7 @@
 import { Category, Subcategory, Product, Customer } from '../models/types';
 
 export const categories: Category[] = [
+  
   {
     id: 1,
     name: 'Helados',
@@ -106,15 +107,15 @@ export const subcategories: Subcategory[] = [
   }
 ];
 
-export const products: Product[] = [
-  // Helados de Crema
+export const products = [  
+  // Helados de Crema - usaremos algunas URLs confiables y las replicaremos para redundancia
   {
     id: 1,
     subcategoryId: 1,
     name: 'Chocolate',
     description: 'Helado cremoso de chocolate con trozos de chocolate amargo',
     price: 500,
-    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 2,
@@ -122,7 +123,7 @@ export const products: Product[] = [
     name: 'Vainilla',
     description: 'Helado cremoso de vainilla con semillas de vainilla natural',
     price: 450,
-    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 3,
@@ -130,7 +131,31 @@ export const products: Product[] = [
     name: 'Dulce de Leche',
     description: 'Helado cremoso de dulce de leche con vetas de dulce de leche casero',
     price: 550,
-    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 24,
+    subcategoryId: 1,
+    name: 'Cookies & Cream',
+    description: 'Helado de crema con trozos de galletas de chocolate',
+    price: 520,
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 25,
+    subcategoryId: 1,
+    name: 'Banana Split',
+    description: 'Helado de crema de banana con trozos de chocolate',
+    price: 530,
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 26,
+    subcategoryId: 1,
+    name: 'Menta Granizada',
+    description: 'Helado refrescante de menta con trozos de chocolate',
+    price: 540,
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
   // Helados de Agua
@@ -148,6 +173,30 @@ export const products: Product[] = [
     name: 'Frutilla',
     description: 'Helado de agua con trozos de frutilla natural',
     price: 420,
+    image: 'https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 27,
+    subcategoryId: 2,
+    name: 'Maracuyá',
+    description: 'Helado de agua con pulpa natural de maracuyá',
+    price: 430,
+    image: 'https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 28,
+    subcategoryId: 2,
+    name: 'Sandía',
+    description: 'Helado refrescante de sandía, ideal para el verano',
+    price: 410,
+    image: 'https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 29,
+    subcategoryId: 2,
+    name: 'Mango',
+    description: 'Helado tropical de mango con un toque de jengibre',
+    price: 440,
     image: 'https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
@@ -168,6 +217,22 @@ export const products: Product[] = [
     price: 750,
     image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
+  {
+    id: 30,
+    subcategoryId: 3,
+    name: 'Affogato',
+    description: 'Helado de vainilla con un shot de café espresso caliente',
+    price: 680,
+    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 31,
+    subcategoryId: 3,
+    name: 'Brownie Explosion',
+    description: 'Helado de chocolate con trozos de brownie y salsa de caramelo',
+    price: 820,
+    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
   
   // Helados Sin Azúcar
   {
@@ -184,6 +249,22 @@ export const products: Product[] = [
     name: 'Vainilla Sin Azúcar',
     description: 'Helado de vainilla endulzado con eritritol, bajo en calorías',
     price: 580,
+    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 32,
+    subcategoryId: 4,
+    name: 'Frutilla Sin Azúcar',
+    description: 'Helado de frutilla endulzado naturalmente con xilitol',
+    price: 590,
+    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 33,
+    subcategoryId: 4,
+    name: 'Limón Sin Azúcar',
+    description: 'Sorbete de limón refrescante sin azúcar añadida',
+    price: 570,
     image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
@@ -204,6 +285,22 @@ export const products: Product[] = [
     price: 1300,
     image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
+  {
+    id: 34,
+    subcategoryId: 5,
+    name: 'Torta Tres Leches',
+    description: 'Torta helada de vainilla con base de bizcochuelo tres leches',
+    price: 1250,
+    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 35,
+    subcategoryId: 5,
+    name: 'Cheesecake Helado',
+    description: 'Cheesecake helado con salsa de frutos rojos',
+    price: 1350,
+    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
   
   // Copas Heladas
   {
@@ -212,7 +309,7 @@ export const products: Product[] = [
     name: 'Copa Lola',
     description: 'Copa con helado de chocolate, dulce de leche y crema',
     price: 900,
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 13,
@@ -220,7 +317,23 @@ export const products: Product[] = [
     name: 'Copa Frutal',
     description: 'Copa con helado de frutilla, limón y frutas frescas',
     price: 850,
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 36,
+    subcategoryId: 6,
+    name: 'Copa Chocolate Lover',
+    description: 'Copa con tres tipos de helado de chocolate y salsa de chocolate',
+    price: 920,
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 37,
+    subcategoryId: 6,
+    name: 'Copa Tropical',
+    description: 'Copa con helados de mango, maracuyá y coco con frutas tropicales',
+    price: 880,
+    image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
   // Licuados
@@ -238,6 +351,30 @@ export const products: Product[] = [
     name: 'Licuado de Banana',
     description: 'Licuado cremoso de banana con leche y miel',
     price: 580,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 38,
+    subcategoryId: 7,
+    name: 'Licuado Verde',
+    description: 'Licuado saludable de espinaca, manzana verde y jengibre',
+    price: 620,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 39,
+    subcategoryId: 7,
+    name: 'Licuado de Frutos Rojos',
+    description: 'Licuado energético de frutillas, frambuesas y arándanos',
+    price: 650,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 40,
+    subcategoryId: 7,
+    name: 'Licuado Tropical',
+    description: 'Licuado refrescante de mango, ananá y coco',
+    price: 630,
     image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
@@ -258,6 +395,30 @@ export const products: Product[] = [
     price: 350,
     image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
+  {
+    id: 41,
+    subcategoryId: 8,
+    name: 'Fanta',
+    description: 'Gaseosa Fanta naranja 500ml',
+    price: 350,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 42,
+    subcategoryId: 8,
+    name: 'Agua con Gas',
+    description: 'Agua mineral con gas 500ml',
+    price: 300,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 43,
+    subcategoryId: 8,
+    name: 'Agua Mineral',
+    description: 'Agua mineral sin gas 500ml',
+    price: 280,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
   
   // Cafés Especiales
   {
@@ -266,7 +427,7 @@ export const products: Product[] = [
     name: 'Cappuccino',
     description: 'Café espresso con leche vaporizada y espuma de leche',
     price: 450,
-    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 19,
@@ -274,7 +435,31 @@ export const products: Product[] = [
     name: 'Latte Macchiato',
     description: 'Café con leche vaporizada y una capa de espuma cremosa',
     price: 480,
-    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 44,
+    subcategoryId: 9,
+    name: 'Flat White',
+    description: 'Café espresso con microespuma de leche',
+    price: 470,
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 45,
+    subcategoryId: 9,
+    name: 'Espresso',
+    description: 'Shot de café espresso puro y concentrado',
+    price: 400,
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 46,
+    subcategoryId: 9,
+    name: 'Café Mocha',
+    description: 'Café espresso con chocolate y leche vaporizada',
+    price: 490,
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   
   // Tés y Infusiones
@@ -294,6 +479,30 @@ export const products: Product[] = [
     price: 380,
     image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
+  {
+    id: 47,
+    subcategoryId: 10,
+    name: 'Té Earl Grey',
+    description: 'Té negro aromatizado con bergamota',
+    price: 370,
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 48,
+    subcategoryId: 10,
+    name: 'Té Chai',
+    description: 'Té negro con especias aromáticas y leche',
+    price: 390,
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 49,
+    subcategoryId: 10,
+    name: 'Infusión de Jengibre y Limón',
+    description: 'Infusión revitalizante de jengibre fresco y limón',
+    price: 360,
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
   
   // Bocadillos Salados
   {
@@ -302,7 +511,7 @@ export const products: Product[] = [
     name: 'Nachos con Queso',
     description: 'Nachos crujientes con salsa de queso cheddar',
     price: 650,
-    image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 23,
@@ -310,7 +519,73 @@ export const products: Product[] = [
     name: 'Papas Fritas',
     description: 'Papas fritas crocantes con sal marina',
     price: 550,
-    image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 50,
+    subcategoryId: 11,
+    name: 'Empanadas (2 unidades)',
+    description: 'Empanadas criollas de carne o jamón y queso',
+    price: 680,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 51,
+    subcategoryId: 11,
+    name: 'Tequeños (6 unidades)',
+    description: 'Palitos de queso envueltos en masa crujiente',
+    price: 600,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 52,
+    subcategoryId: 11,
+    name: 'Mini Pizzas (4 unidades)',
+    description: 'Mini pizzas con queso mozzarella, tomate y albahaca',
+    price: 700,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  
+  // Bocadillos Dulces
+  {
+    id: 53,
+    subcategoryId: 12,
+    name: 'Alfajores (2 unidades)',
+    description: 'Alfajores caseros con dulce de leche y coco rallado',
+    price: 480,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 54,
+    subcategoryId: 12,
+    name: 'Brownie',
+    description: 'Brownie de chocolate con nueces y trocitos de chocolate',
+    price: 450,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 55,
+    subcategoryId: 12,
+    name: 'Cookies (3 unidades)',
+    description: 'Cookies con chips de chocolate recién horneadas',
+    price: 400,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 56,
+    subcategoryId: 12,
+    name: 'Medialunas (2 unidades)',
+    description: 'Medialunas dulces de manteca, recién horneadas',
+    price: 350,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 57,
+    subcategoryId: 12,
+    name: 'Budín de Limón',
+    description: 'Porción de budín de limón con glaseado',
+    price: 420,
+    image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   }
 ];
 
