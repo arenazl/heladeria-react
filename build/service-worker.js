@@ -18,8 +18,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || '¡Tu pedido está listo!';
   const options = {
     body: data.body || 'Tu pedido está listo para retirar en mostrador.',
-    icon: data.icon || '/favicon.ico',
-    badge: data.badge || '/favicon.ico',
+    icon: data.icon || '/logo192.png',
+    badge: data.badge || '/logo192.png',
     vibrate: data.vibrate || [200, 100, 200],
     data: {
       url: data.url || '/order-ready'

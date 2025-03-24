@@ -82,6 +82,14 @@
   margin-bottom: var(--spacing-large);
 }
 
+.notification-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+}
+
 .permission-button {
   background-color: #856404;
   color: white;

@@ -62,7 +62,7 @@ const OrderStatus: React.FC = () => {
               try {
                 const notificationOptions = {
                   body: `Hola ${name}, tu pedido está listo para retirar en mostrador.`,
-                  icon: '/favicon.ico',
+                  icon: '/logo192.png',
                   requireInteraction: true,
                   // The extended options will be applied automatically
                 };
@@ -200,7 +200,7 @@ const OrderStatus: React.FC = () => {
               </div>
             )}
             
-            {notificationPermission === 'denied' && (
+            {notificationPermission === 'denied' && !(/iPhone|iPad|iPod/i.test(navigator.userAgent)) && (
               <div className="notification-warning">
                 <p>Las notificaciones están bloqueadas. Habilítalas en la configuración de tu navegador para recibir una alerta cuando tu pedido esté listo.</p>
                 <button 
@@ -210,6 +210,12 @@ const OrderStatus: React.FC = () => {
                 >
                   Solicitar Permisos
                 </button>
+              </div>
+            )}
+            
+            {/iPhone|iPad|iPod/i.test(navigator.userAgent) && (
+              <div className="notification-info">
+                <p>En dispositivos iOS, las notificaciones pueden no estar disponibles. No te preocupes, serás redirigido automáticamente cuando tu pedido esté listo.</p>
               </div>
             )}
             
