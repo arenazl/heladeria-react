@@ -2,7 +2,9 @@ import { AxiosRequestConfig } from 'axios';
 import { API_CONFIG } from '../config/api.config';
 import { 
   MenuResponse,
-  UploadPathEnum
+  UploadPathEnum,
+  Company,
+  MenuCommensalSearch
 } from '../models/api.types';
 import { categories, subcategories, products } from '../data/mockData';
 import { axiosWithInterceptors } from './http-interceptor.service';
@@ -12,8 +14,97 @@ class ApiService {
   private headers: Record<string, string> = {};
   private folderPath: string = '';
 
-  // Get menu data by company ID and price list ID
-  async getMenu(companyId: string, priceListId: string) {
+  // Set headers for API requests
+  setHeaders(companyId: string, prefix: string = '') {
+    // Get token from localStorage if available, otherwise use default token
+    const savedToken = loginService.getToken();
+    const token = savedToken || 'defaultToken';
+    
+    console.log('Setting headers with token:', token ? token.substring(0, 20) + '...' : 'No token');
+
+    // Only include headers that are safe to set via JavaScript
+    this.headers = {
+      'Accept': 'application/json, text/plain, */*',
+      'Accept-Language': 'es-US,es-ES;q=0.9,es;q=0.8,af;q=0.7,en;q=0.6',
+      'Authorization': 'Bearer ' + token,
+      'CompanyId': companyId,
+      'Content-Type': 'application/json',
+      'jwt-token': token
+    };
+
+    if (prefix) {
+      this.headers['Prefix'] = prefix;
+      this.headers['CompanySchema'] = prefix;
+    }
+  }
+
+  // Get company by ID
+  async getCompanyById(companyId: string) {
+
+    // If using mock data, return a promise with mock data
+    if (API_CONFIG.USE_MOCK_DATA) {
+
+      const mockCompany: Company = {   
+        Id: companyId,
+        Name: "Heladería Demo",
+        Prefix: "HD",
+        Address: "Av. Corrientes 1234",
+        City: "Buenos Aires",
+        State: "CABA",
+        Country: "Argentina",
+        CurrentTimeZone: -3
+      };
+
+        // Return a mock response with headers
+        return Promise.resolve({ 
+          data: mockCompany,
+          headers: {
+            authorization: 'Bearer mockToken123'
+          }
+        });
+    }
+
+    // If not using mock data, make the actual API call
+    const options = {
+      headers: this.headers
+    };
+
+    const response = await axiosWithInterceptors.get<any>(
+      `MenuCommensal/GetCompanyById/${companyId}`,
+      options
+    );
+    
+    console.log('GetCompanyById response headers:', response.headers);
+    
+    // Check for token in response headers (Authorization or jwt-token)
+    if (response.headers) {
+      // Try to get token from Authorization header
+      if (response.headers['authorization']) {
+        const authHeader = response.headers['authorization'];
+        console.log('Found Authorization header:', authHeader);
+        
+        // Extract token from "Bearer <token>" format if needed
+        const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
+        console.log('Saving token from Authorization header');
+        loginService.saveToken(token);
+      }
+      // Fallback to jwt-token header
+      else if (response.headers['jwt-token']) {
+        console.log('Saving token from jwt-token header');
+        loginService.saveToken(response.headers['jwt-token']);
+      }
+    }
+
+    response.data = response.data.Company;
+    
+    return response;
+  }
+
+  // Get menu commensal data
+  async getMenuCommensal(searchTerm: MenuCommensalSearch) {
+    console.log('getMenuCommensal called with params:', searchTerm);
+    console.log('Current headers:', this.headers);
+    
     // If using mock data, return a promise with mock data
     if (API_CONFIG.USE_MOCK_DATA) {
       // Create a mock response based on the existing mock data
@@ -57,7 +148,7 @@ class ApiService {
           CurrentTimeZone: -3
         })),
         CompanyName: "Heladería Demo",
-        PriceListId: parseInt(priceListId),
+        PriceListId: searchTerm.PriceListId || 0,
         PriceListName: "Lista Estándar",
         WhatsappPhoneNumber: null,
         Table: null,
@@ -95,12 +186,49 @@ class ApiService {
     }
 
     // If not using mock data, make the actual API call
-    const url = `${API_CONFIG.ENDPOINTS.MENU}/${companyId}/${priceListId}`;
-    const response = await axiosWithInterceptors.get<MenuResponse>(url);
+    // Build params for the request
+    const params: Record<string, string> = {};
+    if (searchTerm.PriceListId) {
+      params['PriceListId'] = searchTerm.PriceListId.toString();
+    }
+    if (searchTerm.OrderTypeId) {
+      params['OrderTypeId'] = searchTerm.OrderTypeId.toString();
+    }
+    if (searchTerm.TableId) {
+      params['TableId'] = searchTerm.TableId.toString();
+    }
+
+    const options = {
+      headers: this.headers,
+      params: params
+    };
+
+    console.log('Making API call to MenuCommensal/GetMenuCommensal with options:', options);
     
-    // If the response contains a token, save it
-    if (response.headers && response.headers['jwt-token']) {
-      loginService.saveToken(response.headers['jwt-token']);
+    const response = await axiosWithInterceptors.get<MenuResponse>(
+      'MenuCommensal/GetMenuCommensal',
+      options
+    );
+    
+    console.log('API call successful, response:', response);
+    
+    // Check for token in response headers (Authorization or jwt-token)
+    if (response.headers) {
+      // Try to get token from Authorization header
+      if (response.headers['authorization']) {
+        const authHeader = response.headers['authorization'];
+        console.log('Found Authorization header:', authHeader);
+        
+        // Extract token from "Bearer <token>" format if needed
+        const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
+        console.log('Saving token from Authorization header');
+        loginService.saveToken(token);
+      }
+      // Fallback to jwt-token header
+      else if (response.headers['jwt-token']) {
+        console.log('Saving token from jwt-token header');
+        loginService.saveToken(response.headers['jwt-token']);
+      }
     }
     
     return response;

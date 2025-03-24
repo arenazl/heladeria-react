@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
+import { dataService } from '../services/data.service';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -58,8 +59,8 @@ const Header: React.FC = () => {
           />
           </div>
           <h1 className="header-title">
-            <span className="restaurant-name">Mexican Food</span>
-            <span className="restaurant-location">Baires</span>
+            <span className="restaurant-name">{dataService.getCompanyName()}</span>
+            <span className="restaurant-location">{dataService.getCountryName()}</span>
             <span className="visually-hidden">{getPageName()}</span>
           </h1>
         </div>

@@ -13,6 +13,7 @@ const MenuLoader: React.FC = () => {
   const [showCompanyName, setShowCompanyName] = useState<boolean>(false);
 
   useEffect(() => {
+
     const loadData = async () => {
       if (!companyId || !priceListId) {
         setError('Parámetros de QR inválidos');
@@ -21,10 +22,13 @@ const MenuLoader: React.FC = () => {
       }
 
       try {
+
         setLoading(true);
+        
         const success = await dataService.loadData(companyId, priceListId);
         
         if (success) {
+
           // Get company name
           const name = dataService.getCompanyName();
           setCompanyName(name);

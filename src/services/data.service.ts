@@ -1,7 +1,8 @@
 import { 
   ApiCategory, 
   ApiProduct, 
-  MenuResponse 
+  MenuResponse,
+  MenuCommensalSearch
 } from '../models/api.types';
 import { 
   Category, 
@@ -10,6 +11,7 @@ import {
 } from '../models/types';
 import { sessionService } from './session.service';
 import { apiService } from './api.service';
+import { loginService } from './login.service';
 import { API_CONFIG } from '../config/api.config';
 import { categories as mockCategories, subcategories as mockSubcategories, products as mockProducts } from '../data/mockData';
 
@@ -19,6 +21,7 @@ class DataService {
   private products: Product[] = [];
   private isDataLoaded: boolean = false;
   private companyName: string = '';
+  private countryName: string = '';
 
   // Convert API data to application data format
   private convertApiDataToAppFormat(menuData: MenuResponse): void {
@@ -26,9 +29,6 @@ class DataService {
     this.subcategories = [];
     this.products = [];
     
-    // Store company name
-    this.companyName = menuData.CompanyName || 'Heladería';
-
     // Create a map to track subcategories
     const subcategoryMap = new Map<string, Subcategory>();
 
@@ -83,24 +83,53 @@ class DataService {
   // Load data from API or session
   async loadData(companyId: string, priceListId: string): Promise<boolean> {
     try {
-      // First try to get from session
-      const menuData = sessionService.getMenuDataFromLocalStorage();
-      if (menuData) {
+
+      // First validate user and get companies to get a token
+      const companies = await loginService.validateUserAndGetCompanies();
+      
+      if (!companies) {
+        console.error('ValidateUserAndGetCompanies failed');
+        return false;
+      }
+      
+      // Set headers with just the company ID
+      apiService.setHeaders(companyId, "");
+      
+      // Get company data
+      const companyResponse = await apiService.getCompanyById(companyId);
+      const company = companyResponse.data;
+      
+      if (company) {
+        // Set headers with company ID and prefix
+        apiService.setHeaders(company.Id, company.Prefix);
+        
+        // Create search parameters
+        const searchParams: MenuCommensalSearch = {
+          PriceListId: parseInt(priceListId),
+          OrderTypeId: 1, // Default value for OrderTypeId
+          TableId: 0 // Default value for TableId
+        };
+        
+        // Get menu data
+        const menuResponse = await apiService.getMenuCommensal(searchParams);
+        const menuData = menuResponse.data;
+
+        // Set company name 
+        this.companyName = companies.data.Companies.find((c:any) => c.Id == companyId)?.Name || 'Heladería';
+          
+        // Save to session
+        sessionService.saveMenuDataInLocalStorage(menuData);
+        sessionService.saveSystemConfigurationInLocalStorage(menuData.SystemConfiguration);
+  
+        // Set country name
+        this.countryName = company.CountryName || 'Unknown';
+
+        // Convert to app format
         this.convertApiDataToAppFormat(menuData);
         return true;
       }
-
-      // If not in session, get from API
-      const menuResponse = await apiService.getMenu(companyId, priceListId);
-      const menuData2 = menuResponse.data;
-
-      // Save to session
-      sessionService.saveMenuDataInLocalStorage(menuData2);
-      sessionService.saveSystemConfigurationInLocalStorage(menuData2.SystemConfiguration);
-
-      // Convert to app format
-      this.convertApiDataToAppFormat(menuData2);
-      return true;
+      
+      return false;
     } catch (error) {
       console.error('Error loading data:', error);
       return false;
@@ -110,6 +139,11 @@ class DataService {
   // Get company name
   getCompanyName(): string {
     return this.companyName;
+  }
+
+  // Get country name
+  getCountryName(): string {
+    return this.countryName;
   }
 
   // Get all categories

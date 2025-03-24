@@ -112,13 +112,31 @@ export interface ApiCategory {
 }
 
 // Main response model for Menu API
+export interface Company {
+  Id: string;
+  Name: string;
+  Prefix: string;
+  Address: string;
+  City: string;
+  State: string;
+  Country: string;
+  CurrentTimeZone: number;
+}
+
+export interface MenuCommensalSearch {
+  PriceListId?: number;
+  OrderTypeId?: number;
+  TableId?: number;
+  CompanyId?: string;
+}
+
 export interface MenuResponse {
   Categories: ApiCategory[];
-  CompanyName: string | null;
+  CompanyName: string;
   PriceListId: number;
   PriceListName: string;
   WhatsappPhoneNumber: string | null;
-  Table: string | null;
+  Table: any | null;
   SystemConfiguration: SystemConfiguration;
   CommensalProducts: any[];
   Order: any | null;

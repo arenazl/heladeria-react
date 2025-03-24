@@ -16,6 +16,7 @@ import OrderStatus from './pages/OrderStatus';
 import OrderReady from './pages/OrderReady';
 import MenuLoader from './pages/MenuLoader';
 import QRCodePage from './pages/QRCodePage';
+import TestApi from './pages/TestApi';
 import './App.css';
 
 // Route guard component to check for existing customer
@@ -78,6 +79,7 @@ const AnimatedRoutes = () => {
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
           <Route path="/qr-example" element={<QRCodePage defaultCompanyId="192" defaultPriceListId="1" />} />
+          <Route path="/test-api" element={<TestApi />} />
         </Routes>
       </motion.main>
     </AnimatePresence>

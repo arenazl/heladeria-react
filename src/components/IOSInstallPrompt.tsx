@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getIOSInstallInstructions } from '../utils/pwaUtils';
 import '../styles/IOSInstallPrompt.css';
 
@@ -7,13 +7,30 @@ interface IOSInstallPromptProps {
 }
 
 const IOSInstallPrompt: React.FC<IOSInstallPromptProps> = ({ onClose }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const { title, steps } = getIOSInstallInstructions();
 
+  useEffect(() => {
+    const hasDismissedPrompt = localStorage.getItem('iosInstallPromptDismissed');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isShortcutPresent = window.matchMedia('(display-mode: standalone)').matches;
+
+    if (isMobile && !isShortcutPresent && !hasDismissedPrompt) {
+      setIsVisible(true);
+    }
+  }, []);
+
   const handleClose = () => {
+    localStorage.setItem('iosInstallPromptDismissed', 'true');
     if (onClose) {
+      localStorage.setItem('iosInstallPromptDismissed', 'true');
       onClose();
     }
   };
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <div className="ios-install-prompt">
