@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
   };
 
   const handleFinalizeClick = () => {
-    navigate('/customers');
+    navigate('/payment');
   };
 
   // Plus Icon SVG

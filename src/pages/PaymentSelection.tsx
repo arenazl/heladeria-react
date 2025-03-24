@@ -13,25 +13,23 @@ const PaymentSelection: React.FC = () => {
 
   const handlePaymentSelect = (method: PaymentMethod) => {
     setSelectedPayment(method);
+    
+    // Automatically proceed to the next step after a short delay
+    setTimeout(() => {
+      // For MercadoPago, navigate to payment processor
+      if (method === 'mercado_pago') {
+        navigate('/payment-processor', { state: { paymentMethod: method } });
+        return;
+      }
+
+      // For other payment methods, show success message and clear order
+      alert(`¡Pago con ${getPaymentMethodName(method)} procesado con éxito! En un futuro, esto se enviará a un endpoint.`);
+      clearOrder();
+      navigate('/');
+    }, 300); // Short delay for visual feedback
   };
 
-  const handleConfirmPayment = () => {
-    if (!selectedPayment) {
-      alert('Por favor selecciona un método de pago');
-      return;
-    }
-
-    // For MercadoPago, navigate to payment processor
-    if (selectedPayment === 'mercado_pago') {
-      navigate('/payment-processor', { state: { paymentMethod: selectedPayment } });
-      return;
-    }
-
-    // For other payment methods, show success message and clear order
-    alert(`¡Pago con ${getPaymentMethodName(selectedPayment)} procesado con éxito! En un futuro, esto se enviará a un endpoint.`);
-    clearOrder();
-    navigate('/');
-  };
+  // handleConfirmPayment function removed as we now automatically proceed when a payment method is selected
 
   const getPaymentMethodName = (method: PaymentMethod): string => {
     switch (method) {
@@ -106,13 +104,7 @@ const PaymentSelection: React.FC = () => {
           </div>
         </div>
         
-        <button 
-          className={`confirm-payment-button ${!selectedPayment ? 'disabled' : ''}`}
-          onClick={handleConfirmPayment}
-          disabled={!selectedPayment}
-        >
-          Confirmar Pago
-        </button>
+        {/* Confirm button removed as we now automatically proceed when a payment method is selected */}
       </div>
     </div>
   );
