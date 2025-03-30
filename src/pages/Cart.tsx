@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
-import { getRelatedProducts, getProductById } from '../data/mockData';
+import { dataService } from '../services/data.service';
 import '../styles/Cart.css';
+import RecommendedProducts from '../components/RecommendedProducts';
+import { IMAGE_BASE_URL } from '../config/image.config';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +16,8 @@ const Cart: React.FC = () => {
     if (order.items.length > 0) {
       // Use the first item in the cart to get recommendations
       const firstItemId = order.items[0].productId;
-      const relatedProducts = getRelatedProducts(firstItemId, 3);
+const excludedProductIds = order.items.map(item => item.productId);
+const relatedProducts = dataService.getRelatedProducts(firstItemId, excludedProductIds);
       
       // Filter out products that are already in the cart
       const filteredRecommendations = relatedProducts.filter(
@@ -42,7 +45,7 @@ const Cart: React.FC = () => {
   };
 
   const handleAddRecommendedProduct = (productId: number) => {
-    const product = getProductById(productId);
+const product = dataService.getProductById(productId);
     if (product) {
       addToOrder(product, 1);
       
@@ -80,14 +83,20 @@ const Cart: React.FC = () => {
             {order.items.map((item) => (
               <div key={item.productId} className="cart-item">
                 <div className="cart-item-image-container">
-                  <img src={item.product.image} alt={item.product.name} className="cart-item-image" />
+<img src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `${IMAGE_BASE_URL}${item.product.image}`) : ''} alt={item.product.name} className="cart-item-image" />
                 </div>
                 
                 <div className="cart-item-content">
                   <div className="cart-item-details">
-                    <div className="cart-item-info">
+<div className="cart-item-info">
                       <h3 className="cart-item-name">{item.product.name}</h3>
-                      <p className="cart-item-description">{item.product.description}</p>
+                      {
+                        item.product.description ? (
+                          <p className="cart-item-description">{item.product.description}</p>
+                        ) : (
+                          <p className="cart-item-description">Esta es la descripción de un producto excelente de calidad y que le recomendamos</p>
+                        )
+                      }
                     </div>
                     <div className="cart-item-price-container">
                       <span className="cart-item-price">$ {(item.product.price * item.quantity).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
@@ -129,35 +138,7 @@ const Cart: React.FC = () => {
           </div>
         </div>
         
-        {recommendations.length > 0 && (
-          <div className="recommendations-section">
-            <h3 className="recommendations-title">Productos Recomendados</h3>
-            <div className="recommendations-scroll">
-              {recommendations.map((product) => (
-                product && product.id && (
-                  <div key={product.id} className="recommendation-card">
-                    <div className="recommendation-image-container">
-                      <img src={product.image} alt={product.name} className="recommendation-image" />
-                    </div>
-                    <div className="recommendation-details">
-                      <h4>{product.name}</h4>
-                      <p className="recommendation-description">{product.description}</p>
-                      <div className="recommendation-price-action">
-                        <span className="recommendation-price">$ {product.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                        <button 
-                          className="add-recommendation-button"
-                          onClick={() => handleAddRecommendedProduct(product.id)}
-                        >
-                          Agregar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )
-              ))}
-            </div>
-          </div>
-        )}
+<RecommendedProducts title="Productos Recomendados" products={recommendations} />
         
         <div className="cart-summary">
           <div className="cart-total">

@@ -32,6 +32,8 @@ const PaymentSelectionScreen: React.FC = () => {
       Alert.alert("Error", "Por favor selecciona un método de pago");
       return;
     }
+
+    
     
     // Simulate payment processing
     Alert.alert(
@@ -61,14 +63,11 @@ const PaymentSelectionScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Seleccionar Método de Pago</Text>
       
-      <View style={styles.orderSummary}>
+<View style={styles.orderSummary}>
         <Text style={styles.sectionTitle}>Resumen del Pedido</Text>
         <Text style={styles.summaryText}>
-          {order.items.length} {order.items.length === 1 ? 'producto' : 'productos'}
+          Cantidad de productos: {order.items.reduce((total, item) => total + item.quantity, 0)}
         </Text>
-        {order.customer && (
-          <Text style={styles.summaryText}>Cliente: {order.customer.name}</Text>
-        )}
         <Text style={styles.totalPrice}>Total: ${order.total.toFixed(2)}</Text>
       </View>
       

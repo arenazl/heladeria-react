@@ -107,7 +107,9 @@ const OrderConfirmation: React.FC = () => {
                   </div>
                   <div className="recommendation-details">
                     <h3>{product.name}</h3>
-                    <p className="recommendation-description">{product.description}</p>
+                    <p className="recommendation-description">
+                      {product.description ? product.description : "Esta es la descripción de un producto excelente de calidad y que le recomendamos"}
+                    </p>
                     <div className="recommendation-price-action">
                       <span className="recommendation-price">${product.price}</span>
                       <button 

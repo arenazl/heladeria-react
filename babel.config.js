@@ -1,6 +1,12 @@
+webpack
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
-  plugins: [
-    'react-native-web',
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+    '@babel/preset-flow'
   ],
+  plugins: [
+    '@babel/plugin-syntax-flow'
+  ]
 };

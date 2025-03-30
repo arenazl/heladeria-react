@@ -69,7 +69,7 @@ class DataService {
           id: apiProduct.Id,
           subcategoryId: apiProduct.SubRubroId,
           name: apiProduct.ProductName,
-          description: apiProduct.ProductDescription || '',
+description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
           price: price,
           image: apiProduct.PicturePath || undefined
         });
@@ -201,36 +201,34 @@ class DataService {
   }
 
   // Get related products
-  getRelatedProducts(productId: number, limit: number = 3): Product[] {
+getRelatedProducts(productId: number, excludedProductIds: number[] = []): Product[] {
     const productsToUse = API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded ? mockProducts : this.products;
     const subcategoriesToUse = API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded ? mockSubcategories : this.subcategories;
-    
+
     const product = this.getProductById(productId);
     if (!product) return [];
-    
-    // Get products from the same subcategory (excluding the current product)
+
+    // Get products from the same subcategory excluding the current product and products already in the order
     let relatedProducts = productsToUse.filter(p => 
-      p.subcategoryId === product.subcategoryId && p.id !== productId
+      p.subcategoryId === product.subcategoryId && 
+      p.id !== productId && 
+      !excludedProductIds.includes(p.id)
     );
-    
-    // If we don't have enough products, get products from other subcategories in the same category
-    if (relatedProducts.length < limit) {
+
+    // If no products found in subcategory, get products from the parent category
+    if (relatedProducts.length === 0) {
       const subcategory = subcategoriesToUse.find(s => s.id === product.subcategoryId);
       if (subcategory) {
-        const categoryProducts = productsToUse.filter(p => {
-          const pSubcategory = subcategoriesToUse.find(s => s.id === p.subcategoryId);
-          return pSubcategory && 
-                pSubcategory.categoryId === subcategory.categoryId && 
-                p.id !== productId && 
-                !relatedProducts.some(rp => rp.id === p.id);
-        });
-        
-        relatedProducts = [...relatedProducts, ...categoryProducts];
+        const siblingSubcategories = subcategoriesToUse.filter(s => s.categoryId === subcategory.categoryId);
+        relatedProducts = productsToUse.filter(p => 
+          siblingSubcategories.some(s => s.id === p.subcategoryId) &&
+          p.id !== productId &&
+          !excludedProductIds.includes(p.id)
+        );
       }
     }
-    
-    // Return only the requested number of products
-    return relatedProducts.slice(0, limit);
+
+    return relatedProducts;
   }
 
   // Check if data is loaded
@@ -241,3 +239,8 @@ class DataService {
 
 // Create a singleton instance
 export const dataService = new DataService();
+
+// Función auxiliar para convertir texto a Proper Case
+export const toProperCase = (text: string): string => {
+return text.toLowerCase().replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
+};

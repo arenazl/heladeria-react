@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { dataService } from '../services/data.service';
 import QuantitySelector from './QuantitySelector';
 import '../styles/ProductListing.css';
+import { IMAGE_BASE_URL } from '../config/image.config';
+import { toProperCase } from '../services/data.service';
 
 interface ProductListingProps {
   categoryId: number | null;
@@ -33,7 +35,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
     
     return (
       <div className="product-listing">
-        <h2 className="subcategory-title">{subcategory.name}</h2>
+<h2 className="subcategory-title">{toProperCase(subcategory.name)}</h2>
         <div className="product-grid">
           {products.map((product) => (
             <div 
@@ -42,11 +44,17 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
               onClick={() => handleProductClick(product.id)}
             >
               <div className="product-image-container">
-                <img src={product.image} alt={product.name} className="product-image" />
+<img src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} alt={product.name} className="product-image" />
               </div>
               <div className="product-content">
                 <h3 className="product-title">{product.name}</h3>
-                <p className="product-description">{product.description}</p>
+{
+  product.description ? (
+    <p className="product-description">{product.description}</p>
+  ) : (
+    <p className="product-description">Esta es una descripción del producto que es muy saludable y lo recomendamos para toda la familia</p>
+  )
+}
                 <div className="product-footer">
                   <p className="product-price">${product.price}</p>
                   <div onClick={(e) => e.stopPropagation()}>
@@ -83,11 +91,17 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
                   onClick={() => handleProductClick(product.id)}
                 >
                   <div className="product-image-container">
-                    <img src={product.image} alt={product.name} className="product-image" />
+<img src={`${IMAGE_BASE_URL}${product.image}`} alt={product.name} className="product-image" />
                   </div>
                   <div className="product-content">
                     <h3 className="product-title">{product.name}</h3>
-                    <p className="product-description">{product.description}</p>
+                    {
+                      product.description ? (
+                        <p className="product-description">{product.description}</p>
+                      ) : (
+                        <p className="product-description">Esta es la descripción de un producto excelente de calidad y que le recomendamos</p>
+                      )
+                    }
                     <div className="product-footer">
                       <p className="product-price">${product.price}</p>
                       <div onClick={(e) => e.stopPropagation()}>

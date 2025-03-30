@@ -78,7 +78,7 @@ const AnimatedRoutes = () => {
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
-          <Route path="/qr-example" element={<QRCodePage defaultCompanyId="192" defaultPriceListId="1" />} />
+          <Route path="/qr-example" element={<QRCodePage defaultCompanyId="887" defaultPriceListId="1" />} />
           <Route path="/test-api" element={<TestApi />} />
         </Routes>
       </motion.main>

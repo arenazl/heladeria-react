@@ -22,7 +22,7 @@ const WelcomeScreen: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Bienvenidos a Mexican Food</Text>
-        <Text style={styles.subtitle}>Los mejores platillos mexicanos en un solo lugar</Text>
+        <Text style={styles.subtitle}>Los mejores platillos en un solo lugar</Text>
         <TouchableOpacity 
           style={styles.button}
           onPress={() => navigation.navigate('ProductBrowsing')}

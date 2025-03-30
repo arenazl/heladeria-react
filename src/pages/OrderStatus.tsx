@@ -15,8 +15,24 @@ const OrderStatus: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [orderStatus, setOrderStatus] = useState<OrderStatusType>('processing');
   const [countdown, setCountdown] = useState<number | null>(null);
-
+  const [orderNumber, setOrderNumber] = useState<string>('');
+  const [showOrderSummary, setShowOrderSummary] = useState<boolean>(false);
+  
+  // Estados para guardar la información del pedido cuando esté listo
+  const [savedOrderItems, setSavedOrderItems] = useState<any[]>([]);
+  const [savedOrderTotal, setSavedOrderTotal] = useState<number>(0);
+  
   useEffect(() => {
+    // Generate a random order number
+    const generateOrderNumber = () => {
+      const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+      const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+      const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+      return `${randomLetter}${randomNumber}`;
+    };
+    
+    setOrderNumber(generateOrderNumber());
+    
     // Check notification permission on component mount
     const checkPermission = async () => {
       const permission = await requestNotificationPermission();
@@ -49,70 +65,43 @@ const OrderStatus: React.FC = () => {
           }
         }, 1000);
       } else if (countdown === 0) {
+        // When countdown finishes, show order is ready
+        setOrderStatus('ready');
+        
+        // Guarda la información del pedido cuando esté listo
+        if (order && order.items) {
+          console.log("Guardando items del pedido:", order.items);
+          setSavedOrderItems([...order.items]);
+          setSavedOrderTotal(order.total || 0);
+        }
+        
+        // After a short delay, show the order summary fullscreen
+        setTimeout(() => {
+          setShowOrderSummary(true);
+        }, 3000);
+        
         // Send notification when order is ready
         if (name) {
           console.log('[OrderStatus] Order is ready, attempting to send notification');
-          console.log('[OrderStatus] Notification permission status:', notificationPermission);
           
-          try {
-            // Try to send notification if permission is granted
-            if (notificationPermission === 'granted') {
-              console.log('[OrderStatus] Permission is granted, sending notification');
-              
-              try {
-                // Get the base URL for the application
-                const baseUrl = window.location.origin;
-                
-                const notificationOptions = {
-                  body: `Hola ${name}, tu pedido está listo para retirar en mostrador.`,
-                  icon: '/logo192.png',
-                  requireInteraction: true,
-                  data: {
-                    url: `${baseUrl}/#/order-ready` // Use hash for HashRouter compatibility
-                  }
-                  // The extended options will be applied automatically
-                };
-                
-                console.log('[OrderStatus] Notification options:', notificationOptions);
-                
-                const notification = sendNotification(
-                  '¡Tu pedido está listo!',
-                  notificationOptions
-                );
-                
-                console.log('[OrderStatus] Notification result:', notification ? 'Success' : 'Failed');
-                
-                if (notification) {
-                  console.log('[OrderStatus] Setting up notification click handler');
-                  // Navigate to order-ready page when notification is clicked
-                  notification.onclick = () => {
-                    console.log('[OrderStatus] Notification clicked, navigating to order-ready');
-                    window.focus();
-                    navigate('/order-ready');
-                  };
-                } else {
-                  console.log('[OrderStatus] Notification object is null, cannot set click handler');
-                }
-              } catch (notificationError) {
-                console.error('[OrderStatus] Error sending notification:', notificationError);
-                console.log('[OrderStatus] Using fallback navigation');
-              }
-            } else {
-              console.log('[OrderStatus] Permission not granted, skipping notification');
+          if (notificationPermission === 'granted') {
+            const notificationOptions = {
+              body: `Hola ${name}, tu pedido #${orderNumber} está listo para retirar en mostrador.`,
+              icon: '/logo192.png',
+              requireInteraction: true
+            };
+            
+            const notification = sendNotification(
+              '¡Tu pedido está listo!',
+              notificationOptions
+            );
+            
+            if (notification) {
+              notification.onclick = () => {
+                window.focus();
+              };
             }
-          } catch (error) {
-            // Log detailed error information
-            console.error('[OrderStatus] Unexpected error during notification process:', error);
           }
-          
-          // Show button to view order details regardless of notification status
-          setOrderStatus('ready');
-          
-          // FALLBACK: Automatically navigate to order-ready page after a short delay
-          // This ensures the user sees the order is ready even if notifications fail
-          setTimeout(() => {
-            navigate('/order-ready');
-          }, 3000); // 3 second delay to allow the user to see the "ready" status first
         }
       }
     }
@@ -122,7 +111,7 @@ const OrderStatus: React.FC = () => {
         clearTimeout(timer);
       }
     };
-  }, [countdown, isSubmitting, notificationPermission, name, navigate]);
+  }, [countdown, isSubmitting, notificationPermission, name, orderNumber, order]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -135,6 +124,9 @@ const OrderStatus: React.FC = () => {
       alert('Por favor ingresa tu nombre');
       return;
     }
+    
+    // Verificación del estado actual de la orden
+    console.log("Estado de la orden al confirmar:", order);
     
     setIsSubmitting(true);
     
@@ -177,10 +169,107 @@ const OrderStatus: React.FC = () => {
     }
   };
 
+  // Si se debe mostrar el resumen del pedido a pantalla completa
+  if (showOrderSummary) {
+    console.log("Mostrando resumen. Order items:", order.items, "Saved items:", savedOrderItems);
+    
+    return (
+      <div className="fullscreen-order-summary">
+        <div className="order-summary-container">
+          <div className="order-summary-header">
+            <h2>Resumen de tu Pedido</h2>
+            <div className="order-summary-number">
+              Orden #{orderNumber}
+            </div>
+          </div>
+          
+          <div className="order-summary-content">
+            <div className="order-summary-section">
+              <h3>Datos del Cliente</h3>
+              <div className="order-customer-details">
+                <p><strong>Nombre:</strong> {name}</p>
+                {order.customer && (
+                  <>
+                    <p><strong>Dirección:</strong> {order.customer.address}</p>
+                    <p><strong>Teléfono:</strong> {order.customer.phone}</p>
+                  </>
+                )}
+              </div>
+            </div>
+            
+            <div className="order-summary-section">
+              <h3>Productos</h3>
+              <div className="order-items-list">
+                {savedOrderItems.length > 0 ? (
+                  savedOrderItems.map((item, index) => (
+                    <div key={index} className="order-item-row">
+                      <div className="order-item-info">
+                        <span className="order-item-quantity">{item.quantity}x</span>
+                        <span className="order-item-name">{item.product.name}</span>
+                      </div>
+                      <div className="order-item-price">${(item.product.price * item.quantity).toFixed(2)}</div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="no-items-message">No hay productos en el pedido.</div>
+                )}
+              </div>
+            </div>
+            
+            <div className="order-total-section">
+              <div className="order-subtotal">
+                <span>Subtotal:</span>
+                <span>${savedOrderTotal.toFixed(2)}</span>
+              </div>
+              <div className="order-tax">
+                <span>Impuestos:</span>
+                <span>$0.00</span>
+              </div>
+              <div className="order-final-total">
+                <span>Total:</span>
+                <span>${savedOrderTotal.toFixed(2)}</span>
+              </div>
+            </div>
+            
+            <div className="order-summary-message">
+              <div className="order-summary-icon">✅</div>
+              <div className="order-summary-text">
+                <p>¡Tu pedido está listo para retirar!</p>
+                <p>Por favor, dirígete al mostrador y muestra este número de orden: <strong>#{orderNumber}</strong></p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="order-summary-actions">
+            <button 
+              className="print-order-button"
+              onClick={() => window.print()}
+            >
+              Imprimir Recibo
+            </button>
+            <button 
+              className="new-order-button"
+              onClick={() => navigate('/')}
+            >
+              Iniciar Nuevo Pedido
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Pantalla normal de estado del pedido
   return (
     <div className="page-container">
       <div className="section-container">
-        <h2 className="section-title">Estado de tu Pedido</h2>
+        <div className="order-status-header">
+          <h2 className="section-title">Estado de tu Pedido</h2>
+          <div className="order-number-badge">
+            <span className="order-number-label">Orden</span>
+            <span className="order-number-value">#{orderNumber}</span>
+          </div>
+        </div>
         
         {!isSubmitting ? (
           <form onSubmit={handleSubmit} className="order-status-form">
@@ -200,28 +289,37 @@ const OrderStatus: React.FC = () => {
             
             {order.estimatedPickupTime && (
               <div className="estimated-time">
-                <p>Tiempo estimado de preparación:</p>
-                <p className="time-value">20-30 minutos</p>
-                <p className="time-ready">Tu pedido estará listo aproximadamente a las {formatTime(order.estimatedPickupTime)}</p>
+                <div className="time-icon">⏱️</div>
+                <div className="time-details">
+                  <p>Tiempo estimado de preparación:</p>
+                  <p className="time-value">20-30 minutos</p>
+                  <p className="time-ready">Tu pedido estará listo aproximadamente a las {formatTime(order.estimatedPickupTime)}</p>
+                </div>
               </div>
             )}
             
             {notificationPermission === 'denied' && !(/iPhone|iPad|iPod/i.test(navigator.userAgent)) && (
               <div className="notification-warning">
-                <p>Las notificaciones están bloqueadas. Habilítalas en la configuración de tu navegador para recibir una alerta cuando tu pedido esté listo.</p>
-                <button 
-                  type="button" 
-                  className="permission-button"
-                  onClick={requestPermissionAgain}
-                >
-                  Solicitar Permisos
-                </button>
+                <div className="notification-icon">🔔</div>
+                <div className="notification-content">
+                  <p>Las notificaciones están bloqueadas. Habilítalas en la configuración de tu navegador para recibir una alerta cuando tu pedido esté listo.</p>
+                  <button 
+                    type="button" 
+                    className="permission-button"
+                    onClick={requestPermissionAgain}
+                  >
+                    Solicitar Permisos
+                  </button>
+                </div>
               </div>
             )}
             
             {/iPhone|iPad|iPod/i.test(navigator.userAgent) && (
               <div className="notification-info">
-                <p>En dispositivos iOS, las notificaciones pueden no estar disponibles. No te preocupes, serás redirigido automáticamente cuando tu pedido esté listo.</p>
+                <div className="notification-icon">ℹ️</div>
+                <div className="notification-content">
+                  <p>En dispositivos iOS, las notificaciones pueden no estar disponibles. Mantén esta ventana abierta para ver el estado de tu pedido.</p>
+                </div>
               </div>
             )}
             
@@ -234,53 +332,59 @@ const OrderStatus: React.FC = () => {
           </form>
         ) : (
           <div className="order-status-tracking">
-            <div className={`order-status-indicator ${getStatusClass()}`}>
-              <div className="order-status-text">{getStatusText()}</div>
-              <div className="order-status-progress">
-                <div className="order-status-step completed">
-                  <div className="step-circle"></div>
-                  <div className="step-label">Procesando</div>
+            <div className="order-status-card">
+              <div className="order-status-details">
+                <div className="order-status-customer">
+                  <span className="customer-label">Cliente:</span>
+                  <span className="customer-value">{name}</span>
                 </div>
-                <div className={`order-status-step ${orderStatus === 'preparing' || orderStatus === 'ready' ? 'completed' : ''}`}>
-                  <div className="step-circle"></div>
-                  <div className="step-label">Preparando</div>
-                </div>
-                <div className={`order-status-step ${orderStatus === 'ready' ? 'completed' : ''}`}>
-                  <div className="step-circle"></div>
-                  <div className="step-label">Listo</div>
+                <div className="order-tracking-number">
+                  <span className="tracking-label">Número de seguimiento:</span>
+                  <span className="tracking-value">#{orderNumber}</span>
                 </div>
               </div>
-            </div>
             
-            <div className="order-status-info">
-              <p className="customer-name">Nombre: <strong>{name}</strong></p>
-              
-              {countdown !== null && countdown > 0 && (
-                <div className="countdown-timer">
-                  <p>Tiempo restante estimado:</p>
-                  <p className="countdown-value">{countdown} segundos</p>
+              <div className={`order-status-indicator ${getStatusClass()}`}>
+                <div className="order-status-text">{getStatusText()}</div>
+                <div className="order-status-progress">
+                  <div className="order-status-step completed">
+                    <div className="step-circle"></div>
+                    <div className="step-label">Procesando</div>
+                  </div>
+                  <div className={`order-status-step ${orderStatus === 'preparing' || orderStatus === 'ready' ? 'completed' : ''}`}>
+                    <div className="step-circle"></div>
+                    <div className="step-label">Preparando</div>
+                  </div>
+                  <div className={`order-status-step ${orderStatus === 'ready' ? 'completed' : ''}`}>
+                    <div className="step-circle"></div>
+                    <div className="step-label">Listo</div>
+                  </div>
                 </div>
-              )}
+              </div>
               
-              <p className="order-status-message">
-                {orderStatus === 'processing' && 'Tu pedido está siendo procesado. Pronto comenzará la preparación.'}
-                {orderStatus === 'preparing' && 'Tu pedido está siendo preparado por nuestro equipo.'}
-                {orderStatus === 'ready' && '¡Tu pedido está listo! Por favor retíralo en el mostrador.'}
-              </p>
-              
-              <p className="order-status-instruction">
-                Puedes minimizar esta ventana. Te notificaremos cuando tu pedido esté listo.
-              </p>
+              <div className="order-status-info">
+                {countdown !== null && countdown > 0 && (
+                  <div className="countdown-timer">
+                    <div className="countdown-icon">⏳</div>
+                    <div className="countdown-details">
+                      <p>Tiempo restante estimado:</p>
+                      <p className="countdown-value">{countdown} segundos</p>
+                    </div>
+                  </div>
+                )}
+                
+                <p className="order-status-message">
+                  {orderStatus === 'processing' && 'Tu pedido está siendo procesado. Pronto comenzará la preparación.'}
+                  {orderStatus === 'preparing' && 'Tu pedido está siendo preparado por nuestro equipo.'}
+                  {orderStatus === 'ready' && '¡Tu pedido está listo! Por favor retíralo en el mostrador.'}
+                </p>
+                
+                <p className="order-status-instruction">
+                  <span className="instruction-icon">💡</span>
+                  Puedes minimizar esta ventana. Te notificaremos cuando tu pedido esté listo.
+                </p>
+              </div>
             </div>
-            
-            {orderStatus === 'ready' && (
-              <button 
-                className="view-ready-order-button"
-                onClick={() => navigate('/order-ready')}
-              >
-                Ver Detalles del Pedido
-              </button>
-            )}
           </div>
         )}
       </div>

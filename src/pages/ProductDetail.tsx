@@ -4,6 +4,8 @@ import { dataService } from '../services/data.service';
 import { useOrder } from '../context/OrderContext';
 import QuantitySelector from '../components/QuantitySelector';
 import '../styles/ProductDetail.css';
+import RecommendedProducts from '../components/RecommendedProducts';
+import { IMAGE_BASE_URL } from '../config/image.config';
 
 const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -32,7 +34,8 @@ const ProductDetail: React.FC = () => {
 
   useEffect(() => {
     if (product) {
-      const relatedProducts = dataService.getRelatedProducts(product.id, 5);
+const excludedProductIds = [product.id, ...order.items.map(item => item.productId)];
+const relatedProducts = dataService.getRelatedProducts(product.id, excludedProductIds);
       setRecommendations(relatedProducts);
     }
   }, [product]);
@@ -45,12 +48,18 @@ const ProductDetail: React.FC = () => {
     <div className="product-detail-container">
       <div className="product-detail-content">
         <div className="product-detail-image-container">
-          <img src={product.image} alt={product.name} className="product-detail-image" />
+<img src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} alt={product.name} className="product-detail-image" />
         </div>
         
         <div className="product-detail-info">
           <h2>{product.name}</h2>
-          <p className="product-detail-description">{product.description}</p>
+{
+  product.description ? (
+    <p className="product-detail-description">{product.description}</p>
+  ) : (
+    <p className="product-detail-description">Esta es una descripción del producto que es muy saludable y lo recomendamos para toda la familia</p>
+  )
+}
           
           <div className="product-detail-actions">
             <p className="product-detail-price">$ {product.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
@@ -70,35 +79,7 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
       
-      {recommendations.length > 0 && (
-        <div className="recommendations-section">
-          <h3 className="recommendations-title">Productos Relacionados</h3>
-          <div className="recommendations-scroll">
-            {recommendations.map((relatedProduct) => (
-              relatedProduct && relatedProduct.id && (
-                <div key={relatedProduct.id} className="recommendation-card">
-                  <div className="recommendation-image-container">
-                    <img src={relatedProduct.image} alt={relatedProduct.name} className="recommendation-image" />
-                  </div>
-                  <div className="recommendation-details">
-                    <h4>{relatedProduct.name}</h4>
-                    <p className="recommendation-description">{relatedProduct.description}</p>
-                    <div className="recommendation-price-action">
-                      <span className="recommendation-price">$ {relatedProduct.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                      <button 
-                        className="add-recommendation-button"
-                        onClick={() => handleAddRecommendedProduct(relatedProduct.id)}
-                      >
-                        Agregar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )
-            ))}
-          </div>
-        </div>
-      )}
+<RecommendedProducts title="Productos Relacionados" products={recommendations} />
     </div>
   );
 };

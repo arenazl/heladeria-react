@@ -7,6 +7,7 @@ const PaymentProcessor: React.FC = () => {
   const location = useLocation();
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<string>('Iniciando procesamiento de pago...');
+  const [animationComplete, setAnimationComplete] = useState<boolean>(false);
   
   // Get payment method from location state or default to MercadoPago
   const paymentMethod = location.state?.paymentMethod || 'mercado_pago';
@@ -17,16 +18,20 @@ const PaymentProcessor: React.FC = () => {
       setProgress(prevProgress => {
         if (prevProgress >= 100) {
           clearInterval(interval);
+          
+          // Show success animation before navigating
+          setAnimationComplete(true);
+          
           // Navigate to order status page after payment is processed
           setTimeout(() => {
             navigate('/order-status');
-          }, 500);
+          }, 1500);
           return 100;
         }
         
         // Update status message based on progress
         if (prevProgress === 0) {
-          setStatus('Conectando con MercadoPago...');
+          setStatus('Conectando con el procesador de pago...');
         } else if (prevProgress === 20) {
           setStatus('Verificando información de pago...');
         } else if (prevProgress === 40) {
@@ -37,9 +42,9 @@ const PaymentProcessor: React.FC = () => {
           setStatus('¡Pago confirmado!');
         }
         
-        return prevProgress + 5;
+        return prevProgress + 3;
       });
-    }, 150); // Update every 150ms for a total of ~3 seconds
+    }, 120); // Update every 120ms for a smoother animation
     
     return () => clearInterval(interval);
   }, [navigate]);
@@ -57,27 +62,65 @@ const PaymentProcessor: React.FC = () => {
     }
   };
   
+  const getPaymentIcon = (): React.ReactNode => {
+    switch (paymentMethod) {
+      case 'cash':
+        return '💵';
+      case 'credit_card':
+        return '💳';
+      case 'mercado_pago':
+        return <img 
+          src="/images.png" 
+          alt="Mercado Pago" 
+          style={{ width: 44, height: 44, objectFit: 'contain' }} 
+        />;
+      default:
+        return <img 
+          src="/images.png" 
+          alt="Mercado Pago" 
+          style={{ width: 44, height: 44, objectFit: 'contain' }} 
+        />;
+    }
+  };
+  
   return (
     <div className="payment-processor-container">
       <div className="payment-processor-card">
-        <h2 className="payment-processor-title">Procesando Pago</h2>
-        <p className="payment-processor-method">Método: {getPaymentMethodName()}</p>
+        <div className="payment-processor-header">
+          <span className="payment-processor-icon">{getPaymentIcon()}</span>
+          <h2 className="payment-processor-title">Procesando Pago</h2>
+        </div>
+        
+        <div className="payment-method-badge">
+          {getPaymentMethodName()}
+        </div>
         
         <div className="payment-processor-progress-container">
           <div 
             className="payment-processor-progress-bar"
             style={{ width: `${progress}%` }}
-          ></div>
+          >
+            {progress >= 100 && (
+              <div className="payment-processor-progress-complete"></div>
+            )}
+          </div>
         </div>
         
-        <p className="payment-processor-status">{status}</p>
+        <div className="payment-processor-status-container">
+          <p className="payment-processor-status">{status}</p>
+          <p className="payment-processor-percentage">{progress}%</p>
+        </div>
         
         <div className="payment-processor-info">
           <p>Por favor no cierres esta ventana mientras procesamos tu pago.</p>
-          {progress >= 100 && (
-            <p className="payment-processor-complete">
-              ¡Pago completado con éxito! Redirigiendo...
-            </p>
+          {animationComplete && (
+            <div className="payment-processor-success">
+              <div className="payment-processor-success-icon">✓</div>
+              <p className="payment-processor-complete">
+                ¡Pago completado con éxito!
+              </p>
+              <p className="payment-processor-redirecting">Redirigiendo...</p>
+            </div>
           )}
         </div>
       </div>
