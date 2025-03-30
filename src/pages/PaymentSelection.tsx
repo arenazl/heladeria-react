@@ -63,65 +63,52 @@ const PaymentSelection: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="section-container">      
-        <div className="payment-order-summary">
-          <h3>Resumen del Pedido</h3>
-          <div className="payment-order-items">
-            {order.items.map((item) => (
-              <div key={item.productId} className="payment-order-item">
-                <div className="payment-item-details">
-                  <span className="payment-item-name">{item.product.name}</span>
-                  <span className="payment-item-quantity">x {item.quantity}</span>
-                </div>
-                {
-                item.product.description ? (
-                  <p className="payment-item-description">{item.product.description}</p>
-                ) : (
-                  <p className="payment-item-description">Esta es una descripción del producto que es muy saludable y lo recomendamos para toda la familia</p>
-                )
-              }
-  
-              <div className="payment-item-price">${item.product.price * item.quantity}</div>
-              </div>
-            ))}
-          </div>
-          
+      <div className="section-container">
+        <h3>Resumen del Pedido</h3>
+        <div className="payment-total-container">
           <div className="payment-total">
-            <span>Total:</span>
-            <span>${order.total}</span>
+            <div className="payment-total-label">Cantidad de productos:</div>
+            <div className="payment-total-amount">{order.items.reduce((total, item) => total + item.quantity, 0)}</div>
+          </div>
+          <div className="payment-total">
+            <div className="payment-total-label">Total a Pagar:</div>
+            <div className="payment-total-amount">${order.total.toFixed(2)}</div>
+          </div>
+          <div className="payment-total">
+            <div className="payment-total-label">Tiempo estimado de entrega:</div>
+            <div className="payment-total-amount">20 min.</div>
           </div>
         </div>
-        
+
         <div className="payment-methods-container">
           <h3>Método de Pago</h3>
-          
           <div className="payment-methods-grid">
             <div
               className={`payment-method-card ${selectedPayment === 'cash' ? 'selected' : ''}`}
               onClick={() => handlePaymentSelect('cash')}
             >
               <div className="payment-method-icon">
-                <Banknote size={24} color="#22c55e" />
+                <Banknote size={24} color="#61862d" />
               </div>
               <div className="payment-method-name">Efectivo</div>
             </div>
-            
+
             <div
               className={`payment-method-card ${selectedPayment === 'credit_card' ? 'selected' : ''}`}
               onClick={() => handlePaymentSelect('credit_card')}
             >
               <div className="payment-method-icon">
-                <CreditCard size={24} color="#22c55e" />
+                <CreditCard size={24} color="#61862d" />
               </div>
               <div className="payment-method-name">Tarjeta de Crédito</div>
             </div>
-            
+
             <div
               className={`payment-method-card ${selectedPayment === 'mercado_pago' ? 'selected' : ''}`}
               onClick={() => handlePaymentSelect('mercado_pago')}
             >
               <div className="payment-method-icon">
-                <Smartphone size={24} color="#22c55e" />
+                <Smartphone size={24} color="#61862d" />
               </div>
               <div className="payment-method-name">Mercado Pago</div>
             </div>

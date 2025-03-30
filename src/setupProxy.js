@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://api-prod.nucleocheck.com',
+      target: 'https://api-qa.nucleocheck.com',
       changeOrigin: true,
       pathRewrite: {
         '^/api': '', // remove /api prefix when forwarding to target
@@ -17,7 +17,7 @@ module.exports = function(app) {
       onProxyRes: function(proxyRes, req, res) {
         // Log response for debugging
         console.log(`Proxy response from ${req.method} ${req.url}: ${proxyRes.statusCode}`);
-      },z
+      },
       logLevel: 'debug',
     })
   );

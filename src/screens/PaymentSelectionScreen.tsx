@@ -22,7 +22,7 @@ const PaymentSelectionScreen: React.FC = () => {
   const navigation = useNavigation<PaymentSelectionNavigationProp>();
   const { order, clearOrder } = useOrder();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
-  
+
   const handleSelectPaymentMethod = (method: PaymentMethod) => {
     setSelectedPaymentMethod(method);
   };
@@ -33,15 +33,12 @@ const PaymentSelectionScreen: React.FC = () => {
       return;
     }
 
-    
-    
-    // Simulate payment processing
     Alert.alert(
       "Pago Exitoso",
       `Tu pedido ha sido procesado correctamente con ${getPaymentMethodName(selectedPaymentMethod)}.`,
       [
-        { 
-          text: "OK", 
+        {
+          text: "OK",
           onPress: () => {
             clearOrder();
             navigation.navigate('Welcome');
@@ -62,18 +59,17 @@ const PaymentSelectionScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Seleccionar Método de Pago</Text>
-      
-<View style={styles.orderSummary}>
+
+      <View style={styles.orderSummary}>
         <Text style={styles.sectionTitle}>Resumen del Pedido</Text>
-        <Text style={styles.summaryText}>
-          Cantidad de productos: {order.items.reduce((total, item) => total + item.quantity, 0)}
-        </Text>
+        <Text style={styles.summaryText}>Cantidad de productos: {order.items.reduce((total, item) => total + item.quantity, 0)}</Text>
         <Text style={styles.totalPrice}>Total: ${order.total.toFixed(2)}</Text>
+        <Text style={styles.summaryText}>Tiempo estimado de entrega: 30 min.</Text>
       </View>
-      
+
       <View style={styles.paymentMethods}>
         <Text style={styles.sectionTitle}>Métodos de Pago</Text>
-        
+
         <TouchableOpacity
           style={[
             styles.paymentMethodItem,
@@ -84,7 +80,7 @@ const PaymentSelectionScreen: React.FC = () => {
           <Text style={styles.paymentMethodName}>Efectivo</Text>
           <Text style={styles.paymentMethodDescription}>Pago en efectivo al momento de la entrega</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           style={[
             styles.paymentMethodItem,
@@ -95,7 +91,7 @@ const PaymentSelectionScreen: React.FC = () => {
           <Text style={styles.paymentMethodName}>Tarjeta de Crédito/Débito</Text>
           <Text style={styles.paymentMethodDescription}>Pago con tarjeta al momento de la entrega</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           style={[
             styles.paymentMethodItem,
@@ -107,9 +103,9 @@ const PaymentSelectionScreen: React.FC = () => {
           <Text style={styles.paymentMethodDescription}>Transferencia a nuestra cuenta bancaria</Text>
         </TouchableOpacity>
       </View>
-      
+
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
             styles.confirmButton,
             !selectedPaymentMethod && styles.disabledButton
@@ -119,8 +115,8 @@ const PaymentSelectionScreen: React.FC = () => {
         >
           <Text style={styles.confirmButtonText}>Confirmar Pago</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >

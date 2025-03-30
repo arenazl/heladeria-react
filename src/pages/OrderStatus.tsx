@@ -331,61 +331,75 @@ const OrderStatus: React.FC = () => {
             </button>
           </form>
         ) : (
+          
           <div className="order-status-tracking">
-            <div className="order-status-card">
-              <div className="order-status-details">
-                <div className="order-status-customer">
-                  <span className="customer-label">Cliente:</span>
-                  <span className="customer-value">{name}</span>
-                </div>
-                <div className="order-tracking-number">
-                  <span className="tracking-label">Número de seguimiento:</span>
-                  <span className="tracking-value">#{orderNumber}</span>
-                </div>
+          <div className="order-status-card">
+            <div className="order-status-details">
+              <div className="order-status-customer">
+                <span className="customer-label">Cliente:</span>
+                <span className="customer-value">{name}</span>
               </div>
-            
-              <div className={`order-status-indicator ${getStatusClass()}`}>
-                <div className="order-status-text">{getStatusText()}</div>
-                <div className="order-status-progress">
-                  <div className="order-status-step completed">
-                    <div className="step-circle"></div>
-                    <div className="step-label">Procesando</div>
-                  </div>
-                  <div className={`order-status-step ${orderStatus === 'preparing' || orderStatus === 'ready' ? 'completed' : ''}`}>
-                    <div className="step-circle"></div>
-                    <div className="step-label">Preparando</div>
-                  </div>
-                  <div className={`order-status-step ${orderStatus === 'ready' ? 'completed' : ''}`}>
-                    <div className="step-circle"></div>
-                    <div className="step-label">Listo</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="order-status-info">
-                {countdown !== null && countdown > 0 && (
-                  <div className="countdown-timer">
-                    <div className="countdown-icon">⏳</div>
-                    <div className="countdown-details">
-                      <p>Tiempo restante estimado:</p>
-                      <p className="countdown-value">{countdown} segundos</p>
-                    </div>
-                  </div>
-                )}
-                
-                <p className="order-status-message">
-                  {orderStatus === 'processing' && 'Tu pedido está siendo procesado. Pronto comenzará la preparación.'}
-                  {orderStatus === 'preparing' && 'Tu pedido está siendo preparado por nuestro equipo.'}
-                  {orderStatus === 'ready' && '¡Tu pedido está listo! Por favor retíralo en el mostrador.'}
-                </p>
-                
-                <p className="order-status-instruction">
-                  <span className="instruction-icon">💡</span>
-                  Puedes minimizar esta ventana. Te notificaremos cuando tu pedido esté listo.
-                </p>
+              <div className="order-tracking-number">
+                <span className="tracking-label">Número de seguimiento:</span>
+                <span className="tracking-value">#{orderNumber}</span>
               </div>
             </div>
+            
+            <div className={`order-status-container ${getStatusClass()}`}>
+              <div className="order-status-header">
+                <div className="status-icon">
+                  {orderStatus === 'processing' && <span>⚙️</span>}
+                  {orderStatus === 'preparing' && <span>👨‍🍳</span>}
+                  {orderStatus === 'ready' && <span>✅</span>}
+                </div>
+                <div className="order-status-text">{getStatusText()}</div>
+              </div>
+              
+              <div className="order-progress-bar-container">
+                <div className="order-progress-bar">
+                  <div 
+                    className="order-progress-fill"
+                    style={{ 
+                      width: orderStatus === 'processing' ? '33%' : 
+                             orderStatus === 'preparing' ? '66%' : '100%' 
+                    }}
+                  ></div>
+                </div>
+                
+                <div className="order-progress-labels">
+                  <div className={`progress-label ${orderStatus === 'processing' ? 'active' : (orderStatus === 'preparing' || orderStatus === 'ready') ? 'completed' : ''}`}>
+                    <div className="progress-dot"></div>
+                    <span>Procesando</span>
+                  </div>
+                  <div className={`progress-label ${orderStatus === 'preparing' ? 'active' : orderStatus === 'ready' ? 'completed' : ''}`}>
+                    <div className="progress-dot"></div>
+                    <span>Preparando</span>
+                  </div>
+                  <div className={`progress-label ${orderStatus === 'ready' ? 'active' : ''}`}>
+                    <div className="progress-dot"></div>
+                    <span>Listo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            <div className="order-status-info">
+
+                 
+              <p className="order-status-message">
+                {orderStatus === 'processing' && 'Tu pedido está siendo procesado. Pronto comenzará la preparación.'}
+                {orderStatus === 'preparing' && 'Tu pedido está siendo preparado por nuestro equipo.'}
+                {orderStatus === 'ready' && '¡Tu pedido está listo! Por favor retíralo en el mostrador.'}
+              </p>
+              
+              <p className="order-status-instruction">
+                <span className="instruction-icon">💡</span>
+                Puedes minimizar esta ventana. Te notificaremos cuando tu pedido esté listo.
+              </p>
+            </div>
           </div>
+        </div>
         )}
       </div>
     </div>

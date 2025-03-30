@@ -4,6 +4,7 @@ import IOSInstallPrompt from '../components/IOSInstallPrompt';
 import { isIOS, isInStandaloneMode } from '../utils/pwaUtils';
 import { dataService } from '../services/data.service';
 import '../styles/WelcomeScreen.css';
+import { API_CONFIG } from '../config/api.config';
 
 const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const WelcomeScreen: React.FC = () => {
             {/* Test link for QR code functionality - in a real app this would be scanned */}
             <button 
               className="qr-test-button"
-              onClick={() => navigate('/menu/51/1')}
+              onClick={() => navigate('/menu/' + API_CONFIG.COMPANY_ID + '/1')}
             >
               Probar Escaneo QR
             </button>

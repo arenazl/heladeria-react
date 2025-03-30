@@ -50,7 +50,7 @@
 }
 
 .payment-method-badge {
-  background-color: #22c55e;
+  background-color: #61862d;
   color: white;
   font-size: 14px;
   font-weight: 500;
@@ -107,34 +107,33 @@
   font-weight: 500;
 }
 
+.payment-processor-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
+  border-radius: 10px;
+  transition: width 0.2s ease;
+  position: relative;
+}
+
+.payment-processor-progress-complete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
+  animation: pulse 1.5s infinite;
+}
+
 .payment-processor-percentage {
   font-size: 16px;
-  color:  --primary-color;
+  color: var(--primary-color);
   font-weight: 600;
   margin: 0;
 }
 
-.payment-processor-info {
-  color: #666;
-  font-size: 14px;
-  text-align: center;
-  line-height: 1.5;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-.payment-processor-success {
-  margin-top: 20px;
-  animation: successFadeIn 0.5s ease;
-}
-
-@keyframes successFadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
 .payment-processor-success-icon {
-  background-color:--primary-color;
+  background-color: var(--primary-color);
   color: white;
   width: 50px;
   height: 50px;
@@ -147,6 +146,27 @@
   animation: checkmark 0.5s ease-in-out;
 }
 
+.payment-processor-complete {
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0 5px;
+}
+
+.payment-processor-info {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+@keyframes successFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 @keyframes checkmark {
   0% { transform: scale(0); }
   50% { transform: scale(1.2); }
@@ -154,7 +174,7 @@
 }
 
 .payment-processor-complete {
-  color: --primary-color;
+  color: var(--primary-color);
   font-size: 18px;
   font-weight: 600;
   margin: 10px 0 5px;

@@ -78,6 +78,7 @@ class ApiService {
     
     // Check for token in response headers (Authorization or jwt-token)
     if (response.headers) {
+
       // Try to get token from Authorization header
       if (response.headers['authorization']) {
         const authHeader = response.headers['authorization'];
@@ -86,6 +87,7 @@ class ApiService {
         // Extract token from "Bearer <token>" format if needed
         const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
         console.log('Saving token from Authorization header');
+
         loginService.saveToken(token);
       }
       // Fallback to jwt-token header

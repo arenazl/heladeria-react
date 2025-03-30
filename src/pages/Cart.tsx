@@ -58,21 +58,28 @@ const product = dataService.getProductById(productId);
   if (order.items.length === 0) {
     return (
       <div className="page-container">
-        <div className="section-container">
-          <h2 className="section-title">Tu carrito está vacío</h2>
-          <p style={{ textAlign: 'center', marginBottom: 'var(--spacing-large)' }}>Agrega productos a tu carrito para continuar</p>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button 
-              className="add-more-button"
-              onClick={handleAddMoreClick}
-            >
-              Agregar Productos
-            </button>
+        <div className="empty-cart-container">
+          <div className="empty-cart-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.5 7.67V6.7c0-2.25 1.81-4.46 4.06-4.67a4.5 4.5 0 0 1 4.94 4.48v1.38" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 22h6c4.02 0 4.74-1.61 4.95-3.57l.75-6C20.97 9.99 20.27 8 16 8H8c-4.27 0-4.97 1.99-4.7 4.43l.75 6C4.26 20.39 4.98 22 9 22Z" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <path opacity="0.4" d="M15.5 12h.01M8.5 12h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
+          <h2 className="empty-cart-title">Tu carrito está vacío</h2>
+          <p className="empty-cart-message">Parece que aún no has añadido productos a tu carrito</p>
+          <button 
+            className="browse-products-button"
+            onClick={handleAddMoreClick}
+          >
+            <span className="button-icon">+</span>
+            Explorar Productos
+          </button>
         </div>
       </div>
     );
   }
+
 
   return (
     <div className="page-container">

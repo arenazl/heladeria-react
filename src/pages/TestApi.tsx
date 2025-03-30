@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { loginService } from '../services/login.service';
 import { apiService } from '../services/api.service';
-import { API_CONFIG } from '../config/api.config';
 
 const TestApi: React.FC = () => {
   const [result, setResult] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [companyId, setCompanyId] = useState<string>(API_CONFIG.COMPANY_ID);
+  const [companyId, setCompanyId] = useState<string>('887');
   const [priceListId, setPriceListId] = useState<string>('1');
   const [companyData, setCompanyData] = useState<any>(null);
 

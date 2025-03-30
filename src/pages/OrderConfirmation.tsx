@@ -90,12 +90,17 @@ const OrderConfirmation: React.FC = () => {
             ))}
           </div>
           
+          <div className="order-total-container">
+          <div className="order-total-divider"></div>
           <div className="order-total-row">
             <div className="order-total-label">Total:</div>
-            <div className="order-total-amount">${order.total}</div>
+            <div className="order-total-amount">${order.total.toFixed(2)}</div>
           </div>
         </div>
-        
+
+        </div>
+
+      
         {recommendations.length > 0 && (
           <div className="recommendations-section">
             <h2>Productos Recomendados</h2>
