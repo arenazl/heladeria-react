@@ -18,6 +18,7 @@ import MenuLoader from './pages/MenuLoader';
 import QRCodePage from './pages/QRCodePage';
 import TestApi from './pages/TestApi';
 import './App.css';
+import { API_CONFIG } from './config/api.config';
 
 // Route guard component to check for existing customer
 const CustomerGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -78,7 +79,7 @@ const AnimatedRoutes = () => {
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
-          <Route path="/qr-example" element={<QRCodePage defaultCompanyId="887" defaultPriceListId="1" />} />
+          <Route path="/qr-example" element={<QRCodePage defaultCompanyId={API_CONFIG.COMPANY_ID} defaultPriceListId="1" />} />
           <Route path="/test-api" element={<TestApi />} />
         </Routes>
       </motion.main>

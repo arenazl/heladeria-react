@@ -1,3 +1,5 @@
+import { API_CONFIG } from '../config/api.config';
+
 /**
  * Generates a random estimated pickup time between 20-30 minutes from now
  * @returns Date object representing the estimated pickup time
@@ -84,7 +86,7 @@ export const sendNotification = (title: string, options?: NotificationOptions): 
   // Set default options for better mobile experience
   const defaultOptions: ExtendedNotificationOptions = {
               icon: '/logo192.png',
-    badge: '/logo192.png', // For Android
+    badge: API_CONFIG.COMPANY_ID, // For Android
     vibrate: [200, 100, 200], // Vibration pattern for mobile devices
     requireInteraction: true, // Keep notification until user interacts with it
     ...options
