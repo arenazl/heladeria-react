@@ -4,9 +4,12 @@
 
 [build.environment]
   CI = "false"
+  NPM_FLAGS = "--no-optional"
+  NODE_ENV = "development"
 
 # Handle client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+

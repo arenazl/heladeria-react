@@ -1,6 +1,7 @@
 webpack
 module.exports = {
   presets: [
+    "react-app",
     '@babel/preset-env',
     '@babel/preset-react',
     '@babel/preset-typescript',
@@ -10,3 +11,4 @@ module.exports = {
     '@babel/plugin-syntax-flow'
   ]
 };
+
