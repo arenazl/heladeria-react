@@ -71,7 +71,7 @@
 
 .payment-processor-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
+  background: linear-gradient(90deg, --primary-color, --primary-color,);
   border-radius: 10px;
   transition: width 0.2s ease;
   position: relative;
@@ -83,7 +83,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
+  background: linear-gradient(90deg,  --primary-color, --primary-color,);
   animation: pulse 1.5s infinite;
 }
 
@@ -109,7 +109,7 @@
 
 .payment-processor-percentage {
   font-size: 16px;
-  color: #22c55e;
+  color:  --primary-color;
   font-weight: 600;
   margin: 0;
 }
@@ -134,7 +134,7 @@
 }
 
 .payment-processor-success-icon {
-  background-color: #22c55e;
+  background-color:--primary-color;
   color: white;
   width: 50px;
   height: 50px;
@@ -154,7 +154,7 @@
 }
 
 .payment-processor-complete {
-  color: #22c55e;
+  color: --primary-color;
   font-size: 18px;
   font-weight: 600;
   margin: 10px 0 5px;
