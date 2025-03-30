@@ -17,7 +17,7 @@ module.exports = function(app) {
       onProxyRes: function(proxyRes, req, res) {
         // Log response for debugging
         console.log(`Proxy response from ${req.method} ${req.url}: ${proxyRes.statusCode}`);
-      },
+      },z
       logLevel: 'debug',
     })
   );

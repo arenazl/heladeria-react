@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import '../styles/QRCodePage.css';
+import { API_CONFIG } from '../config/api.config';
 
 interface QRCodePageProps {
   defaultCompanyId?: string;
@@ -8,7 +9,7 @@ interface QRCodePageProps {
 }
 
 const QRCodePage: React.FC<QRCodePageProps> = ({ 
-  defaultCompanyId = '51', 
+  defaultCompanyId = API_CONFIG.COMPANY_ID, 
   defaultPriceListId = '1' 
 }) => {
   const [companyId, setCompanyId] = useState<string>(defaultCompanyId);

@@ -199,8 +199,6 @@ export const scheduleNotification = (
     sendNotification(title, options);
     return 0;
   }
-  
-  // Schedule the notification
   return window.setTimeout(() => {
     sendNotification(title, options);
   }, timeUntilNotification);
