@@ -80,8 +80,8 @@ class LoginService {
   async validateUserAndGetCompanies() {
     try {
       // Hardcoded credentials as requested
-      const emailUser = "elias@nucleo.com.ar";
-      const password = "admin1234";
+      const emailUser = "lucas@nucleo.com.ar";
+      const password = "123";
       const companyId = 0;
       
       // Build the JSON body
