@@ -64,7 +64,7 @@ const WelcomeScreen: React.FC = () => {
             {/* Test link for QR code functionality - in a real app this would be scanned */}
             <button 
               className="qr-test-button"
-              onClick={() => navigate('/menu/887/1')}
+              onClick={() => navigate('/menu/51/1')}
             >
               Probar Escaneo QR
             </button>

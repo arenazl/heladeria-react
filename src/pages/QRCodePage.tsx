@@ -8,7 +8,7 @@ interface QRCodePageProps {
 }
 
 const QRCodePage: React.FC<QRCodePageProps> = ({ 
-  defaultCompanyId = '887', 
+  defaultCompanyId = '51', 
   defaultPriceListId = '1' 
 }) => {
   const [companyId, setCompanyId] = useState<string>(defaultCompanyId);

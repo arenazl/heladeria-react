@@ -5,7 +5,7 @@ import { apiService } from '../services/api.service';
 const TestApi: React.FC = () => {
   const [result, setResult] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [companyId, setCompanyId] = useState<string>('887');
+  const [companyId, setCompanyId] = useState<string>('51');
   const [priceListId, setPriceListId] = useState<string>('1');
   const [companyData, setCompanyData] = useState<any>(null);
 
