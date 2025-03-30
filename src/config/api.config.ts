@@ -4,7 +4,7 @@ export const API_CONFIG = {
   USE_MOCK_DATA: false, // Set to false to use the real API through the proxy
   
   // API URL and endpoints
-  BASE_URL: '/api', // This will be proxied to 
+  BASE_URL: 'https://api-qa.nucleocheck.com', // This will be proxied to 
 
   ENDPOINTS: {
     MENU: 'menu' // The endpoint will be BASE_URL/menu/{companyId}/{priceListId}
