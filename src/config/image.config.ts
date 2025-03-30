@@ -1,1 +1,2 @@
-export const IMAGE_BASE_URL = "https://nucleocheckprod.blob.core.windows.net/images/Pruebas - Núcleo IT/products/";
+
+export const IMAGE_BASE_URL = "https://nucleocheckqa.blob.core.windows.net/images/Test Mayo/products/";
