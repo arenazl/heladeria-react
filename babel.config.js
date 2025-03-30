@@ -1,10 +1,7 @@
 webpack
 module.exports = {
   presets: [
-    "react-app",
-    '@babel/preset-env',
-    '@babel/preset-react',
-    '@babel/preset-typescript',
+    'react-app',
     '@babel/preset-flow'
   ],
   plugins: [
@@ -12,3 +9,6 @@ module.exports = {
   ]
 };
 
+ignore: [
+  "**/node_modules/@react-native/**"
+]
