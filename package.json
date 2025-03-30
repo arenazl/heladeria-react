@@ -42,14 +42,13 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-
- "scripts": {
-  "start": "craco start",
-  "build": "craco build",
-  "test": "craco test",
-  "eject": "react-scripts eject"
-},
-
+  "scripts": {
+    "start": "craco start",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "prebuild": "node scripts/fix-react-native.js",
+    "build": "craco build"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
