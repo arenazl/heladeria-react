@@ -156,8 +156,8 @@
   transform: scale(1.05);
 }
 
-/* Install Button */
-.header-install-button {
+/* Settings Button */
+.header-settings-button {
   background: none;
   border: none;
   color: var(--text-light);
@@ -172,16 +172,16 @@
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.header-install-button:hover {
+.header-settings-button:hover {
   background-color: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
 }
 
-.header-install-button:active {
+.header-settings-button:active {
   transform: scale(0.95);
 }
 
-.install-icon {
+.settings-icon {
   width: 24px;
   height: 24px;
   color: var(--text-light);

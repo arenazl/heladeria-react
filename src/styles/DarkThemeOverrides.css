@@ -1,0 +1,684 @@
+/* Estilos adicionales para el tema oscuro */
+[data-theme="dark"] body,
+[data-theme="dark"] .app {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+/* Ajustes para tarjetas de productos - fondo oscuro y letras blancas */
+[data-theme="dark"] .product-card,
+[data-theme="dark"] .cart-item,
+[data-theme="dark"] .order-item,
+[data-theme="dark"] .product-detail-card {
+  background-color: #1e2a38;
+  border: 1px solid #444444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .product-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Colores de texto en tarjetas de productos */
+[data-theme="dark"] .product-card .product-name,
+[data-theme="dark"] .product-card .product-price,
+[data-theme="dark"] .product-card h1, 
+[data-theme="dark"] .product-card h2, 
+[data-theme="dark"] .product-card h3,
+[data-theme="dark"] .product-detail-card h1,
+[data-theme="dark"] .product-detail-card h2,
+[data-theme="dark"] .product-detail-card h3,
+[data-theme="dark"] .product-detail-card .product-name,
+[data-theme="dark"] .product-detail-card .product-price {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .product-card .product-description,
+[data-theme="dark"] .product-card p,
+[data-theme="dark"] .product-detail-card .product-description,
+[data-theme="dark"] .product-detail-card p {
+  color: #cccccc;
+}
+
+/* Invertir colores para botones de acción en tarjetas de productos */
+[data-theme="dark"] .product-card button,
+[data-theme="dark"] .product-detail-card button,
+[data-theme="dark"] .product-card .add-button,
+[data-theme="dark"] .product-card .quantity-button,
+[data-theme="dark"] .product-card .action-button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="dark"] .product-card button svg,
+[data-theme="dark"] .product-detail-card button svg,
+[data-theme="dark"] .product-card .add-button svg,
+[data-theme="dark"] .product-card .quantity-button svg,
+[data-theme="dark"] .product-card .action-button svg {
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .product-card button:hover,
+[data-theme="dark"] .product-detail-card button:hover,
+[data-theme="dark"] .product-card .add-button:hover,
+[data-theme="dark"] .product-card .quantity-button:hover,
+[data-theme="dark"] .product-card .action-button:hover {
+  background-color: #2c3e50;
+}
+
+/* Ajustes para textos - excepto en tarjetas de productos */
+[data-theme="dark"] .product-name:not(.product-card .product-name):not(.product-item .product-name),
+[data-theme="dark"] .product-price:not(.product-card .product-price):not(.product-item .product-price),
+[data-theme="dark"] .cart-total,
+[data-theme="dark"] h1:not(.product-card h1):not(.product-item h1), 
+[data-theme="dark"] h2:not(.product-card h2):not(.product-item h2), 
+[data-theme="dark"] h3:not(.product-card h3):not(.product-item h3) {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .product-description:not(.product-card .product-description):not(.product-item .product-description),
+[data-theme="dark"] .cart-item-description,
+[data-theme="dark"] p:not(.product-card p):not(.product-item p) {
+  color: #cccccc;
+}
+
+/* Ajustes para botones */
+[data-theme="dark"] .button,
+[data-theme="dark"] button:not(.header-settings-button):not(.header-back-button) {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+[data-theme="dark"] .button:hover,
+[data-theme="dark"] button:not(.header-settings-button):not(.header-back-button):hover {
+  background-color: #2c3e50;
+}
+
+/* Ajustes para inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #999999;
+}
+
+/* Ajustes para barras de navegación y tabs */
+[data-theme="dark"] .nav-tab,
+[data-theme="dark"] .category-bar,
+[data-theme="dark"] .subcategory-bar {
+  background-color: #333333;
+  border-color: #444444;
+}
+
+/* Estilos para categorías y subcategorías */
+[data-theme="dark"] .category-item {
+  background-color: #ffffff;
+  color: #1e2a38;
+  border: 1px solid #dddddd;
+}
+
+[data-theme="dark"] .category-icon {
+  background-color: #f5f5f5;
+}
+
+[data-theme="dark"] .category-icon svg {
+  stroke: #1e2a38;
+  fill: #1e2a38;
+}
+
+[data-theme="dark"] .category-name {
+  color: #1e2a38;
+}
+
+[data-theme="dark"] .subcategory-item {
+  background-color: #ffffff;
+  color: #1e2a38;
+  border: 1px solid #dddddd;
+}
+
+[data-theme="dark"] .subcategory-name {
+  color: #1e2a38;
+}
+
+[data-theme="dark"] .nav-tab.active,
+[data-theme="dark"] .category-item.active,
+[data-theme="dark"] .subcategory-item.active {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border-color: #1e2a38;
+}
+
+[data-theme="dark"] .category-item.active .category-name,
+[data-theme="dark"] .subcategory-item.active .subcategory-name {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .category-item.active .category-icon svg {
+  stroke: #ffffff;
+  fill: #ffffff;
+}
+
+/* Botones de navegación y filtros */
+[data-theme="dark"] .filter-button,
+[data-theme="dark"] .tab-button,
+[data-theme="dark"] .nav-button,
+[data-theme="dark"] button[class*="filter"],
+[data-theme="dark"] button[class*="tab"],
+[data-theme="dark"] .todos-button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+[data-theme="dark"] .filter-button svg,
+[data-theme="dark"] .tab-button svg,
+[data-theme="dark"] .nav-button svg,
+[data-theme="dark"] button[class*="filter"] svg,
+[data-theme="dark"] button[class*="tab"] svg,
+[data-theme="dark"] .todos-button svg,
+[data-theme="dark"] .category-item svg {
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .filter-button:hover,
+[data-theme="dark"] .tab-button:hover,
+[data-theme="dark"] .nav-button:hover,
+[data-theme="dark"] button[class*="filter"]:hover,
+[data-theme="dark"] button[class*="tab"]:hover,
+[data-theme="dark"] .todos-button:hover,
+[data-theme="dark"] .category-item:hover {
+  background-color: #2c3e50;
+}
+
+[data-theme="dark"] .filter-button.active,
+[data-theme="dark"] .tab-button.active,
+[data-theme="dark"] .nav-button.active,
+[data-theme="dark"] button[class*="filter"].active,
+[data-theme="dark"] button[class*="tab"].active,
+[data-theme="dark"] .todos-button.active,
+[data-theme="dark"] .category-item.active {
+  background-color: #2c3e50;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+/* Estilos específicos para la barra de navegación inferior */
+[data-theme="dark"] .bottom-nav,
+[data-theme="dark"] .filter-bar,
+[data-theme="dark"] .tab-bar {
+  background-color: #1e2a38;
+  border-top: 1px solid #444444;
+}
+
+/* Ajustes para fondos de página */
+[data-theme="dark"] .page-container,
+[data-theme="dark"] .section-container {
+  background-color: #2a2a2a;
+}
+
+/* Ajustes para iconos */
+[data-theme="dark"] svg {
+  fill: currentColor;
+  color: #ffffff;
+}
+
+/* Ajustes para el footer */
+[data-theme="dark"] .app-footer {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border-top: 1px solid #444444;
+}
+
+/* Ajustes para modales y diálogos */
+[data-theme="dark"] .modal,
+[data-theme="dark"] .dialog {
+  background-color: #333333;
+  border: 1px solid #444444;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes para divisores */
+[data-theme="dark"] hr,
+[data-theme="dark"] .divider {
+  border-color: #444444;
+}
+
+/* Ajustes para imágenes */
+[data-theme="dark"] img {
+  filter: brightness(0.9);
+}
+
+/* Ajustes para el fondo de la página de productos */
+[data-theme="dark"] .product-browsing-container,
+[data-theme="dark"] .product-listing-container,
+[data-theme="dark"] .product-grid,
+[data-theme="dark"] .product-list {
+  background-color: #2a2a2a;
+}
+
+/* Títulos de categoría y subcategoría */
+[data-theme="dark"] .category-title,
+[data-theme="dark"] .subcategory-title,
+[data-theme="dark"] .category-section h1,
+[data-theme="dark"] .subcategory-section h2 {
+  color: #ffffff;
+}
+
+/* Colores para tarjetas de productos en la página de listado */
+[data-theme="dark"] .product-item,
+[data-theme="dark"] .product-listing-item,
+[data-theme="dark"] .product-grid-item,
+[data-theme="dark"] .product-list-item {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .product-item .product-name,
+[data-theme="dark"] .product-listing-item .product-name,
+[data-theme="dark"] .product-grid-item .product-name,
+[data-theme="dark"] .product-list-item .product-name,
+[data-theme="dark"] .product-item .product-price,
+[data-theme="dark"] .product-listing-item .product-price,
+[data-theme="dark"] .product-grid-item .product-price,
+[data-theme="dark"] .product-list-item .product-price,
+[data-theme="dark"] .product-item h3,
+[data-theme="dark"] .product-listing-item h3,
+[data-theme="dark"] .product-grid-item h3,
+[data-theme="dark"] .product-list-item h3 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .product-item .product-description,
+[data-theme="dark"] .product-listing-item .product-description,
+[data-theme="dark"] .product-grid-item .product-description,
+[data-theme="dark"] .product-list-item .product-description,
+[data-theme="dark"] .product-item p,
+[data-theme="dark"] .product-listing-item p,
+[data-theme="dark"] .product-grid-item p,
+[data-theme="dark"] .product-list-item p {
+  color: #cccccc;
+}
+
+/* Botones en tarjetas de productos */
+[data-theme="dark"] .product-item button,
+[data-theme="dark"] .product-listing-item button,
+[data-theme="dark"] .product-grid-item button,
+[data-theme="dark"] .product-list-item button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="dark"] .product-item button svg,
+[data-theme="dark"] .product-listing-item button svg,
+[data-theme="dark"] .product-grid-item button svg,
+[data-theme="dark"] .product-list-item button svg {
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+/* Ajustes para el carrito */
+[data-theme="dark"] .cart-container,
+[data-theme="dark"] .order-container {
+  background-color: #2a2a2a;
+}
+
+/* Colores para elementos del carrito/pedido */
+[data-theme="dark"] .cart-item,
+[data-theme="dark"] .order-item,
+[data-theme="dark"] .cart-list-item,
+[data-theme="dark"] .order-list-item,
+[data-theme="dark"] .cart-summary,
+[data-theme="dark"] .order-summary {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .cart-item h3,
+[data-theme="dark"] .order-item h3,
+[data-theme="dark"] .cart-item .item-name,
+[data-theme="dark"] .order-item .item-name,
+[data-theme="dark"] .cart-item .item-price,
+[data-theme="dark"] .order-item .item-price,
+[data-theme="dark"] .cart-item .item-quantity,
+[data-theme="dark"] .order-item .item-quantity {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .cart-item p,
+[data-theme="dark"] .order-item p,
+[data-theme="dark"] .cart-item .item-description,
+[data-theme="dark"] .order-item .item-description {
+  color: #cccccc;
+}
+
+/* Botones de cantidad en el carrito */
+[data-theme="dark"] .cart-item button,
+[data-theme="dark"] .order-item button,
+[data-theme="dark"] .quantity-control button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="dark"] .cart-item button svg,
+[data-theme="dark"] .order-item button svg,
+[data-theme="dark"] .quantity-control button svg {
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+/* Título del pedido */
+[data-theme="dark"] .order-title,
+[data-theme="dark"] .cart-title {
+  color: #ffffff;
+}
+
+/* Ajustes para la página de configuración */
+[data-theme="dark"] .settings-container {
+  background-color: #2a2a2a;
+}
+
+[data-theme="dark"] .settings-section {
+  background-color: #333333;
+}
+
+[data-theme="dark"] .theme-option {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+[data-theme="dark"] .theme-name {
+  color: #ffffff;
+}
+
+/* Ajustes para la página de selección de pago */
+[data-theme="dark"] .payment-order-summary,
+[data-theme="dark"] .payment-methods-container {
+  background-color: #1e2a38;
+  border: 1px solid #444444;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .payment-order-summary h3,
+[data-theme="dark"] .payment-methods-container h3 {
+  color: #ffffff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .payment-item-name {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .payment-item-description {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .payment-total {
+  background-color: #2c3e50;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .payment-total-label {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .payment-total-amount {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .payment-method-card {
+  background-color: #2c3e50;
+  border: 2px solid #444444;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .payment-method-card:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .payment-method-card.selected {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .payment-method-name {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .payment-method-card.selected .payment-method-name {
+  color: #ffffff;
+}
+
+/* Ajustes para la página de éxito de pago */
+[data-theme="dark"] .success-content h2 {
+  color: #4caf50;
+}
+
+[data-theme="dark"] .success-content p {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .order-details, 
+[data-theme="dark"] .order-items {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+[data-theme="dark"] .order-details h3, 
+[data-theme="dark"] .order-items h3 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .order-item {
+  border-bottom: 1px solid #444444;
+}
+
+[data-theme="dark"] .order-total {
+  border-top: 2px solid #444444;
+}
+
+[data-theme="dark"] .order-status-container {
+  background-color: #1e2a38;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .status-icon {
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .order-progress-bar {
+  background-color: #444444;
+}
+
+[data-theme="dark"] .progress-dot {
+  background-color: #444444;
+  border: 2px solid #2a2a2a;
+}
+
+[data-theme="dark"] .progress-label span {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .progress-label.active span {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .progress-label.completed .progress-dot {
+  background-color: #4caf50;
+}
+
+[data-theme="dark"] .progress-label.active .progress-dot {
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+  background-color: #4caf50;
+}
+
+[data-theme="dark"] .progress-label.completed span {
+  color: #4caf50;
+}
+
+[data-theme="dark"] .new-order-button {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .new-order-button:hover {
+  background-color: #388e3c;
+}
+
+/* Ajustes para la página de detalles del producto */
+[data-theme="dark"] .product-detail-container {
+  background-color: #2a2a2a;
+}
+
+/* Colores para la página de detalle del producto */
+[data-theme="dark"] .product-detail-wrapper,
+[data-theme="dark"] .product-detail-content,
+[data-theme="dark"] .product-detail-info,
+[data-theme="dark"] .product-detail-card,
+[data-theme="dark"] .product-detail-box {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .product-detail-wrapper h1,
+[data-theme="dark"] .product-detail-wrapper h2,
+[data-theme="dark"] .product-detail-wrapper h3,
+[data-theme="dark"] .product-detail-wrapper .product-name,
+[data-theme="dark"] .product-detail-wrapper .product-price,
+[data-theme="dark"] .product-detail-content h1,
+[data-theme="dark"] .product-detail-content h2,
+[data-theme="dark"] .product-detail-content h3,
+[data-theme="dark"] .product-detail-content .product-name,
+[data-theme="dark"] .product-detail-content .product-price {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .product-detail-wrapper p,
+[data-theme="dark"] .product-detail-wrapper .product-description,
+[data-theme="dark"] .product-detail-content p,
+[data-theme="dark"] .product-detail-content .product-description {
+  color: #cccccc;
+}
+
+/* Botones en la página de detalle */
+[data-theme="dark"] .product-detail-wrapper button,
+[data-theme="dark"] .product-detail-content button,
+[data-theme="dark"] .product-detail-actions button,
+[data-theme="dark"] .product-detail-quantity button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="dark"] .product-detail-wrapper button svg,
+[data-theme="dark"] .product-detail-content button svg,
+[data-theme="dark"] .product-detail-actions button svg,
+[data-theme="dark"] .product-detail-quantity button svg {
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+/* Secciones de precio en detalle de producto */
+[data-theme="dark"] .product-price-section,
+[data-theme="dark"] .product-detail-price,
+[data-theme="dark"] .price-container {
+  background-color: #2c3e50;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+/* Ajustes para la página de confirmación de pedido */
+[data-theme="dark"] .order-confirmation-container {
+  background-color: #2a2a2a;
+}
+
+/* Colores para la sección de productos recomendados */
+[data-theme="dark"] .recommended-products,
+[data-theme="dark"] .recommended-section,
+[data-theme="dark"] .related-products,
+[data-theme="dark"] .product-recommendations {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .recommended-products h2,
+[data-theme="dark"] .recommended-section h2,
+[data-theme="dark"] .related-products h2,
+[data-theme="dark"] .product-recommendations h2 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .recommended-product-card,
+[data-theme="dark"] .recommended-item,
+[data-theme="dark"] .related-product-card,
+[data-theme="dark"] .recommendation-card {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #444444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .recommended-product-card h3,
+[data-theme="dark"] .recommended-item h3,
+[data-theme="dark"] .related-product-card h3,
+[data-theme="dark"] .recommendation-card h3,
+[data-theme="dark"] .recommended-product-card .product-name,
+[data-theme="dark"] .recommended-item .product-name,
+[data-theme="dark"] .related-product-card .product-name,
+[data-theme="dark"] .recommendation-card .product-name,
+[data-theme="dark"] .recommended-product-card .product-price,
+[data-theme="dark"] .recommended-item .product-price,
+[data-theme="dark"] .related-product-card .product-price,
+[data-theme="dark"] .recommendation-card .product-price {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .recommended-product-card p,
+[data-theme="dark"] .recommended-item p,
+[data-theme="dark"] .related-product-card p,
+[data-theme="dark"] .recommendation-card p,
+[data-theme="dark"] .recommended-product-card .product-description,
+[data-theme="dark"] .recommended-item .product-description,
+[data-theme="dark"] .related-product-card .product-description,
+[data-theme="dark"] .recommendation-card .product-description {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .recommended-product-card button,
+[data-theme="dark"] .recommended-item button,
+[data-theme="dark"] .related-product-card button,
+[data-theme="dark"] .recommendation-card button {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="dark"] .recommended-product-card button svg,
+[data-theme="dark"] .recommended-item button svg,
+[data-theme="dark"] .related-product-card button svg,
+[data-theme="dark"] .recommendation-card button svg {
+  fill: #ffffff;
+  color: #ffffff;
+}

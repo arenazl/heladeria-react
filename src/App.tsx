@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'reac
 import { AnimatePresence, motion } from 'framer-motion';
 import { OrderProvider } from './context/OrderContext';
 import { useOrder } from './context/OrderContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -22,6 +23,7 @@ import OrderReady from './pages/OrderReady';
 import MenuLoader from './pages/MenuLoader';
 import QRCodePage from './pages/QRCodePage';
 import TestApi from './pages/TestApi';
+import Settings from './pages/Settings';
 import './App.css';
 import { API_CONFIG } from './config/api.config';
 
@@ -88,6 +90,7 @@ const AnimatedRoutes = () => {
           <Route path="/qr" element={<QRCodePage />} />
           <Route path="/qr-example" element={<QRCodePage defaultCompanyId={API_CONFIG.COMPANY_ID} defaultPriceListId="1" />} />
           <Route path="/test-api" element={<TestApi />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </motion.main>
     </AnimatePresence>
@@ -114,18 +117,20 @@ function App() {
   }, []);
 
   return (
-    <OrderProvider>
-      <Router>
-        <div className="app">
-          <ScrollToTopOnMount />
-          {/* Only show header when data is loaded */}
-          {isDataLoaded && <Header />}
-          <AnimatedRoutes />
-          <Footer />
-          <ScrollToTop />
-        </div>
-      </Router>
-    </OrderProvider>
+    <ThemeProvider>
+      <OrderProvider>
+        <Router>
+          <div className="app">
+            <ScrollToTopOnMount />
+            {/* Only show header when data is loaded */}
+            {isDataLoaded && <Header />}
+            <AnimatedRoutes />
+            <Footer />
+            <ScrollToTop />
+          </div>
+        </Router>
+      </OrderProvider>
+    </ThemeProvider>
   );
 }
 
