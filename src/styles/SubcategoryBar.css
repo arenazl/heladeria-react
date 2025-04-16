@@ -1,25 +1,33 @@
 .subcategory-bar {
   display: flex;
   overflow-x: auto;
-  background-color: #f8f8f8;
-  padding: 10px 15px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 36%);
-  white-space: nowrap;
+  background-color: #f8f9fa;
+  padding: 8px 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.subcategory-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .subcategory-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 8px;
-  padding: 8px 16px;
+  margin: 0 5px;
+  padding: 6px 12px;
   cursor: pointer;
   border-radius: 20px;
   background-color: white;
   transition: all 0.2s;
-  border: 1px solid #eaeaea;
-  gap: 8px;
+  border: 1px solid #e0e0e0;
+  gap: 6px;
+  min-width: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .subcategory-icon {
@@ -36,29 +44,38 @@
 .subcategory-item.active {
   background: var(--primary-color);
   color: white;
-  font-weight: bold;
+  font-weight: 500;
   border-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(97, 134, 45, 0.3);
 }
 
 .subcategory-name {
-  font-size: 0.9rem;
-  text-transform: lowercase;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  text-align: center;
+  letter-spacing: -0.2px;
 }
 
 /* For mobile devices */
 @media (max-width: 768px) {
   .subcategory-bar {
     top: 141px; /* Position below the header (50px) + category bar (62px) on mobile */
-    padding: 8px 10px;
+    padding: 6px 8px;
   }
   
   .subcategory-item {
-    padding: 6px 12px;
-    margin: 0 5px;
+    padding: 5px 10px;
+    margin: 0 4px;
     font-size: 0.8rem;
   }
   
   .subcategory-name {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    max-width: 80px;
+    font-weight: 400;
   }
 }

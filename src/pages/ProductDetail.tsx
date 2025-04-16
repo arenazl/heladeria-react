@@ -12,6 +12,7 @@ const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const { order, addToOrder } = useOrder();
   const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [showRecommendations, setShowRecommendations] = useState<boolean>(true);
   
   const productIdNumber = productId ? parseInt(productId, 10) : 0;
   const product = dataService.getProductById(productIdNumber);
@@ -40,8 +41,17 @@ const relatedProducts = dataService.getRelatedProducts(product.id, excludedProdu
     }
   }, [product]);
 
-  if (!product) {
+  // Verificar si se está refrescando la página
+  const isRefreshing = sessionStorage.getItem('isRefreshing') === 'true';
+  
+  // Si no hay producto y no se está refrescando, mostrar mensaje de error
+  if (!product && !isRefreshing) {
     return <div className="error-message">Producto no encontrado</div>;
+  }
+  
+  // Si se está refrescando o no hay producto, no mostrar nada
+  if (!product) {
+    return null;
   }
 
   return (

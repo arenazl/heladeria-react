@@ -1,13 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { dataService } from '../services/data.service';
+import RecommendedProducts from '../components/RecommendedProducts';
 import '../styles/Cart.css';
 import { IMAGE_BASE_URL } from '../config/image.config';
+import { Product } from '../models/types';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { order, updateQuantity, removeFromOrder } = useOrder();
+  const [recommendedProducts, setRecommendedProducts] = useState<any[]>([]);
+  const [showRecommendations, setShowRecommendations] = useState<boolean>(true);
+  const cartRef = useRef<HTMLDivElement>(null);
+  
+  // Función para verificar si hay 3 o menos productos en el carrito
+  const checkCartItemCount = () => {
+    const itemCount = order.items.length;
+    setShowRecommendations(itemCount <= 4);
+  };
+  
+  // Cargar productos recomendados
+  useEffect(() => {
+    // Obtener productos recomendados
+    const cartProductIds = order.items.map(item => item.productId);
+    
+    // Si hay productos en el carrito, obtener productos relacionados al primer producto
+    if (cartProductIds.length > 0) {
+      const relatedProducts = dataService.getRelatedProducts(cartProductIds[0], cartProductIds);
+      setRecommendedProducts(relatedProducts.slice(0, 5));
+    } else {
+      // Si no hay productos en el carrito, obtener todos los productos de todas las categorías
+      const allProducts: Product[] = [];
+      const categories = dataService.getCategories();
+      
+      categories.forEach(category => {
+        const subcategories = dataService.getSubcategoriesByCategoryId(category.id);
+        subcategories.forEach(subcategory => {
+          const products = dataService.getProductsBySubcategoryId(subcategory.id);
+          allProducts.push(...products);
+        });
+      });
+      
+      // Tomar hasta 5 productos aleatorios
+      const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+      setRecommendedProducts(shuffled.slice(0, 5));
+    }
+    
+    // Verificar el número de items en el carrito inicialmente
+    setTimeout(checkCartItemCount, 100);
+    
+    // Agregar event listener para resize
+    window.addEventListener('resize', checkCartItemCount);
+    
+    return () => {
+      window.removeEventListener('resize', checkCartItemCount);
+    };
+  }, [order.items]);
+  
+  // Verificar el número de items en el carrito cuando cambia
+  useEffect(() => {
+    checkCartItemCount();
+  }, [order.items.length]);
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -15,10 +69,6 @@ const Cart: React.FC = () => {
     } else {
       updateQuantity(productId, newQuantity);
     }
-  };
-
-  const handleContinueClick = () => {
-    navigate('/payment');
   };
 
   const handleAddMoreClick = () => {
@@ -53,22 +103,19 @@ const Cart: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="section-container">
+      <div className="section-container" ref={cartRef}>
         <div className="cart-card">
-
             <h3 className="recommendations-title">Pedido</h3>
-
-
           <div className="cart-items">
             {order.items.map((item) => (
               <div key={item.productId} className="cart-item">
                 <div className="cart-item-image-container">
-<img src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `${IMAGE_BASE_URL}${item.product.image}`) : ''} alt={item.product.name} className="cart-item-image" />
+                  <img src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `${IMAGE_BASE_URL}${item.product.image}`) : ''} alt={item.product.name} className="cart-item-image" />
                 </div>
                 
                 <div className="cart-item-content">
                   <div className="cart-item-details">
-<div className="cart-item-info">
+                    <div className="cart-item-info">
                       <h3 className="cart-item-name">{item.product.name}</h3>
                       {
                         item.product.description ? (
@@ -118,16 +165,18 @@ const Cart: React.FC = () => {
           </div>
         </div>
         
-        
-        <div className="cart-summary">
-          <div className="cart-total">
-            <span>Total:</span>
-            <span>$ {order.total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-          </div>
-          
-
-        </div>
       </div>
+
+              {/* Productos recomendados con animación */}
+              <div className={`recommended-products-container ${showRecommendations ? 'show' : 'hide'}`}>
+          {recommendedProducts.length > 0 && (
+            <RecommendedProducts 
+              title="Productos Recomendados" 
+              products={recommendedProducts} 
+            />
+          )}
+        </div>
+
     </div>
   );
 };

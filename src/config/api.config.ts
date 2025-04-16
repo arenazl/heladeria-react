@@ -8,7 +8,7 @@ export const API_CONFIG =
   COMPANY_ID: '3',
   PARTNER: {
     ID: 9,
-    NAME: 'Heladeria',
+    NAME: '',
     INTEGRATION_CODE: '999999'
   },
   MERCADO_PAGO: {

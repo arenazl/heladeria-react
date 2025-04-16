@@ -211,7 +211,7 @@ const PaymentSuccess: React.FC = () => {
     }
   }, [dataRestored, order]);
 
-  // Configurar los eventos de SignalR
+  // Configurar los eventos de SignalR y el simulador de cambio de estado
   useEffect(() => {
     // Asegurarse de que SignalR esté conectado
     signalRService.start();
@@ -260,15 +260,65 @@ const PaymentSuccess: React.FC = () => {
       }
     });
 
-    // Limpiar los listeners cuando el componente se desmonte
+    // Simulador de cambio de estado automático cada 10 segundos
+    const simulateStatusChange = () => {
+      setOrderStatus(currentStatus => {
+        switch (currentStatus) {
+          case 'processing':
+            console.log('Simulando cambio de estado: processing -> preparing');
+            // Enviar notificación si está permitido
+            if (notificationPermission === 'granted') {
+              sendNotification(
+                'Tu pedido está siendo preparado',
+                {
+                  body: `Tu pedido #${orderNumber} está siendo preparado por el restaurante.`,
+                  icon: '/logo192.png',
+                  requireInteraction: true
+                }
+              );
+            }
+            return 'preparing';
+          case 'preparing':
+            console.log('Simulando cambio de estado: preparing -> ready');
+            // Enviar notificación si está permitido
+            if (notificationPermission === 'granted') {
+              sendNotification(
+                '¡Tu pedido está listo!',
+                {
+                  body: `Tu pedido #${orderNumber} está listo para retirar.`,
+                  icon: '/logo192.png',
+                  requireInteraction: true
+                }
+              );
+            }
+            return 'ready';
+          default:
+            return currentStatus;
+        }
+      });
+    };
+
+    // Configurar el temporizador para simular cambios de estado cada 10 segundos
+    const statusTimer = setInterval(() => {
+      simulateStatusChange();
+    }, 10000); // 10 segundos
+
+    // Limpiar los listeners y el temporizador cuando el componente se desmonte
     return () => {
       signalRService.off('partnerOrderUpdated');
+      clearInterval(statusTimer);
     };
   }, [orderNumber, notificationPermission]);
 
   const handleNewOrder = () => {
     clearOrder();
-    navigate('/');
+    
+    // Verificar si hay un companyId y priceListId en sessionStorage
+    const companyId = sessionStorage.getItem('companyId') || '1';
+    const priceListId = sessionStorage.getItem('priceListId') || '1';
+    
+    // Redirigir a la página de menú
+    navigate('/menu/' + companyId + '/' + priceListId);
   };
 
   const getStatusText = (): string => {

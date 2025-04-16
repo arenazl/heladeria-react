@@ -54,7 +54,6 @@
   height: auto;
   border-radius: 8px;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-  opacity: 0.8;
   transition: opacity 0.3s, transform 0.3s;
 }
 
@@ -157,6 +156,37 @@
   transform: scale(1.05);
 }
 
+/* Install Button */
+.header-install-button {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: var(--spacing-small);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-circle);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.header-install-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.header-install-button:active {
+  transform: scale(0.95);
+}
+
+.install-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-light);
+}
+
 @media (max-width: 768px) {
   .app-header {
     height: 50px;
@@ -168,5 +198,16 @@
   
   .header-back-button {
     font-size: 1.2rem;
+  }
+  
+  .header-install-button {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+  }
+  
+  .install-icon {
+    width: 20px;
+    height: 20px;
   }
 }

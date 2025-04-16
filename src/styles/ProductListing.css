@@ -59,6 +59,12 @@
   font-size: 1.2rem;
   color: var(--text-dark);
   margin: 0 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 24px;
+  max-height: 24px;
+  line-height: 1.2;
 }
 
 .product-description {
@@ -131,7 +137,8 @@
 @media (max-width: 768px) {
   .product-listing {
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 0;
+    padding-top: 0;
     /* padding-top removed as requested */
   }
   
@@ -156,6 +163,12 @@
   .product-title {
     font-size: 1rem;
     margin-bottom: 5px;
+    min-height: 20px;
+    max-height: 20px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .product-description {

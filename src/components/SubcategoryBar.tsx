@@ -127,7 +127,7 @@ const SubcategoryBar: React.FC<SubcategoryBarProps> = ({
         <span className="subcategory-icon">
           {getSubcategoryIcon(0, selectedSubcategoryId === null)}
         </span>
-        <span className="subcategory-name">Todos</span>
+        <span className="subcategory-name">todos</span>
       </div>
       
       {subcategories.map((subcategory) => {

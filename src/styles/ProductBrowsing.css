@@ -61,7 +61,7 @@ html {
 
 /* When category bar is visible */
 .product-content.with-category {
-  padding-top: 110px; /* Header (60px) + category bar (50px) */
+  padding-top: 140px; /* Header (60px) + category bar (50px) + space for subcategory bar (30px) */
 }
 
 /* When both category and subcategory bars are visible */
@@ -100,7 +100,7 @@ html {
   
   /* When category bar is visible on mobile */
   .product-content.with-category {
-    padding-top: 90px; /* Header (50px) + category bar (40px) */
+    padding-top: 120px; /* Header (50px) + category bar (40px) + space for subcategory bar (30px) */
   }
   
   /* When both category and subcategory bars are visible on mobile */

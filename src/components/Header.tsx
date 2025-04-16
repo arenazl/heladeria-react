@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 import { dataService } from '../services/data.service';
+import { isInStandaloneMode } from '../utils/pwaUtils';
+import IOSInstallPrompt from './IOSInstallPrompt';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ const Header: React.FC = () => {
   const [companyName, setCompanyName] = useState<string>('');
   const [countryName, setCountryName] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [showPWAButton, setShowPWAButton] = useState<boolean>(false);
+  const [showInstallPrompt, setShowInstallPrompt] = useState<boolean>(false);
   
   // Check if data is loaded on mount and when data changes
   useEffect(() => {
@@ -32,8 +36,25 @@ const Header: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
   
+  // Check if we should show the PWA button (not in standalone mode)
+  useEffect(() => {
+    const shouldShowButton = !isInStandaloneMode();
+    setShowPWAButton(shouldShowButton);
+  }, []);
+  
   const handleBackClick = () => {
     navigate(-1);
+  };
+  
+  const handleInstallClick = () => {
+    // Show the iOS install prompt when the button is clicked
+    setShowInstallPrompt(true);
+  };
+  
+  const handleClosePrompt = () => {
+    setShowInstallPrompt(false);
+    // Store in localStorage that we've shown the prompt
+    localStorage.setItem('iosInstallPromptLastShown', new Date().getTime().toString());
   };
   
   // Don't show back button on welcome screen
@@ -87,7 +108,7 @@ const Header: React.FC = () => {
             alt="Mexican Food Logo" 
             className="header-logo" 
           />
-         u </div>
+        </div>
           <h1 className="header-title">
             <span className="restaurant-name">{dataService.getCompanyName()}</span>
             <span className="restaurant-location">{dataService.getCountryName()}</span>
@@ -96,16 +117,26 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-{/*       
       <div className="header-right">
-        <div className="header-company-logo">
-          <img 
-            src={require('../assets/images/NucleoItLogo50x50.png')} 
-            alt="NucleoIt Logo" 
-            className="company-logo" 
-          />
-        </div>
-      </div> */}
+        {showPWAButton && (
+          <button 
+            className="header-install-button"
+            onClick={handleInstallClick}
+            aria-label="Instalar App"
+          >
+            <svg className="install-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L12 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M7 10L12 5L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 17H20V22H4V17Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
+      </div>
+      
+      {/* Only render the iOS Install Prompt when it should be shown */}
+      {showInstallPrompt && (
+        <IOSInstallPrompt onClose={handleClosePrompt} />
+      )}
 
     </header>
   );

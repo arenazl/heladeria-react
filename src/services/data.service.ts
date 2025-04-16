@@ -83,16 +83,9 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
   async loadData(companyId: string, priceListId: string): Promise<boolean> {
     try {
 
-      // First validate user and get companies to get a token
-      const data = await loginService.validateUserAndGetCompanies();
-      
-      if (!data?.data?.Companies) {
-        console.error('ValidateUserAndGetCompanies failed');
-        return false;
-      }
-      
+
       // Set headers with just the company ID
-      apiService.setHeaders(companyId, "_" + companyId);
+      apiService.setHeaders(companyId, companyId);
       
       // Get company data
       const companyResponse = await apiService.getCompanyById(companyId);
@@ -100,7 +93,7 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
       
       if (company) {
         // Set headers with company ID and prefix
-        apiService.setHeaders(company.Id, company.Prefix || "_" + companyId);
+        apiService.setHeaders(company.Id, company.Prefix);
         
         // Create search parameters
         const searchParams: MenuCommensalSearch = {
@@ -113,8 +106,8 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
         const menuResponse = await apiService.getMenuCommensal(searchParams);
         const menuData = menuResponse.data;
 
-        // Set company name from the company data
-        this.companyName = company.Name || API_CONFIG.PARTNER.NAME;
+        // Set company name 
+        this.companyName = company.Name;
           
         // Save to session
         sessionService.saveMenuDataInLocalStorage(menuData);
@@ -137,12 +130,12 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
 
   // Get company name
   getCompanyName(): string {
-    return this.companyName || '';
+    return this.companyName || 'Heladería';
   }
 
   // Get country name
   getCountryName(): string {
-    return this.countryName || '';
+    return this.countryName || 'Argentina';
   }
 
   // Get all categories

@@ -175,6 +175,10 @@
 
 .order-item-name {
   color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
 }
 
 .order-item-price {
@@ -294,6 +298,10 @@
   margin: 0 0 var(--spacing-small) 0;
   font-size: 1.1rem;
   color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .recommendation-description {
@@ -301,10 +309,10 @@
   color: var(--text-medium);
   margin: 0 0 0.8rem 0;
   flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .recommendation-padding-clean {

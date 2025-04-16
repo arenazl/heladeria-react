@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { IMAGE_BASE_URL } from '../config/image.config';
-import '../styles/ProductDetail.css';
+import '../styles/RecommendedProducts.css';
 
 interface RecommendedProductsProps {
   title: string;
@@ -12,12 +12,30 @@ interface RecommendedProductsProps {
 const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ title, products }) => {
   const navigate = useNavigate();
   const { addToOrder } = useOrder();
+  const [fadingProducts, setFadingProducts] = useState<{[key: number]: boolean}>({});
 
-  const handleAddRecommendedProduct = (productId: number) => {
+  const handleAddRecommendedProduct = (productId: number, event: React.MouseEvent) => {
+    // Prevenimos el comportamiento predeterminado
+    event.preventDefault();
+    event.stopPropagation();
+    
+    console.log("Iniciando animación para producto:", productId);
+    
+    // Primero activamos el efecto de fade out
+    setFadingProducts(prev => ({...prev, [productId]: true}));
+    
+    // Buscamos el producto
     const product = products.find(p => p.id === productId);
     if (product) {
-      addToOrder(product, 1);
-      navigate('/cart');
+      // Esperamos a que termine la animación antes de agregar al carrito y navegar
+      setTimeout(() => {
+        console.log("Animación completada, agregando producto al carrito:", productId);
+        // Añadimos el producto al carrito después de la animación
+        addToOrder(product, 1);
+        
+        // Navegamos a la página del carrito
+        navigate('/cart');
+      }, 400); // 1000ms para la animación de fade out
     }
   };
 
@@ -29,26 +47,34 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ title, produc
     <div className="recommendations-section">
       <h3 className="recommendations-title">{title}</h3>
       <div className="recommendations-scroll">
-        {products.map((product) => (
+        {products.map((product, index) => (
           product && product.id && (
-            <div key={product.id} className="recommendation-card">
+            <div 
+              key={product.id} 
+              className={`recommendation-card ${fadingProducts[product.id] ? 'fading-out' : ''}`}
+              style={{ '--card-index': index } as React.CSSProperties}
+            >
               <div className="recommendation-image-container">
-                <img src={`${IMAGE_BASE_URL}${product.image}`} alt={product.name} className="recommendation-image" />
+                <img 
+                  src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} 
+                  alt={product.name} 
+                  className="recommendation-image" 
+                />
               </div>
               <div className="recommendation-details">
                 <h4>{product.name}</h4>
-                {
-                  product.description ? (
-                    <p className="recommendation-description">{product.description}</p>
-                  ) : (
-                    <p className="recommendation-description">Esta es la descripción de un producto excelente de calidad y que le recomendamos</p>
-                  )
-                }
+                <p className="recommendation-description">
+                  {product.description 
+                    ? (product.description.length > 40 
+                        ? product.description.substring(0, 40) + "..." 
+                        : product.description)
+                    : "Esta es la descripción de un producto..."}
+                </p>
                 <div className="recommendation-price-action">
                   <span className="recommendation-price">$ {product.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
                   <button 
                     className="add-recommendation-button"
-                    onClick={() => handleAddRecommendedProduct(product.id)}
+                    onClick={(e) => handleAddRecommendedProduct(product.id, e)}
                   >
                     Agregar
                   </button>

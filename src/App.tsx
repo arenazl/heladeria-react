@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopOnMount from './components/ScrollToTopOnMount';
+import RefreshHandler from './components/RefreshHandler';
 import { dataService } from './services/data.service';
 import WelcomeScreen from './pages/WelcomeScreen';
 import ProductBrowsing from './pages/ProductBrowsing';
@@ -71,6 +72,7 @@ const AnimatedRoutes = () => {
         variants={pageVariants}
         transition={pageTransition}
       >
+        <RefreshHandler />
         <Routes location={location}>
           <Route path="/" element={<WelcomeScreen />} />
           <Route path="/menu/:companyId/:priceListId" element={<MenuLoader />} />
