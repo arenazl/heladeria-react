@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { formatTime } from '../utils/orderUtils';
@@ -6,14 +6,81 @@ import '../styles/OrderReady.css';
 
 const OrderReady: React.FC = () => {
   const navigate = useNavigate();
-  const { order } = useOrder();
+  const { order, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime } = useOrder();
+  const [dataRestored, setDataRestored] = useState<boolean>(false);
 
+  // Efecto para verificar si hay datos en sessionStorage y restaurarlos si es necesario
   useEffect(() => {
-    // If there's no order or no items, redirect to home
-    if (!order || order.items.length === 0) {
+    // Si ya hay una orden con items, no necesitamos restaurar nada
+    if (order && order.items.length > 0) {
+      setDataRestored(true);
+      return;
+    }
+
+    console.log('Checking for stored order data in OrderReady...');
+    
+    // Verificar si hay datos de orden guardados en sessionStorage
+    const storedData = sessionStorage.getItem('mpOrderData');
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        console.log('Retrieved order data from sessionStorage in OrderReady:', parsedData);
+        
+        // Restaurar los items al OrderContext
+        if (parsedData.items && parsedData.items.length > 0) {
+          console.log('Restoring items to order context in OrderReady...');
+          
+          // Limpiar el carrito actual antes de agregar los items guardados
+          clearOrder();
+          
+          // Agregar los items guardados
+          parsedData.items.forEach((item: any) => {
+            console.log('Adding item to order in OrderReady:', item.product.name, 'x', item.quantity);
+            addToOrder(item.product, item.quantity);
+          });
+          
+          // Si hay datos de cliente, restaurarlos también
+          if (parsedData.customer) {
+            console.log('Restoring customer data in OrderReady:', parsedData.customer);
+            setCustomer(parsedData.customer);
+          } else if (parsedData.customerName) {
+            console.log('Setting customer name in OrderReady:', parsedData.customerName);
+            setCustomerName(parsedData.customerName);
+          }
+          
+          // Si hay tiempo estimado de recogida, restaurarlo
+          if (parsedData.estimatedPickupTime) {
+            console.log('Setting estimated pickup time in OrderReady');
+            setEstimatedPickupTime();
+          }
+          
+          console.log('Order data successfully restored in OrderReady');
+          setDataRestored(true);
+          
+          // Ahora podemos eliminar los datos de sessionStorage
+          sessionStorage.removeItem('mpOrderData');
+        } else {
+          console.warn('No items found in stored order data in OrderReady');
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Error parsing stored order data in OrderReady:', error);
+        navigate('/');
+      }
+    } else {
+      console.log('No stored order data found in OrderReady, redirecting to home');
       navigate('/');
     }
-  }, [order, navigate]);
+  }, [order, navigate, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime]);
+
+  // Efecto adicional para redirigir si no hay orden después de intentar restaurar
+  useEffect(() => {
+    // Si ya intentamos restaurar los datos y aún no hay orden o items, redirigir a home
+    if (dataRestored && (!order || order.items.length === 0)) {
+      console.log('No order data after restoration attempt, redirecting to home');
+      navigate('/');
+    }
+  }, [dataRestored, order, navigate]);
 
   const handleBackToHome = () => {
     navigate('/');

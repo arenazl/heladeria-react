@@ -13,7 +13,7 @@ type OrderStatusType = 'processing' | 'preparing' | 'ready';
 
 const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();
-  const { order, clearOrder, addToOrder } = useOrder();
+  const { order, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime } = useOrder();
   const [orderStatus, setOrderStatus] = useState<OrderStatusType>('processing');
   const [orderNumber, setOrderNumber] = useState<string>('');
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission | null>(null);
@@ -133,8 +133,10 @@ const PaymentSuccess: React.FC = () => {
         // Guardar los datos para usarlos después
         setStoredOrderData(parsedData);
         
-        // Limpiar el storage
-        sessionStorage.removeItem('mpOrderData');
+        // No eliminamos los datos de sessionStorage todavía para que estén disponibles
+        // para OrderReady.tsx cuando se redirija allí
+        // Los marcaremos como procesados para evitar procesamiento duplicado
+        sessionStorage.setItem('mpOrderDataProcessed', 'true');
       } catch (error) {
         console.error('Error parsing order data from sessionStorage:', error);
       }
@@ -159,11 +161,27 @@ const PaymentSuccess: React.FC = () => {
           addToOrder(item.product, item.quantity);
         });
         
+        // Si hay datos de cliente, restaurarlos también
+        if (storedOrderData.customer) {
+          console.log('Restoring customer data:', storedOrderData.customer);
+          setCustomer(storedOrderData.customer);
+        } else if (storedOrderData.customerName) {
+          console.log('Setting customer name:', storedOrderData.customerName);
+          setCustomerName(storedOrderData.customerName);
+        }
+        
+        // Si hay tiempo estimado de recogida, restaurarlo
+        if (storedOrderData.estimatedPickupTime) {
+          console.log('Setting estimated pickup time');
+          // Llamar a la función para establecer el tiempo estimado de recogida
+          setEstimatedPickupTime();
+        }
+        
         console.log('Order data successfully restored');
         setDataRestored(true);
       }
     }
-  }, [storedOrderData, clearOrder, addToOrder, dataRestored]);
+  }, [storedOrderData, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime, dataRestored]);
 
   // Efecto para guardar el pedido en la base de datos después de que los datos se hayan restaurado
   useEffect(() => {

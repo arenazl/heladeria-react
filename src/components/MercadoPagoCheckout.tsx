@@ -23,6 +23,9 @@ interface MercadoPagoCheckoutProps {
       address?: string;
       phone?: string;
     };
+    customerId?: number | null;
+    customerName?: string;
+    estimatedPickupTime?: Date;
   };
   onSuccess?: (preferenceId: string) => void;
   onError?: (error: string) => void;
@@ -239,12 +242,15 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
       // Guardar el estado actual en sessionStorage para recuperarlo al volver
       sessionStorage.setItem('mpPreferenceId', preferenceId || '');
       
-      // Guardar los datos de la orden en sessionStorage
+      // Guardar los datos de la orden en sessionStorage con más detalles
       try {
         const orderData = {
           items: order.items,
           total: order.total,
-          customer: order.customer
+          customer: order.customer,
+          customerId: order.customerId || null,
+          customerName: order.customerName || (order.customer ? order.customer.name : 'Cliente'),
+          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000) // 30 min default
         };
         sessionStorage.setItem('mpOrderData', JSON.stringify(orderData));
         console.log('Order data saved to sessionStorage:', orderData);
@@ -286,12 +292,15 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
       // Guardar el ID de preferencia en sessionStorage antes de redirigir
       sessionStorage.setItem('mpPreferenceId', response.PreferenceId);
       
-      // Guardar los datos de la orden en sessionStorage
+      // Guardar los datos de la orden en sessionStorage con más detalles antes de redireccionar
       try {
         const orderData = {
           items: order.items,
           total: order.total,
-          customer: order.customer
+          customer: order.customer,
+          customerId: order.customerId || null,
+          customerName: order.customerName || (order.customer ? order.customer.name : 'Cliente'),
+          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000) // 30 min default
         };
         sessionStorage.setItem('mpOrderData', JSON.stringify(orderData));
         console.log('Order data saved to sessionStorage before redirect:', orderData);
