@@ -1,7 +1,7 @@
 {
-  "short_name": "Mexican Food",
-  "name": "Mexican Food - Pedidos Online",
-  "description": "Ordena comida mexicana deliciosa para llevar",
+  "short_name": "Pedidos Online",
+  "name": "Pedidos Online",
+  "description": "Ordena comida deliciosa para llevar",
   "icons": [
     {
       "src": "favicon.ico",
