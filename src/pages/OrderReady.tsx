@@ -9,7 +9,7 @@ const OrderReady: React.FC = () => {
   const { order, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime } = useOrder();
   const [dataRestored, setDataRestored] = useState<boolean>(false);
 
-  // Efecto para verificar si hay datos en sessionStorage y restaurarlos si es necesario
+  // Efecto para verificar si hay datos en localStorage y restaurarlos si es necesario
   useEffect(() => {
     // Si ya hay una orden con items, no necesitamos restaurar nada
     if (order && order.items.length > 0) {
@@ -19,12 +19,12 @@ const OrderReady: React.FC = () => {
 
     console.log('Checking for stored order data in OrderReady...');
     
-    // Verificar si hay datos de orden guardados en sessionStorage
-    const storedData = sessionStorage.getItem('mpOrderData');
+    // Verificar si hay datos de orden guardados en localStorage
+    const storedData = localStorage.getItem('mpOrderData');
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log('Retrieved order data from sessionStorage in OrderReady:', parsedData);
+        console.log('Retrieved order data from localStorage in OrderReady:', parsedData);
         
         // Restaurar los items al OrderContext
         if (parsedData.items && parsedData.items.length > 0) {
@@ -57,8 +57,8 @@ const OrderReady: React.FC = () => {
           console.log('Order data successfully restored in OrderReady');
           setDataRestored(true);
           
-          // Ahora podemos eliminar los datos de sessionStorage
-          sessionStorage.removeItem('mpOrderData');
+          // Ahora podemos eliminar los datos de localStorage
+          localStorage.removeItem('mpOrderData');
         } else {
           console.warn('No items found in stored order data in OrderReady');
           navigate('/');

@@ -239,10 +239,10 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
   // Navegar directamente a la URL de Mercado Pago
   const navigateToMercadoPago = () => {
     if (checkoutUrl) {
-      // Guardar el estado actual en sessionStorage para recuperarlo al volver
-      sessionStorage.setItem('mpPreferenceId', preferenceId || '');
+      // Guardar el estado actual en localStorage para recuperarlo al volver
+      localStorage.setItem('mpPreferenceId', preferenceId || '');
       
-      // Guardar los datos de la orden en sessionStorage con más detalles
+      // Guardar los datos de la orden en localStorage con más detalles
       try {
         const orderData = {
           items: order.items,
@@ -250,12 +250,13 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
           customer: order.customer,
           customerId: order.customerId || null,
           customerName: order.customerName || (order.customer ? order.customer.name : 'Cliente'),
-          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000) // 30 min default
+          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000), // 30 min default
+          timestamp: new Date().getTime() // Añadir timestamp para control
         };
-        sessionStorage.setItem('mpOrderData', JSON.stringify(orderData));
-        console.log('Order data saved to sessionStorage:', orderData);
+        localStorage.setItem('mpOrderData', JSON.stringify(orderData));
+        console.log('Order data saved to localStorage:', orderData);
       } catch (error) {
-        console.error('Error saving order data to sessionStorage:', error);
+        console.error('Error saving order data to localStorage:', error);
       }
       
       // Navegar a la URL de Mercado Pago
@@ -289,10 +290,10 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
 
       setPreferenceId(response.PreferenceId);
       
-      // Guardar el ID de preferencia en sessionStorage antes de redirigir
-      sessionStorage.setItem('mpPreferenceId', response.PreferenceId);
+      // Guardar el ID de preferencia en localStorage antes de redirigir
+      localStorage.setItem('mpPreferenceId', response.PreferenceId);
       
-      // Guardar los datos de la orden en sessionStorage con más detalles antes de redireccionar
+      // Guardar los datos de la orden en localStorage con más detalles antes de redireccionar
       try {
         const orderData = {
           items: order.items,
@@ -300,12 +301,13 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
           customer: order.customer,
           customerId: order.customerId || null,
           customerName: order.customerName || (order.customer ? order.customer.name : 'Cliente'),
-          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000) // 30 min default
+          estimatedPickupTime: order.estimatedPickupTime || new Date(Date.now() + 30 * 60000), // 30 min default
+          timestamp: new Date().getTime() // Añadir timestamp para control
         };
-        sessionStorage.setItem('mpOrderData', JSON.stringify(orderData));
-        console.log('Order data saved to sessionStorage before redirect:', orderData);
+        localStorage.setItem('mpOrderData', JSON.stringify(orderData));
+        console.log('Order data saved to localStorage before redirect:', orderData);
       } catch (error) {
-        console.error('Error saving order data to sessionStorage:', error);
+        console.error('Error saving order data to localStorage:', error);
       }
       
       // Redirigir directamente a Mercado Pago usando window.open
@@ -358,8 +360,8 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
 
   // Verificar si estamos volviendo de Mercado Pago
   useEffect(() => {
-    const storedPreferenceId = sessionStorage.getItem('mpPreferenceId');
-    const storedOrderData = sessionStorage.getItem('mpOrderData');
+    const storedPreferenceId = localStorage.getItem('mpPreferenceId');
+    const storedOrderData = localStorage.getItem('mpOrderData');
     
     console.log('Checking for MercadoPago return data...');
     console.log('Stored preference ID:', storedPreferenceId);
@@ -397,9 +399,9 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
           console.warn('No customer data found in stored order data');
         }
         
-        // Mantener los datos en sessionStorage por si se necesitan en otro componente
+        // Mantener los datos en localStorage por si se necesitan en otro componente
         // pero marcarlos como procesados para evitar procesamiento duplicado
-        sessionStorage.setItem('mpOrderDataProcessed', 'true');
+        localStorage.setItem('mpOrderDataProcessed', 'true');
       } catch (error) {
         console.error('Error parsing stored order data:', error);
       }
@@ -409,7 +411,7 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
       console.log('Found stored preference ID, processing payment success...');
       
       // Limpiar el storage del preferenceId
-      sessionStorage.removeItem('mpPreferenceId');
+      localStorage.removeItem('mpPreferenceId');
       
       // Notificar éxito
       handlePaymentSuccess(storedPreferenceId);

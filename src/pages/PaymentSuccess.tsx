@@ -119,26 +119,26 @@ const PaymentSuccess: React.FC = () => {
   const [dataRestored, setDataRestored] = useState<boolean>(false);
   const [storedOrderData, setStoredOrderData] = useState<any>(null);
 
-  // Efecto para cargar los datos de sessionStorage
+  // Efecto para cargar los datos de localStorage
   useEffect(() => {
     console.log('Checking for stored order data...');
     
-    // Verificar si hay datos de orden guardados en sessionStorage
-    const storedData = sessionStorage.getItem('mpOrderData');
+    // Verificar si hay datos de orden guardados en localStorage
+    const storedData = localStorage.getItem('mpOrderData');
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log('Retrieved order data from sessionStorage:', parsedData);
+        console.log('Retrieved order data from localStorage:', parsedData);
         
         // Guardar los datos para usarlos después
         setStoredOrderData(parsedData);
         
-        // No eliminamos los datos de sessionStorage todavía para que estén disponibles
+        // No eliminamos los datos de localStorage todavía para que estén disponibles
         // para OrderReady.tsx cuando se redirija allí
         // Los marcaremos como procesados para evitar procesamiento duplicado
-        sessionStorage.setItem('mpOrderDataProcessed', 'true');
+        localStorage.setItem('mpOrderDataProcessed', 'true');
       } catch (error) {
-        console.error('Error parsing order data from sessionStorage:', error);
+        console.error('Error parsing order data from localStorage:', error);
       }
     } else {
       console.log('No stored order data found');
