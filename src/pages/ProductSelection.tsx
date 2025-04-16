@@ -38,7 +38,7 @@ const ProductSelection: React.FC = () => {
                 <h3 className="card-title">{product.name}</h3>
                 <p className="card-description">{product.description}</p>
                 <div className="card-footer">
-                  <p className="card-price">${product.price}</p>
+                  <p className="card-price">${product.price.toFixed(2)}</p>
                 </div>
               </div>
             </div>

@@ -48,7 +48,7 @@ const AllProductsListing: React.FC = () => {
                         <h3 className="product-title">{product.name}</h3>
                         <p className="product-description">{product.description}</p>
                         <div className="product-footer">
-                          <p className="product-price">${product.price}</p>
+                          <p className="product-price">${product.price.toFixed(2)}</p>
                           <div onClick={(e) => e.stopPropagation()}>
                             <QuantitySelector 
                               productId={product.id} 

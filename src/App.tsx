@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { OrderProvider } from './context/OrderContext';
 import { useOrder } from './context/OrderContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopOnMount from './components/ScrollToTopOnMount';
+import { dataService } from './services/data.service';
 import WelcomeScreen from './pages/WelcomeScreen';
 import ProductBrowsing from './pages/ProductBrowsing';
 import ProductDetail from './pages/ProductDetail';
@@ -12,6 +15,7 @@ import Cart from './pages/Cart';
 import OrderConfirmation from './pages/OrderConfirmation';
 import PaymentSelection from './pages/PaymentSelection';
 import PaymentProcessor from './pages/PaymentProcessor';
+import PaymentSuccess from './pages/PaymentSuccess';
 import OrderStatus from './pages/OrderStatus';
 import OrderReady from './pages/OrderReady';
 import MenuLoader from './pages/MenuLoader';
@@ -57,7 +61,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="sync" initial={false}>
+    <AnimatePresence mode="wait" initial={false}>
       <motion.main
         key={location.pathname}
         className="app-content"
@@ -76,6 +80,7 @@ const AnimatedRoutes = () => {
           <Route path="/confirmation" element={<OrderConfirmation />} />
           <Route path="/payment" element={<PaymentSelection />} />
           <Route path="/payment-processor" element={<PaymentProcessor />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
@@ -88,13 +93,34 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
+
+  // Check if data is loaded
+  useEffect(() => {
+    const checkDataLoaded = () => {
+      const loaded = dataService.isLoaded();
+      setIsDataLoaded(loaded);
+    };
+
+    // Check initially
+    checkDataLoaded();
+
+    // Set up an interval to check periodically
+    const interval = setInterval(checkDataLoaded, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <OrderProvider>
       <Router>
         <div className="app">
-          <Header />
+          <ScrollToTopOnMount />
+          {/* Only show header when data is loaded */}
+          {isDataLoaded && <Header />}
           <AnimatedRoutes />
           <Footer />
+          <ScrollToTop />
         </div>
       </Router>
     </OrderProvider>

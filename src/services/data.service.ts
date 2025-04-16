@@ -13,7 +13,6 @@ import { sessionService } from './session.service';
 import { apiService } from './api.service';
 import { loginService } from './login.service';
 import { API_CONFIG } from '../config/api.config';
-import { categories as mockCategories, subcategories as mockSubcategories, products as mockProducts } from '../data/mockData';
 
 class DataService {
   private categories: Category[] = [];
@@ -85,15 +84,15 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
     try {
 
       // First validate user and get companies to get a token
-      const companies = await loginService.validateUserAndGetCompanies();
+      const data = await loginService.validateUserAndGetCompanies();
       
-      if (!companies) {
+      if (!data?.data?.Companies) {
         console.error('ValidateUserAndGetCompanies failed');
         return false;
       }
       
       // Set headers with just the company ID
-      apiService.setHeaders(companyId, "");
+      apiService.setHeaders(companyId, "_" + companyId);
       
       // Get company data
       const companyResponse = await apiService.getCompanyById(companyId);
@@ -101,7 +100,7 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
       
       if (company) {
         // Set headers with company ID and prefix
-        apiService.setHeaders(company.Id, company.Prefix);
+        apiService.setHeaders(company.Id, company.Prefix || "_" + companyId);
         
         // Create search parameters
         const searchParams: MenuCommensalSearch = {
@@ -114,8 +113,8 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
         const menuResponse = await apiService.getMenuCommensal(searchParams);
         const menuData = menuResponse.data;
 
-        // Set company name 
-        this.companyName = companies.data.Companies.find((c:any) => c.Id == companyId)?.Name || 'Heladería';
+        // Set company name from the company data
+        this.companyName = company.Name || API_CONFIG.PARTNER.NAME;
           
         // Save to session
         sessionService.saveMenuDataInLocalStorage(menuData);
@@ -138,78 +137,51 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
 
   // Get company name
   getCompanyName(): string {
-  if (API_CONFIG.USE_MOCK_DATA) {
-    return 'Mexican Food';
-  }
-  return this.companyName;
+    return this.companyName || '';
   }
 
   // Get country name
   getCountryName(): string {
-  if (API_CONFIG.USE_MOCK_DATA) {
-    return 'Argentina';
-  }
-  return this.countryName;
+    return this.countryName || '';
   }
 
   // Get all categories
   getCategories(): Category[] {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockCategories;
-    }
     return this.categories;
   }
 
   // Get category by ID
   getCategoryById(id: number): Category | undefined {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockCategories.find(category => category.id === id);
-    }
     return this.categories.find(category => category.id === id);
   }
 
   // Get subcategories by category ID
   getSubcategoriesByCategoryId(categoryId: number): Subcategory[] {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockSubcategories.filter(subcategory => subcategory.categoryId === categoryId);
-    }
     return this.subcategories.filter(subcategory => subcategory.categoryId === categoryId);
   }
 
   // Get subcategory by ID
   getSubcategoryById(id: number): Subcategory | undefined {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockSubcategories.find(subcategory => subcategory.id === id);
-    }
     return this.subcategories.find(subcategory => subcategory.id === id);
   }
 
   // Get products by subcategory ID
   getProductsBySubcategoryId(subcategoryId: number): Product[] {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockProducts.filter(product => product.subcategoryId === subcategoryId);
-    }
     return this.products.filter(product => product.subcategoryId === subcategoryId);
   }
 
   // Get product by ID
   getProductById(id: number): Product | undefined {
-    if (API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded) {
-      return mockProducts.find(product => product.id === id);
-    }
     return this.products.find(product => product.id === id);
   }
 
   // Get related products
-getRelatedProducts(productId: number, excludedProductIds: number[] = []): Product[] {
-    const productsToUse = API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded ? mockProducts : this.products;
-    const subcategoriesToUse = API_CONFIG.USE_MOCK_DATA && !this.isDataLoaded ? mockSubcategories : this.subcategories;
-
+  getRelatedProducts(productId: number, excludedProductIds: number[] = []): Product[] {
     const product = this.getProductById(productId);
     if (!product) return [];
 
     // Get products from the same subcategory excluding the current product and products already in the order
-    let relatedProducts = productsToUse.filter(p => 
+    let relatedProducts = this.products.filter(p => 
       p.subcategoryId === product.subcategoryId && 
       p.id !== productId && 
       !excludedProductIds.includes(p.id)
@@ -217,10 +189,10 @@ getRelatedProducts(productId: number, excludedProductIds: number[] = []): Produc
 
     // If no products found in subcategory, get products from the parent category
     if (relatedProducts.length === 0) {
-      const subcategory = subcategoriesToUse.find(s => s.id === product.subcategoryId);
+      const subcategory = this.subcategories.find(s => s.id === product.subcategoryId);
       if (subcategory) {
-        const siblingSubcategories = subcategoriesToUse.filter(s => s.categoryId === subcategory.categoryId);
-        relatedProducts = productsToUse.filter(p => 
+        const siblingSubcategories = this.subcategories.filter(s => s.categoryId === subcategory.categoryId);
+        relatedProducts = this.products.filter(p => 
           siblingSubcategories.some(s => s.id === p.subcategoryId) &&
           p.id !== productId &&
           !excludedProductIds.includes(p.id)
@@ -233,7 +205,7 @@ getRelatedProducts(productId: number, excludedProductIds: number[] = []): Produc
 
   // Check if data is loaded
   isLoaded(): boolean {
-    return API_CONFIG.USE_MOCK_DATA || this.isDataLoaded;
+    return this.isDataLoaded;
   }
 }
 

@@ -263,10 +263,22 @@
   color: var(--primary-color);
 }
 
-.cart-actions {
+.cart-summary-actions {
   display: flex;
   justify-content: space-between;
   gap: var(--spacing-medium);
+  margin-top: 15px;
+}
+
+.cart-action-button {
+  flex: 1;
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius-medium);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  border: none;
 }
 
 .complete-payment-button {
@@ -288,17 +300,32 @@
 }
 
 .add-more-button {
-  background: var(--primary-gradient);
-  color: var(--text-light);
+  background-color: white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-radius: var(--border-radius-medium);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-more-button:hover {
+  background-color: #f8f8f8;
+}
+
+.continue-button {
+  background-color: var(--primary-color);
+  color: white;
   border: none;
   padding: var(--spacing-small) var(--spacing-medium);
   border-radius: var(--border-radius-medium);
   font-size: 1rem;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition: all 0.3s;
 }
 
-.add-more-button:hover {
+.continue-button:hover {
   opacity: 0.9;
 }
 

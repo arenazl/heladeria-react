@@ -1,204 +1,107 @@
-.payment-processor-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 20px;
+/* Estilos para cuando el iframe está visible */
+.page-container.iframe-visible .section-container {
+  display: none;
 }
 
-.payment-processor-card {
-  width: 100%;
-  max-width: 500px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  position: relative;
-  overflow: hidden;
-  animation: cardFadeIn 0.5s ease;
-}
-
-@keyframes cardFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.payment-processor-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.payment-processor-icon {
-  font-size: 24px;
-  margin-right: 12px;
-  background-color: rgba(34, 197, 94, 0.1);
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-
-.payment-processor-title {
-  font-size: 24px;
-  color: #333;
+.page-container.iframe-visible {
+  padding: 0;
   margin: 0;
-  font-weight: 600;
+  background-color: transparent;
 }
 
-.payment-method-badge {
-  background-color: #61862d;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 20px;
+/* Ocultar la barra inferior cuando el iframe está visible */
+.page-container.iframe-visible ~ footer,
+.iframe-visible ~ footer,
+.page-container.iframe-visible ~ .app-footer,
+.iframe-visible ~ .app-footer,
+body:has(.iframe-visible) .app-footer,
+body:has(.page-container.iframe-visible) .app-footer {
+  display: none !important;
+}
+
+/* Asegurar que el iframe ocupe toda la pantalla disponible */
+.page-container.iframe-visible .mercadopago-iframe-fullscreen {
+  height: calc(100vh - 56px) !important;
+  bottom: 0 !important;
+}
+
+.payment-processor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.payment-processor-content h2 {
+  font-size: 1.4rem;
+  /* margin-bottom: var(--spacing-medium); */
+  color: var(--text-dark);
+  font-weight: 700;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 8px;
   display: inline-block;
-  margin-bottom: 25px;
+  text-align: left;
 }
 
-.payment-processor-progress-container {
-  height: 8px;
-  background-color: #e9ecef;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 15px;
+.order-summary {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.order-summary h3 {
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: var(--spacing-medium);
+  color: var(--text-dark);
+  font-weight: 600;
   position: relative;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-color);
+  display: inline-block;
 }
 
-.payment-processor-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, --primary-color, --primary-color,);
-  border-radius: 10px;
-  transition: width 0.2s ease;
-  position: relative;
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.payment-processor-progress-complete {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg,  --primary-color, --primary-color,);
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.6; }
-  100% { opacity: 1; }
-}
-
-.payment-processor-status-container {
+.order-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
 }
 
-.payment-processor-status {
-  font-size: 16px;
-  color: #333;
-  margin: 0;
-  font-weight: 500;
+.order-item:last-child {
+  border-bottom: none;
 }
 
-.payment-processor-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
-  border-radius: 10px;
-  transition: width 0.2s ease;
-  position: relative;
-}
-
-.payment-processor-progress-complete {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
-  animation: pulse 1.5s infinite;
-}
-
-.payment-processor-percentage {
-  font-size: 16px;
-  color: var(--primary-color);
-  font-weight: 600;
-  margin: 0;
-}
-
-.payment-processor-success-icon {
-  background-color: var(--primary-color);
-  color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.order-total {
   display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #ddd;
+  font-size: 1.2rem;
+}
+
+.payment-section {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  margin: 0 auto 15px;
-  animation: checkmark 0.5s ease-in-out;
+  gap: 1rem;
 }
 
-.payment-processor-complete {
-  color: var(--primary-color);
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 0 5px;
-}
-
-.payment-processor-info {
-  color: #666;
-  font-size: 14px;
-  text-align: center;
-  line-height: 1.5;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-@keyframes successFadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes checkmark {
-  0% { transform: scale(0); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.payment-processor-complete {
-  color: var(--primary-color);
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 0 5px;
-}
-
-.payment-processor-redirecting {
-  color: #666;
-  font-size: 14px;
-  margin: 0;
-  animation: fadeInOut 2s infinite;
-}
-
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .payment-processor-card {
-    padding: 20px;
+@media (max-width: 600px) {
+  .payment-processor-content {
+    padding: 1rem;
   }
-  
-  .payment-processor-title {
-    font-size: 20px;
+
+  .order-summary {
+    padding: 1rem;
   }
 }

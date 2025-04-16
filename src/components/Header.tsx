@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 import { dataService } from '../services/data.service';
@@ -6,6 +6,31 @@ import { dataService } from '../services/data.service';
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [companyName, setCompanyName] = useState<string>('');
+  const [countryName, setCountryName] = useState<string>('');
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  
+  // Check if data is loaded on mount and when data changes
+  useEffect(() => {
+    const checkData = () => {
+      const dataLoaded = dataService.isLoaded();
+      if (dataLoaded) {
+        setCompanyName(dataService.getCompanyName());
+        setCountryName(dataService.getCountryName());
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
+    };
+    
+    // Check initially
+    checkData();
+    
+    // Set up an interval to check periodically
+    const interval = setInterval(checkData, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   const handleBackClick = () => {
     navigate(-1);
@@ -31,6 +56,11 @@ const Header: React.FC = () => {
     return 'Inicio';
   };
   
+  // If data is not loaded yet, don't show the header
+  if (!isLoaded || !companyName) {
+    return null;
+  }
+  
   return (
     <header className="app-header">
       <div className="header-left">
@@ -53,11 +83,11 @@ const Header: React.FC = () => {
         <div className="header-brand">
           <div className="header-logo-container">
           <img 
-            src={require('../assets/mexicanico.png')} 
+            src={require('../assets/images/istockphoto-1138202866-612x612.jpg')} 
             alt="Mexican Food Logo" 
             className="header-logo" 
           />
-          </div>
+         u </div>
           <h1 className="header-title">
             <span className="restaurant-name">{dataService.getCompanyName()}</span>
             <span className="restaurant-location">{dataService.getCountryName()}</span>
@@ -66,15 +96,17 @@ const Header: React.FC = () => {
         </div>
       </div>
       
+{/*       
       <div className="header-right">
         <div className="header-company-logo">
           <img 
-            src={require('../assets/favicon.ico')} 
+            src={require('../assets/images/NucleoItLogo50x50.png')} 
             alt="NucleoIt Logo" 
             className="company-logo" 
           />
         </div>
-      </div>
+      </div> */}
+
     </header>
   );
 };

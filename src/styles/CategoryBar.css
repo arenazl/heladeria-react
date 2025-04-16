@@ -4,7 +4,6 @@
   background-color: white;
   padding: 12px 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
   justify-content: space-around;
   width: 100%;
 }
@@ -60,6 +59,13 @@
   font-size: 0.8rem;
   text-align: center;
   font-weight: 500;
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 80px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* For mobile devices */
@@ -85,6 +91,8 @@
   
   .category-name {
     font-size: 0.7rem;
+    max-width: 60px;
+    height: 28px;
   }
   
   .category-item {

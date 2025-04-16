@@ -60,7 +60,7 @@ const AllProductsList: React.FC = () => {
                           )
                         }
                         <div className="product-footer">
-                          <p className="product-price">${product.price}</p>
+                          <p className="product-price">${product.price.toFixed(2)}</p>
                           <div onClick={(e) => e.stopPropagation()}>
                             <QuantitySelector 
                               productId={product.id} 

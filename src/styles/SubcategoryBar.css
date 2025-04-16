@@ -42,6 +42,7 @@
 
 .subcategory-name {
   font-size: 0.9rem;
+  text-transform: lowercase;
 }
 
 /* For mobile devices */

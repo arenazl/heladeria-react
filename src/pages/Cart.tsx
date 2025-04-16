@@ -1,32 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { dataService } from '../services/data.service';
 import '../styles/Cart.css';
-import RecommendedProducts from '../components/RecommendedProducts';
 import { IMAGE_BASE_URL } from '../config/image.config';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
-  const { order, updateQuantity, removeFromOrder, addToOrder } = useOrder();
-  const [recommendations, setRecommendations] = useState<any[]>([]);
-
-  useEffect(() => {
-    // Get recommendations based on items in the cart
-    if (order.items.length > 0) {
-      // Use the first item in the cart to get recommendations
-      const firstItemId = order.items[0].productId;
-const excludedProductIds = order.items.map(item => item.productId);
-const relatedProducts = dataService.getRelatedProducts(firstItemId, excludedProductIds);
-      
-      // Filter out products that are already in the cart
-      const filteredRecommendations = relatedProducts.filter(
-        product => product && product.id && !order.items.some(item => item.productId === product.id)
-      );
-      
-      setRecommendations(filteredRecommendations);
-    }
-  }, [order.items]);
+  const { order, updateQuantity, removeFromOrder } = useOrder();
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -42,17 +23,6 @@ const relatedProducts = dataService.getRelatedProducts(firstItemId, excludedProd
 
   const handleAddMoreClick = () => {
     navigate('/products');
-  };
-
-  const handleAddRecommendedProduct = (productId: number) => {
-const product = dataService.getProductById(productId);
-    if (product) {
-      addToOrder(product, 1);
-      
-      // Update recommendations after adding a product
-      const updatedRecommendations = recommendations.filter(p => p && p.id !== productId);
-      setRecommendations(updatedRecommendations);
-    }
   };
 
   if (order.items.length === 0) {
@@ -85,7 +55,10 @@ const product = dataService.getProductById(productId);
     <div className="page-container">
       <div className="section-container">
         <div className="cart-card">
-          <h2 className="section-title cart-title">Pedido</h2>
+
+            <h3 className="recommendations-title">Pedido</h3>
+
+
           <div className="cart-items">
             {order.items.map((item) => (
               <div key={item.productId} className="cart-item">
@@ -145,7 +118,6 @@ const product = dataService.getProductById(productId);
           </div>
         </div>
         
-<RecommendedProducts title="Productos Recomendados" products={recommendations} />
         
         <div className="cart-summary">
           <div className="cart-total">
@@ -153,14 +125,7 @@ const product = dataService.getProductById(productId);
             <span>$ {order.total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
           </div>
           
-          <div className="cart-actions">
-            <button 
-              className="complete-payment-button"
-              onClick={handleContinueClick}
-            >
-              Completar Pago
-            </button>
-          </div>
+
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_CONFIG } from '../config/api.config';
 import { loginService } from './login.service';
 
 // Create a custom axios instance with interceptors
 const createAxiosWithInterceptors = (): AxiosInstance => {
   const instance = axios.create({
-    baseURL: API_CONFIG.BASE_URL,
+    baseURL: API_CONFIG.BASE_URL || '',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -14,8 +14,26 @@ const createAxiosWithInterceptors = (): AxiosInstance => {
 
   // Request interceptor
   instance.interceptors.request.use(
-    (config) => {
-      // We're not adding any headers here since they're already set in the api.service.ts
+    (config: InternalAxiosRequestConfig) => {
+      // Get token from localStorage if available, otherwise use default token
+      const token = loginService.getToken() || 'defaultToken';
+      
+      // Add common headers for all requests
+      if (config.headers) {
+        config.headers['Accept'] = 'application/json, text/plain, */*';
+        config.headers['Accept-Language'] = 'es-US,es-ES;q=0.9,es;q=0.8,af;q=0.7,en;q=0.6';
+        config.headers['Authorization'] = 'Bearer ' + token;
+        config.headers['Content-Type'] = 'application/json';
+        // Removed jwt-token header as requested
+      }
+      
+      // Add specific headers for MenuCommensal endpoints
+      if (config.url && config.url.startsWith('MenuCommensal') && config.headers) {
+        config.headers['CompanyId'] = API_CONFIG.COMPANY_ID;
+        config.headers['Prefix'] = "_" + API_CONFIG.COMPANY_ID;
+        config.headers['CompanySchema'] = API_CONFIG.PARTNER.NAME;
+      }
+      
       return config;
     },
     (error) => {

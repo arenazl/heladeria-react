@@ -67,15 +67,6 @@ const relatedProducts = dataService.getRelatedProducts(product.id, excludedProdu
               <QuantitySelector productId={product.id} product={product} />
             </div>
           </div>
-          
-          {currentQuantity > 0 && (
-            <button 
-              className="continue-button"
-              onClick={handleContinueClick}
-            >
-              Volver al menu
-            </button>
-          )}
         </div>
       </div>
       

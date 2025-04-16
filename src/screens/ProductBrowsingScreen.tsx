@@ -97,7 +97,7 @@ const ProductBrowsingScreen: React.FC = () => {
       <View style={styles.productContent}>
         <Text style={styles.productName}>{item.name}</Text>
         <Text style={styles.productDescription} numberOfLines={2}>{item.description}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
       </View>
     </TouchableOpacity>
   );

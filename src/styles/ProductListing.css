@@ -80,11 +80,37 @@
   position: relative;
   min-height: 32px;
   padding: 4px 0;
+  flex-direction: row; /* Ensure items are in a row */
+  width: 100%; /* Ensure the footer takes full width */
+  margin-top: 8px; /* Add some space above the footer */
 }
 
 .product-footer > div {
   flex: 0 0 auto;
-  margin-left: 8px;
+  margin-left: 8px; /* Add some space between price and button */
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 0;
+  flex: 1;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+/* Make the product card a bit smaller */
+.product-card {
+  background-color: var(--bg-light);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  margin-bottom: 12px;
+  max-width: 280px; /* Limit the maximum width */
 }
 
 .product-price {

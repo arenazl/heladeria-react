@@ -37,10 +37,10 @@ const MenuLoader: React.FC = () => {
           setShowCompanyName(true);
           setLoading(false);
           
-          // Redirect to welcome screen after a delay
+          // Redirect to products page after a delay
           setTimeout(() => {
-            navigate('/');
-          }, 2000);
+            navigate('/products');
+          }, 3500); // Show company name for 1.5 seconds before redirecting
         } else {
           setError('Error al cargar los datos del menú');
           setLoading(false);
@@ -52,12 +52,8 @@ const MenuLoader: React.FC = () => {
       }
     };
 
-    // If using mock data and not in development, skip hte loading screen
-    if (API_CONFIG.USE_MOCK_DATA) {
-      navigate('/products');
-    } else {
-      loadData();
-    }
+    // Load data directly
+    loadData();
   }, [companyId, priceListId, navigate]);
 
   if (loading) {
@@ -69,22 +65,22 @@ const MenuLoader: React.FC = () => {
     );
   }
 
-  if (showCompanyName) {
-    return (
-      <div className="menu-loader company-name">
-        <h1>Bienvenido a</h1>
-        <h2 className="company-title">{companyName}</h2>
-        <p>Cargando menú...</p>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="menu-loader error">
         <h2>Error</h2>
         <p>{error}</p>
         <button onClick={() => navigate('/')}>Volver al inicio</button>
+      </div>
+    );
+  }
+
+  if (showCompanyName && companyName) {
+    return (
+      <div className="menu-loader success">
+        <h2>Bienvenido a</h2>
+        <h1 className="company-name">{companyName}</h1>
+        <p>Cargando productos...</p>
       </div>
     );
   }

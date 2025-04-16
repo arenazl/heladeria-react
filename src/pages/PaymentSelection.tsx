@@ -5,7 +5,7 @@ import '../styles/PaymentSelection.css';
 import { Banknote, CreditCard, Smartphone } from 'lucide-react-native';
 
 // Define payment method types
-type PaymentMethod = 'cash' | 'credit_card' | 'mercado_pago';
+type PaymentMethod = 'mercado_pago' | 'cash' | 'credit_card' ;
 
 const PaymentSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -63,26 +63,24 @@ const PaymentSelection: React.FC = () => {
 
   return (
     <div className="page-container">
+
       <div className="section-container">
-        <h3>Resumen del Pedido</h3>
-        <div className="payment-total-container">
-          <div className="payment-total">
-            <div className="payment-total-label">Cantidad de productos:</div>
-            <div className="payment-total-amount">{order.items.reduce((total, item) => total + item.quantity, 0)}</div>
-          </div>
-          <div className="payment-total">
-            <div className="payment-total-label">Total a Pagar:</div>
-            <div className="payment-total-amount">${order.total.toFixed(2)}</div>
-          </div>
-          <div className="payment-total">
-            <div className="payment-total-label">Tiempo estimado de entrega:</div>
-            <div className="payment-total-amount">20 min.</div>
-          </div>
-        </div>
 
         <div className="payment-methods-container">
           <h3>Método de Pago</h3>
           <div className="payment-methods-grid">
+
+          <div
+              className={`payment-method-card ${selectedPayment === 'mercado_pago' ? 'selected' : ''}`}
+              onClick={() => handlePaymentSelect('mercado_pago')}
+            >
+              <div className="payment-method-icon">
+                <Smartphone size={24} color="#61862d" />
+              </div>
+              <div className="payment-method-name">Mercado Pago</div>
+
+            </div>
+
             <div
               className={`payment-method-card ${selectedPayment === 'cash' ? 'selected' : ''}`}
               onClick={() => handlePaymentSelect('cash')}
@@ -103,15 +101,8 @@ const PaymentSelection: React.FC = () => {
               <div className="payment-method-name">Tarjeta de Crédito</div>
             </div>
 
-            <div
-              className={`payment-method-card ${selectedPayment === 'mercado_pago' ? 'selected' : ''}`}
-              onClick={() => handlePaymentSelect('mercado_pago')}
-            >
-              <div className="payment-method-icon">
-                <Smartphone size={24} color="#61862d" />
-              </div>
-              <div className="payment-method-name">Mercado Pago</div>
-            </div>
+          
+
           </div>
         </div>
       </div>

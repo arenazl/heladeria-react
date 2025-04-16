@@ -1,14 +1,17 @@
-// API Configuration
-export const API_CONFIG = {
-  // Flag to use mock data or API data
-  USE_MOCK_DATA: false, // Set to false to use the real API through the proxy
-  
-  // API URL and endpoints
-  BASE_URL: 'https://api-qa.nucleocheck.com', // This will be proxied to 
 
+export const API_CONFIG = 
+{
+  BASE_URL: process.env.REACT_APP_API_BASE_URL,
   ENDPOINTS: {
-    MENU: 'menu' // The endpoint will be BASE_URL/menu/{companyId}/{priceListId}
+    MENU: 'menu' 
   },
-  COMPANY_ID: '3'
-
+  COMPANY_ID: '3',
+  PARTNER: {
+    ID: 9,
+    NAME: 'Heladeria',
+    INTEGRATION_CODE: '999999'
+  },
+  MERCADO_PAGO: {
+    PUBLIC_KEY: process.env.REACT_APP_MERCADO_PAGO_PUBLIC_KEY
+  }
 };

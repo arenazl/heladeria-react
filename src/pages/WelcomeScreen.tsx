@@ -11,7 +11,6 @@ const WelcomeScreen: React.FC = () => {
   const [showPWAButton, setShowPWAButton] = useState<boolean>(false);
   const [showInstallPrompt, setShowInstallPrompt] = useState<boolean>(false);
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
-  const [companyName, setCompanyName] = useState<string>('');
   
   useEffect(() => {
     // Check if we should show the PWA button (iOS device and not in standalone mode)
@@ -30,10 +29,11 @@ const WelcomeScreen: React.FC = () => {
     const isLoaded = dataService.isLoaded();
     setDataLoaded(isLoaded);
     
+    // If data is already loaded, redirect to products page
     if (isLoaded) {
-      setCompanyName(dataService.getCompanyName());
+      navigate('/products');
     }
-  }, []);
+  }, [navigate]);
 
   const handleInstallClick = () => {
     // Show the iOS install prompt when the button is clicked
@@ -46,49 +46,42 @@ const WelcomeScreen: React.FC = () => {
     localStorage.setItem('iosInstallPromptLastShown', new Date().getTime().toString());
   };
 
+  const handleScanQR = () => {
+    navigate('/menu/' + API_CONFIG.COMPANY_ID + '/1');
+  };
+
   return (
     <div className="welcome-container">
       <div className="welcome-content">
-        <h1>Bienvenidos a {dataLoaded ? companyName : 'Menú Digital'}</h1>
-        <p>{dataLoaded ? 'Explora nuestro menú digital' : 'Escanea un código QR para comenzar'}</p>
-        {dataLoaded && (
-          <button 
-            className="start-button"
-            onClick={() => navigate('/products')}
-          >
-            Comenzar Pedido
-          </button>
-        )}
-
-        {!dataLoaded && (
-          <>
-            {/* Test link for QR code functionality - in a real app this would be scanned */}
-            <button 
-              className="qr-test-button"
-              onClick={() => navigate('/menu/' + API_CONFIG.COMPANY_ID + '/1')}
-            >
-              Probar Escaneo QR
-            </button>
-            
-            {/* Link to QR code generator page */}
-            <button 
-              className="qr-generator-button"
-              onClick={() => navigate('/qr-example')}
-            >
-              Ver Código QR de Ejemplo
-            </button>
-          </>
-        )}
+        <h1>Bienvenido</h1>
+        <p>Escanea el código QR de tu mesa para comenzar</p>
         
-        {showPWAButton && (
+        <button 
+          className="scan-qr-button"
+          onClick={handleScanQR}
+        >
+          Escanear QR
+        </button>
+        
+        <button 
+          className="qr-generator-button"
+          onClick={() => navigate('/qr-example')}
+        >
+          Ver Código QR de Ejemplo
+        </button>
+      </div>
+      
+      {showPWAButton && (
+        <div className="install-app-container">
           <button 
             className="pwa-install-button"
             onClick={handleInstallClick}
           >
+            <img src={require('../assets/favicon.ico')} alt="App Icon" className="app-icon" />
             Instalar App para Notificaciones
           </button>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Only render the iOS Install Prompt when it should be shown */}
       {showInstallPrompt && (

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { formatTime, requestNotificationPermission, sendNotification } from '../utils/orderUtils';
+import { menuCommensalService } from '../services/menu-commensal.service';
+import { API_CONFIG } from '../config/api.config';
 import '../styles/OrderStatus.css';
 
 // Order status types
@@ -40,78 +42,52 @@ const OrderStatus: React.FC = () => {
     };
     
     checkPermission();
-  }, []);
 
-  // Effect for order status simulation
+    // Cleanup function to prevent memory leaks and duplicate effects
+    return () => {
+      setIsSubmitting(false);
+      setShowOrderSummary(false);
+      setCountdown(null);
+    };
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  // Effect for countdown and order status
   useEffect(() => {
     let timer: number | null = null;
     
     if (isSubmitting && countdown !== null) {
       if (countdown > 0) {
         timer = window.setTimeout(() => {
-          const newCountdown = countdown - 1;
-          setCountdown(newCountdown);
-          
-          // Update order status based on countdown
-          if (countdown === 15) {
-            // Start with processing status
-            setOrderStatus('processing');
-          } else if (countdown === 10) {
-            // After 5 seconds, change to preparing
-            setOrderStatus('preparing');
-          } else if (countdown === 5) {
-            // After 5 more seconds, change to ready
-            setOrderStatus('ready');
-          }
+          setCountdown(countdown - 1);
         }, 1000);
-      } else if (countdown === 0) {
-        // When countdown finishes, show order is ready
-        setOrderStatus('ready');
-        
-        // Guarda la información del pedido cuando esté listo
-        if (order && order.items) {
-          console.log("Guardando items del pedido:", order.items);
-          setSavedOrderItems([...order.items]);
-          setSavedOrderTotal(order.total || 0);
-        }
-        
-        // After a short delay, show the order summary fullscreen
+      } else {
+        // When countdown reaches 0, show order summary
         setTimeout(() => {
           setShowOrderSummary(true);
-        }, 3000);
-        
-        // Send notification when order is ready
-        if (name) {
-          console.log('[OrderStatus] Order is ready, attempting to send notification');
           
-          if (notificationPermission === 'granted') {
-            const notificationOptions = {
-              body: `Hola ${name}, tu pedido #${orderNumber} está listo para retirar en mostrador.`,
-              icon: '/logo192.png',
-              requireInteraction: true
-            };
-            
+          // Send notification only once when showing summary
+          if (name && notificationPermission === 'granted') {
             const notification = sendNotification(
-              '¡Tu pedido está listo!',
-              notificationOptions
+              'Tu pedido está siendo procesado',
+              {
+                body: `Hola ${name}, tu pedido #${orderNumber} está siendo procesado.`,
+                icon: '/logo192.png',
+                requireInteraction: true
+              }
             );
             
             if (notification) {
-              notification.onclick = () => {
-                window.focus();
-              };
+              notification.onclick = () => window.focus();
             }
           }
-        }
+        }, 3000);
       }
     }
     
     return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
+      if (timer) clearTimeout(timer);
     };
-  }, [countdown, isSubmitting, notificationPermission, name, orderNumber, order]);
+  }, [countdown, isSubmitting]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -125,23 +101,110 @@ const OrderStatus: React.FC = () => {
       return;
     }
     
-    // Verificación del estado actual de la orden
-    console.log("Estado de la orden al confirmar:", order);
-    
     setIsSubmitting(true);
     
     // Set customer name and generate estimated pickup time
     setCustomerName(name);
     setEstimatedPickupTime();
     
-    // Start 15-second countdown for demo purposes (5 seconds per status)
-    setCountdown(15);
+    try {
+      // Generar el JSON del pedido y enviarlo al servidor
+      const orderJson = generateOrderJson();
+      // Asegurarse de que los headers estén configurados
+      menuCommensalService.setHeaders(API_CONFIG.COMPANY_ID);
+      const response = await menuCommensalService.savePartnerOrder(orderJson);
+      
+      // Si hay errores en la respuesta, mostrarlos
+      if (response.ValidationResult && 
+          response.ValidationResult.ErrorMessages && 
+          response.ValidationResult.ErrorMessages.length > 0) {
+        console.error("Errores al confirmar el pedido:", response.ValidationResult.ErrorMessages);
+        alert(`Error al confirmar el pedido: ${response.ValidationResult.ErrorMessages.join(', ')}`);
+        return;
+      }
+      
+      // Establecer el estado de procesamiento y guardar los items
+      setOrderStatus('processing');
+      setCountdown(5);
+      
+      if (order?.items) {
+        setSavedOrderItems([...order.items]);
+        setSavedOrderTotal(order.total || 0);
+      }
+     
+    } catch (error) {
+      console.error("Error al procesar el pedido:", error);
+      alert("Ocurrió un error al procesar el pedido. Por favor, intenta nuevamente.");
+      setIsSubmitting(false);
+    }
   };
 
-  const requestPermissionAgain = async () => {
-    const permission = await requestNotificationPermission();
-    setNotificationPermission(permission);
+// Función para generar el JSON del pedido según el contrato de la base de datos
+const generateOrderJson = () => {
+  const now = new Date();
+  
+  const partnerOrder = {
+    PartnerOrderNumber: orderNumber,
+    PartnerOrderNumberText: orderNumber,
+    PartnerId: API_CONFIG.PARTNER.ID,
+    PartnerName: API_CONFIG.PARTNER.NAME,
+    PartnerOrderStatusId: 1, // Estado inicial (pendiente)
+    PartnerOrderJsonFileId: 1,
+    IsDeliveryDateScheduled: false,
+    RestaurantIntegrationCode: API_CONFIG.PARTNER.INTEGRATION_CODE,
+    Date: now.toISOString(),
+    DeliveryAddress: order.customer?.address || "",
+    DeliveryDate: order.estimatedPickupTime?.toISOString() || now.toISOString(),
+    CustomerId: order.customerId || 1,
+    CustomerName: name || order.customerName || "Cliente",
+    CustomerPhone: order.customer?.phone || "",
+    Discount: 0,
+    Subtotal: order.total || 0,
+    Tax: 0,
+    Total: order.total || 0,
+    Observation: "",
+    OrderId: null,
+    ErrorMessage: null,
+    ResponseDataTextRepresentation: JSON.stringify(order),
+    DateCreated: now.toISOString(),
+    DateUpdated: null,
+    CreatedUserId: 1,
+    UpdatedUserId: null,
+    IsActive: true,
+    CurrentTimeZone: -3
   };
+  
+  // Crear los items del pedido según la estructura de la tabla 10_partnerorderitem
+  const partnerOrderItems = order.items.map((item, index) => ({
+    PartnerOrderId: 0, // Se asignará cuando se guarde el pedido
+    ProductId: item.product.id,
+    ProductName: item.product.name,
+    UnitPrice: item.product.price,
+    Quantity: item.quantity,
+    Subtotal: item.product.price * item.quantity,
+    Tax: 0,
+    Total: item.product.price * item.quantity,
+    Observation: "",
+    IsInnerProductItem: false,
+    DateCreated: now.toISOString(),
+    DateUpdated: null,
+    CreatedUserId: 1,
+    UpdatedUserId: null,
+    IsActive: true,
+    CurrentTimeZone: -3
+  }));
+  
+  // Objeto completo con el pedido y sus items
+  return {
+    partnerOrder: partnerOrder,
+    partnerOrderItems: partnerOrderItems
+  };
+};
+
+const requestPermissionAgain = async () => {
+  const permission = await requestNotificationPermission();
+  setNotificationPermission(permission);
+};
 
   const getStatusText = (): string => {
     switch (orderStatus) {
@@ -232,10 +295,13 @@ const OrderStatus: React.FC = () => {
             </div>
             
             <div className="order-summary-message">
-              <div className="order-summary-icon">✅</div>
+              <div className="order-summary-icon">⚙️</div>
               <div className="order-summary-text">
-                <p>¡Tu pedido está listo para retirar!</p>
-                <p>Por favor, dirígete al mostrador y muestra este número de orden: <strong>#{orderNumber}</strong></p>
+                <p>Tu pedido está siendo procesado</p>
+                <p>Número de orden: <strong>#{orderNumber}</strong></p>
+                <p>JSON del pedido generado según el contrato de la base de datos</p>
+                <p>Datos enviados al endpoint del controlador MenuComensalController</p>
+                <p>El pedido permanecerá en estado "Procesando"</p>
               </div>
             </div>
           </div>

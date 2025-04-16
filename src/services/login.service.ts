@@ -3,7 +3,8 @@ import { axiosWithInterceptors } from './http-interceptor.service';
 import { API_CONFIG } from '../config/api.config';
 
 class LoginService {
-  private tokenKey = 'jwtToken';
+  
+  private tokenKey = '';
 
   // Get token from local storage
   getToken(): string | null {
@@ -80,8 +81,8 @@ class LoginService {
   async validateUserAndGetCompanies() {
     try {
       // Hardcoded credentials as requested
-      const emailUser = "lucas@nucleoit.com.ar";
-      const password = "123";
+      const emailUser = "Comensal1";
+      const password = "Comensal1";
       const companyId = 0;
       
       // Build the JSON body
@@ -107,16 +108,8 @@ class LoginService {
       
       console.log('ValidateUserAndGetCompanies response:', response);
       
-      if (response) 
-        {
+      if (response) {
         return response;
-      } 
-
-      else if (API_CONFIG.USE_MOCK_DATA) {
-        // For mock data, use a hardcoded token
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiTHVjYXMiLCJVc2VySWQiOiIyNzYiLCJVc2VyTmFtZSI6Ikx1Y2FzIiwiQ29tcGFueUlkIjoiMTkyIiwiQ29tcGFueVNjaGVtYSI6IjE5Ml8iLCJJc1VzZXJDaGVjayI6IlRydWUiLCJBY2Nlc3NMZXZlbCI6IjAiLCJDb21wYW55RGF0YWJhc2UiOiJudWNsZW9fY2hlY2tfcHJvZCIsIlRpbWVab25lIjoiLTMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJbNF0iLCJQZXJtaXNzaW9ucyI6IlsxLDIsMyw0LDUsNiw3LDgsOSwxMCwxMSwxMiwxMywxNCwxNSwxNiwxNywxOCwxOSwyMCwyMSwyMiwyMywyNCwyNSwyNiwyNywyOCwyOSwzMCwzMSwzMiwzMywzNCwzNSwzNiwzNywzOCwzOSw0MCw0MSw0Miw0Myw0NCw0NSw0Niw0Nyw0OCw0OSw1MCw1MSw1Miw1Myw1NCw1NSw1Niw1Nyw1OCw1OSw2MCw2MSw2Miw2Myw2NCw2NSw2Niw2Nyw2OCw2OSw3MCw3MSw3Miw3Myw3NCw3NSw3Niw3Nyw3OCw3OSw4MCw4MSw4Miw4Myw4NCw4NSw4Niw4Nyw4OCw4OSw5MCw5MSw5Miw5Myw5NCw5NSw5Niw5Nyw5OCw5OSwxMDAsMTAxLDEwMiwxMDMsMTA0LDEwNSwxMDYsMTA3LDEwOCwxMDksMTEwLDExMSwxMTIsMTEzLDExNCwxMTUsMTE2LDExNywxMTgsMTE5LDEyMCwxMjEsMTIyLDEyMywxMjQsMTI1LDEyNiwxMjcsMTI4LDEyOSwxMzAsMTMxLDEzMiwxMzMsMTM0LDEzNSwxMzYsMTM3XSIsIk1vZHVsZXMiOiJbMSwyLDE0LDEyLDksMTEsMTZdIiwiZXhwIjoxNzQyODE1ODI0fQ.wsACOAqiRoWJ5ZD-WNBkp78D4WCZZeYoxC6A_dPzvwg';
-        this.saveToken(token);
-        return null;
       }
       
     } catch (error) {

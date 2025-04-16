@@ -56,7 +56,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
   )
 }
                 <div className="product-footer">
-                  <p className="product-price">${product.price}</p>
+                  <p className="product-price">${product.price.toFixed(2)}</p>
                   <div onClick={(e) => e.stopPropagation()}>
                     <QuantitySelector 
                       productId={product.id} 
@@ -103,7 +103,7 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
                       )
                     }
                     <div className="product-footer">
-                      <p className="product-price">${product.price}</p>
+                      <p className="product-price">${product.price.toFixed(2)}</p>
                       <div onClick={(e) => e.stopPropagation()}>
                         <QuantitySelector 
                           productId={product.id} 

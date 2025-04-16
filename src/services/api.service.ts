@@ -3,13 +3,17 @@ import { API_CONFIG } from '../config/api.config';
 import { 
   MenuResponse,
   UploadPathEnum,
-  Company,
   MenuCommensalSearch
 } from '../models/api.types';
-import { categories, subcategories, products } from '../data/mockData';
 import { axiosWithInterceptors } from './http-interceptor.service';
 import { loginService } from './login.service';
+import { menuCommensalService } from './menu-commensal.service';
 
+/**
+ * Servicio API general para la aplicación.
+ * Nota: Los métodos relacionados con MenuCommensal han sido movidos al servicio específico
+ * menu-commensal.service.ts para evitar duplicación y mantener la lógica en un solo lugar.
+ */
 class ApiService {
   private headers: Record<string, string> = {};
   private folderPath: string = '';
@@ -38,209 +42,26 @@ class ApiService {
     }
   }
 
-  // Get company by ID
+  // Get company by ID - Delegado al servicio de menú comensal
   async getCompanyById(companyId: string) {
-
-    // If using mock data, return a promise with mock data
-    if (API_CONFIG.USE_MOCK_DATA) {
-
-      const mockCompany: Company = {   
-        Id: companyId,
-        Name: "Heladería Demo",
-        Prefix: "HD",
-        Address: "Av. Corrientes 1234",
-        City: "Buenos Aires",
-        State: "CABA",
-        Country: "Argentina",
-        CurrentTimeZone: -3
-      };
-
-        // Return a mock response with headers
-        return Promise.resolve({ 
-          data: mockCompany,
-          headers: {
-            authorization: 'Bearer mockToken123'
-          }
-        });
-    }
-
-    // If not using mock data, make the actual API call
-    const options = {
-      headers: this.headers
-    };
-
-    const response = await axiosWithInterceptors.get<any>(
-      `MenuCommensal/GetCompanyById/${companyId}`,
-      options
-    );
-    
-    console.log('GetCompanyById response headers:', response.headers);
-    
-    // Check for token in response headers (Authorization or jwt-token)
-    if (response.headers) {
-
-      // Try to get token from Authorization header
-      if (response.headers['authorization']) {
-        const authHeader = response.headers['authorization'];
-        console.log('Found Authorization header:', authHeader);
-        
-        // Extract token from "Bearer <token>" format if needed
-        const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
-        console.log('Saving token from Authorization header');
-
-        loginService.saveToken(token);
-      }
-      // Fallback to jwt-token header
-      else if (response.headers['jwt-token']) {
-        console.log('Saving token from jwt-token header');
-        loginService.saveToken(response.headers['jwt-token']);
-      }
-    }
-
-    response.data = response.data.Company;
-    
-    return response;
+    // Delegamos al servicio especializado
+    return menuCommensalService.getCompanyById(companyId);
   }
 
-  // Get menu commensal data
+  // Get menu commensal data - Delegado al servicio de menú comensal
   async getMenuCommensal(searchTerm: MenuCommensalSearch) {
     console.log('getMenuCommensal called with params:', searchTerm);
-    console.log('Current headers:', this.headers);
     
-    // If using mock data, return a promise with mock data
-    if (API_CONFIG.USE_MOCK_DATA) {
-      // Create a mock response based on the existing mock data
-      const mockResponse: MenuResponse = {
-        Categories: categories.map(category => ({
-          Id: category.id,
-          Name: category.name,
-          Products: products.filter(product => {
-            const subcat = subcategories.find(s => s.id === product.subcategoryId);
-            return subcat && subcat.categoryId === category.id;
-          }).map(product => {
-            const subcat = subcategories.find(s => s.id === product.subcategoryId);
-            return {
-              Id: product.id,
-              ProductCode: product.id.toString(),
-              PriceWithIva: product.price,
-              RubroName: category.name,
-              SubRubroName: subcat ? subcat.name : '',
-              RubroId: category.id,
-              SubRubroId: product.subcategoryId,
-              ProductName: product.name,
-              ProductTypeId: 1,
-              ProductTypeName: 'Producto simple',
-              SaleMethodId: 1,
-              ObservationType: null,
-              MaxObservationsCount: 10,
-              ProductDescription: product.description,
-              PicturePath: product.image || null,
-              AlaxUnits: 0,
-              ProductGroups: [],
-              ProductPromoItems: [],
-              ProductQuantities: [],
-              ProductSizes: [],
-              Cost: 0,
-              AlicuotaId: 1,
-              AlicuotaPercentage: 21,
-              PriceNoTax: product.price * 0.79, // Approximate tax calculation
-              CurrentTimeZone: -3
-            };
-          }),
-          CurrentTimeZone: -3
-        })),
-        CompanyName: "Heladería Demo",
-        PriceListId: searchTerm.PriceListId || 0,
-        PriceListName: "Lista Estándar",
-        WhatsappPhoneNumber: null,
-        Table: null,
-        SystemConfiguration: {
-          Id: 1,
-          Address: null,
-          City: "Buenos Aires",
-          State: "CABA",
-          Country: "Argentina",
-          SystemConfigurationDigitalMenu: {
-            Id: 1,
-            ActiveColor: "7EA940",
-            BackColor: "F4F3F4",
-            MenuColor: "FFFFFF",
-            ProductNameColor: "222222",
-            ProductCardColor: "FFFFFF",
-            TitleColor: "7EA940",
-            TotalColor: "7EA940",
-            DescriptionColor: "5F5F60",
-            Description: "Los mejores helados artesanales",
-            Name: "Heladería Demo",
-            ImagePath: "",
-            LogoPath: "",
-            CurrentTimeZone: -3
-          },
-          UploadPaths: [],
-          CurrentTimeZone: -3
-        },
-        CommensalProducts: [],
-        Order: null,
-        CurrentTimeZone: -3
-      };
-
-      return Promise.resolve({ data: mockResponse });
-    }
-
-    // If not using mock data, make the actual API call
-    // Build params for the request
-    const params: Record<string, string> = {};
-    if (searchTerm.PriceListId) {
-      params['PriceListId'] = searchTerm.PriceListId.toString();
-    }
-    if (searchTerm.OrderTypeId) {
-      params['OrderTypeId'] = searchTerm.OrderTypeId.toString();
-    }
-    if (searchTerm.TableId) {
-      params['TableId'] = searchTerm.TableId.toString();
-    }
-
-    const options = {
-      headers: this.headers,
-      params: params
-    };
-
-    console.log('Making API call to MenuCommensal/GetMenuCommensal with options:', options);
-    
-    const response = await axiosWithInterceptors.get<MenuResponse>(
-      'MenuCommensal/GetMenuCommensal',
-      options
-    );
-    
-    console.log('API call successful, response:', response);
-    
-    // Check for token in response headers (Authorization or jwt-token)
-    if (response.headers) {
-      // Try to get token from Authorization header
-      if (response.headers['authorization']) {
-        const authHeader = response.headers['authorization'];
-        console.log('Found Authorization header:', authHeader);
-        
-        // Extract token from "Bearer <token>" format if needed
-        const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
-        console.log('Saving token from Authorization header');
-        loginService.saveToken(token);
-      }
-      // Fallback to jwt-token header
-      else if (response.headers['jwt-token']) {
-        console.log('Saving token from jwt-token header');
-        loginService.saveToken(response.headers['jwt-token']);
-      }
-    }
-    
-    return response;
+    // Delegamos al servicio especializado
+    return menuCommensalService.getMenuCommensal(searchTerm);
   }
 
   // Helper method to get upload path
   getUploadPath(pathType: UploadPathEnum): string {
     // This would typically come from configuration or the API
     // For now, we'll return a placeholder
-    return `${API_CONFIG.BASE_URL}/uploads/${pathType}`;
+    const baseUrl = API_CONFIG.BASE_URL || '';
+    return `${baseUrl}/uploads/${pathType}`;
   }
 }
 

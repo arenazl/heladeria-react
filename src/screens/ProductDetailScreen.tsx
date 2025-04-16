@@ -59,7 +59,7 @@ const ProductDetailScreen: React.FC = () => {
     <ScrollView style={styles.container}>
       <View style={styles.productHeader}>
         <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.productPrice}>${product.price}</Text>
+        <Text style={styles.productPrice}>${product.price.toFixed(2)}</Text>
       </View>
       
       <View style={styles.productDetails}>
