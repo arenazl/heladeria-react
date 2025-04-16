@@ -5,7 +5,7 @@ export const API_CONFIG =
   ENDPOINTS: {
     MENU: 'menu' 
   },
-  COMPANY_ID: '1',
+  COMPANY_ID: '3',
   PARTNER: {
     ID: 9,
     NAME: '',
