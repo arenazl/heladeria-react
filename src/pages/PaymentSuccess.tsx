@@ -291,6 +291,13 @@ const PaymentSuccess: React.FC = () => {
                 }
               );
             }
+            
+            // Programar la redirección a la página OrderReady después de 2 segundos
+            setTimeout(() => {
+              console.log('Redirigiendo a la página OrderReady...');
+              navigate('/order-ready');
+            }, 2000);
+            
             return 'ready';
           default:
             return currentStatus;

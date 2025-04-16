@@ -352,6 +352,10 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
     const storedPreferenceId = sessionStorage.getItem('mpPreferenceId');
     const storedOrderData = sessionStorage.getItem('mpOrderData');
     
+    console.log('Checking for MercadoPago return data...');
+    console.log('Stored preference ID:', storedPreferenceId);
+    console.log('Stored order data exists:', !!storedOrderData);
+    
     // Restaurar datos de la orden si existen
     if (storedOrderData) {
       try {
@@ -360,35 +364,48 @@ const MercadoPagoCheckout: React.FC<MercadoPagoCheckoutProps> = ({
         
         // Restaurar los items al OrderContext
         if (parsedOrderData.items && parsedOrderData.items.length > 0) {
+          console.log('Restoring items to order context...');
+          
           // Limpiar el carrito actual antes de agregar los items guardados
           clearOrder();
           
           // Agregar los items guardados
           parsedOrderData.items.forEach((item: any) => {
+            console.log('Adding item to order:', item.product.name, 'x', item.quantity);
             addToOrder(item.product, item.quantity);
           });
+          
+          console.log('Items restored successfully');
+        } else {
+          console.warn('No items found in stored order data');
         }
         
         // Restaurar los datos del cliente si existen
         if (parsedOrderData.customer) {
+          console.log('Restoring customer data:', parsedOrderData.customer);
           setCustomer(parsedOrderData.customer);
+        } else {
+          console.warn('No customer data found in stored order data');
         }
         
-        // No eliminamos los datos de la orden para mantenerlos disponibles
-        // en caso de que el usuario navegue de nuevo
+        // Mantener los datos en sessionStorage por si se necesitan en otro componente
+        // pero marcarlos como procesados para evitar procesamiento duplicado
+        sessionStorage.setItem('mpOrderDataProcessed', 'true');
       } catch (error) {
         console.error('Error parsing stored order data:', error);
       }
     }
     
     if (storedPreferenceId) {
+      console.log('Found stored preference ID, processing payment success...');
+      
       // Limpiar el storage del preferenceId
       sessionStorage.removeItem('mpPreferenceId');
       
       // Notificar éxito
       handlePaymentSuccess(storedPreferenceId);
     }
-  }, [addToOrder, setCustomer]);
+  }, [addToOrder, setCustomer, clearOrder, handlePaymentSuccess]);
 
   return (
     <div className="mercadopago-checkout">

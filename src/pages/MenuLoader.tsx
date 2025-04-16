@@ -28,9 +28,7 @@ const MenuLoader: React.FC = () => {
   };
 
   useEffect(() => {
-
     // Check if we should show the PWA button (not in standalone mode)
-
     const shouldShowButton = !isInStandaloneMode();
     setShowPWAButton(shouldShowButton);
     
@@ -41,10 +39,6 @@ const MenuLoader: React.FC = () => {
         return;
       }
       
-      // Guardar companyId y priceListId en sessionStorage para usarlos en caso de refresh
-      sessionStorage.setItem('companyId', companyId);
-      sessionStorage.setItem('priceListId', priceListId);
-
       try {
         setLoading(true);
         
@@ -91,7 +85,7 @@ const MenuLoader: React.FC = () => {
   return (
     <div className="menu-loader success">
       <div className="top-bar">
-   
+        {showPWAButton && (
           <button 
             className="pwa-install-button"
             onClick={handleInstallClick}
@@ -103,7 +97,7 @@ const MenuLoader: React.FC = () => {
             </svg>
             Instalar App para Notificaciones
           </button>
-
+        )}
       </div>
 
       <div className="menu-loader-content">
@@ -122,9 +116,9 @@ const MenuLoader: React.FC = () => {
       </div>
       
       {/* Only render the iOS Install Prompt when it should be shown */}
-
+      {showInstallPrompt && (
         <IOSInstallPrompt onClose={handleClosePrompt} />
-
+      )}
     </div>
   );
 };
