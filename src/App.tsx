@@ -145,13 +145,7 @@ function App() {
                 <TitleUpdater />
                 <ScrollToTopOnMount />
                 {/* Only show header on specific pages */}
-                {isDataLoaded && (
-                  window.location.hash.includes('/products') || 
-                  window.location.hash.includes('/cart') || 
-                  window.location.hash.includes('/confirmation') || 
-                  window.location.hash.includes('/payment') || 
-                  window.location.hash.includes('/order')
-                ) && <Header />}
+                {isDataLoaded && window.location.hash !== '#/' && <Header />}
                 <AnimatedRoutes />
                 {/* Footer is controlled by its own internal logic */}
                 <Footer />

@@ -35,10 +35,36 @@ const QRCodePage: React.FC<QRCodePageProps> = ({
       console.log('Cleared companyId and priceListId from sessionStorage on Comparilista page');
     }
     
-    const companies = visitedCompaniesService.getVisitedCompanies();
-    // Sort by most recent first
-    companies.sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime());
-    setVisitedCompanies(companies);
+    // Load default company from manifest.json
+    fetch('/manifest.json')
+      .then(response => response.json())
+      .then(manifest => {
+        if (manifest.default_company) {
+          const { id, name, priceListId } = manifest.default_company;
+          
+          // Always add the default company from manifest
+          console.log('Adding default company from manifest to visited companies');
+          visitedCompaniesService.saveVisitedCompany({
+            id,
+            name,
+            priceListId,
+            visitDate: new Date().toISOString()
+          });
+          
+          // Load visited companies
+          const companies = visitedCompaniesService.getVisitedCompanies();
+          // Sort by most recent first
+          companies.sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime());
+          setVisitedCompanies(companies);
+        }
+      })
+      .catch(error => {
+        console.error('Error loading manifest.json:', error);
+        // Load visited companies even if manifest fails
+        const companies = visitedCompaniesService.getVisitedCompanies();
+        companies.sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime());
+        setVisitedCompanies(companies);
+      });
   }, []);
   
   // Base URL for the menu
@@ -61,6 +87,12 @@ const QRCodePage: React.FC<QRCodePageProps> = ({
   
   // Handle access to a company
   const handleAccessCompany = (companyId: string, priceListId: string) => {
+    // Save companyId and priceListId to sessionStorage before navigating
+    sessionStorage.setItem('companyId', companyId);
+    sessionStorage.setItem('priceListId', priceListId);
+    console.log('Set companyId and priceListId in sessionStorage before navigation:', companyId, priceListId);
+    
+    // Navigate to the menu page
     navigate(`/menu/${companyId}/${priceListId}`);
   };
   
@@ -75,7 +107,7 @@ const QRCodePage: React.FC<QRCodePageProps> = ({
   
   return (
     <div className="qr-code-container">
-      <h1>Negociod Escaneados</h1>
+      <h1>Negocios Escaneados</h1>
       <p className="qr-code-subtitle">Escanea códigos QR y accede rápidamente a tus empresas favoritas</p>
     
       {/* Empresas visitadas */}

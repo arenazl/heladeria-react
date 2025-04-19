@@ -34,6 +34,26 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return (savedTheme as ThemeType) || 'green';
   });
 
+  // Cargar el tema predeterminado desde manifest.json si no hay tema guardado en localStorage
+  useEffect(() => {
+    // Solo cargar desde manifest.json si no hay tema guardado en localStorage
+    if (!localStorage.getItem('appTheme')) {
+      fetch('/manifest.json')
+        .then(response => response.json())
+        .then(manifest => {
+          if (manifest.default_theme && ['green', 'turquoise', 'dark', 'orange', 'brick'].includes(manifest.default_theme)) {
+            const themeFromManifest = manifest.default_theme as ThemeType;
+            setThemeState(themeFromManifest);
+            localStorage.setItem('appTheme', themeFromManifest);
+            console.log('Loaded default theme from manifest.json:', themeFromManifest);
+          }
+        })
+        .catch(error => {
+          console.error('Error loading theme from manifest.json:', error);
+        });
+    }
+  }, []);
+
   // Función para cambiar el tema
   const setTheme = (newTheme: ThemeType) => {
     setThemeState(newTheme);

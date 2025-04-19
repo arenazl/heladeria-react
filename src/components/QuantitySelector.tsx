@@ -37,7 +37,9 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({ productId, product 
     setIsExpanded(true);
     // If it's the first time being added, initialize with quantity 1
     if (currentQuantity === 0) {
+      console.log('Adding product to cart:', product);
       addToOrder(product, 1);
+      console.log('Product added to cart, new order:', order);
     }
   };
   

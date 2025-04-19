@@ -51,5 +51,13 @@
       "url": "/",
       "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
     }
-  ]
+    
+  ],
+  "default_company": {
+    "id": "3",
+    "name": "The Breakfast",
+    "priceListId": "1"
+  },
+  "default_theme": "orange",
+  "show_related_products": true
 }

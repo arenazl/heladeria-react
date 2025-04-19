@@ -29,6 +29,15 @@ const Footer: React.FC = () => {
   const isHomePage = currentPath === '#/' || currentPath === '';
   const showFooter = !isHomePage && itemCount > 0;
   
+  // Debug information
+  console.log('Footer debug:', {
+    currentPath,
+    isHomePage,
+    itemCount,
+    showFooter,
+    orderItems: order.items
+  });
+  
   // Check if we're on the cart page
   const isCartPage = currentPath.includes('/cart');
   

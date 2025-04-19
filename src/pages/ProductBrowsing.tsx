@@ -16,12 +16,40 @@ const ProductBrowsing: React.FC = () => {
 
   // Check if data is loaded
   useEffect(() => {
-    if (!dataService.isLoaded()) {
-      // If data is not loaded, redirect to welcome screen
-      navigate('/');
-    } else {
-      setLoading(false);
-    }
+    const checkDataAndLoad = async () => {
+      if (!dataService.isLoaded()) {
+        // Try to load data from sessionStorage
+        const companyId = sessionStorage.getItem('companyId');
+        const priceListId = sessionStorage.getItem('priceListId');
+        
+        if (companyId && priceListId) {
+          console.log('Attempting to load data from sessionStorage:', { companyId, priceListId });
+          try {
+            // Try to load data
+            const success = await dataService.loadData(companyId, priceListId);
+            
+            if (success) {
+              console.log('Successfully loaded data from sessionStorage');
+              setLoading(false);
+              return;
+            } else {
+              console.error('Failed to load data from sessionStorage');
+            }
+          } catch (error) {
+            console.error('Error loading data from sessionStorage:', error);
+          }
+        }
+        
+        // If we get here, either no companyId/priceListId in sessionStorage or loading failed
+        console.log('Redirecting to home page due to missing or failed data load');
+        navigate('/');
+      } else {
+        console.log('Data already loaded, proceeding to product browsing');
+        setLoading(false);
+      }
+    };
+    
+    checkDataAndLoad();
   }, [navigate]);
 
   const scrollToTop = () => {

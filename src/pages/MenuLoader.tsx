@@ -68,10 +68,18 @@ const MenuLoader: React.FC = () => {
           setShowCompanyName(true);
           setLoading(false);
           
+          // Store company name in localStorage for title updates
+          localStorage.setItem('companyName', name);
+          
           // Redirect to products page after a delay
           setTimeout(() => {
+            console.log('Redirecting to products page with data loaded:', {
+              companyId: sessionStorage.getItem('companyId'),
+              priceListId: sessionStorage.getItem('priceListId'),
+              companyName: name
+            });
             navigate('/products');
-          }, 500); 
+          }, 1000); 
         } else {
           setError('Error al cargar los datos del menú');
           setLoading(false);

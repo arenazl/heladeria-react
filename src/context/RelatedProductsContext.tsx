@@ -25,11 +25,30 @@ interface RelatedProductsProviderProps {
 
 // Provider component
 export const RelatedProductsProvider: React.FC<RelatedProductsProviderProps> = ({ children }) => {
-  // Try to get the saved setting from localStorage, or use true as default
+  // Try to get the saved setting from localStorage, or use the default from manifest.json
   const [showRelatedProducts, setShowRelatedProductsState] = useState<boolean>(() => {
     const savedSetting = localStorage.getItem('showRelatedProducts');
     return savedSetting !== null ? savedSetting === 'true' : true;
   });
+
+  // Load default setting from manifest.json if no setting is saved in localStorage
+  useEffect(() => {
+    if (localStorage.getItem('showRelatedProducts') === null) {
+      fetch('/manifest.json')
+        .then(response => response.json())
+        .then(manifest => {
+          if (manifest.show_related_products !== undefined) {
+            const showRelatedFromManifest = Boolean(manifest.show_related_products);
+            setShowRelatedProductsState(showRelatedFromManifest);
+            localStorage.setItem('showRelatedProducts', showRelatedFromManifest.toString());
+            console.log('Loaded default related products setting from manifest.json:', showRelatedFromManifest);
+          }
+        })
+        .catch(error => {
+          console.error('Error loading related products setting from manifest.json:', error);
+        });
+    }
+  }, []);
 
   // Function to change the setting
   const setShowRelatedProducts = (show: boolean) => {
