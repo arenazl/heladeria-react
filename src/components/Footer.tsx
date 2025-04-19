@@ -19,12 +19,18 @@ const Footer: React.FC = () => {
   const location = useLocation();
   const { order, clearOrder } = useOrder();
   
-  // Don't show footer on welcome screen or when cart is empty
+  // Calculate item count
   const itemCount = order.items.reduce((total, item) => total + item.quantity, 0);
-  const showFooter = location.pathname !== '/' && itemCount > 0;
+  
+  // Get the current hash path (for HashRouter)
+  const currentPath = window.location.hash;
+  
+  // Show footer only when there are items in the cart and not on the home page
+  const isHomePage = currentPath === '#/' || currentPath === '';
+  const showFooter = !isHomePage && itemCount > 0;
   
   // Check if we're on the cart page
-  const isCartPage = location.pathname === '/cart';
+  const isCartPage = currentPath.includes('/cart');
   
   const handleCartClick = () => {
     navigate('/cart');

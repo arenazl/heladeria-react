@@ -39,25 +39,34 @@ const RefreshHandler: React.FC = () => {
         // Solo limpiar el flag de refresh, pero no el carrito ni redirigir
         sessionStorage.removeItem('isRefreshing');
       } 
-      // En cualquier otro caso de refresco, limpiar el carrito y redirigir al menú
+      // En cualquier otro caso de refresco, limpiar el carrito y redirigir al menú solo si no estamos en la página principal
       else if (isRefreshing === 'true') {
-        console.log('Refresh detected, clearing order and redirecting to menu page');
+        console.log('Refresh detected, clearing order');
         
         // Limpiar el carrito
         clearOrder();
         
-        // Verificar si hay un companyId y priceListId en sessionStorage
-        const companyId = sessionStorage.getItem('companyId');
-        const priceListId = sessionStorage.getItem('priceListId');
+        // Verificar la URL actual para determinar si estamos en la página principal (Comparilista)
+        const currentPath = window.location.hash;
+        const isHomePage = currentPath === '#/' || currentPath === '';
         
-        // Solo redirigir a la página de menú si tenemos ambos valores
-        if (companyId && priceListId) {
-          console.log(`Redirecting to menu with companyId: ${companyId}, priceListId: ${priceListId}`);
-          navigate('/menu/' + companyId + '/' + priceListId);
+        // Solo redirigir si no estamos en la página principal
+        if (!isHomePage) {
+          // Verificar si hay un companyId y priceListId en sessionStorage
+          const companyId = sessionStorage.getItem('companyId');
+          const priceListId = sessionStorage.getItem('priceListId');
+          
+          // Solo redirigir a la página de menú si tenemos ambos valores
+          if (companyId && priceListId) {
+            console.log(`Redirecting to menu with companyId: ${companyId}, priceListId: ${priceListId}`);
+            navigate('/menu/' + companyId + '/' + priceListId);
+          } else {
+            // Si no tenemos los valores, redirigir a la página de inicio
+            console.log('No companyId or priceListId found, redirecting to home page');
+            navigate('/');
+          }
         } else {
-          // Si no tenemos los valores, redirigir a la página de inicio
-          console.log('No companyId or priceListId found, redirecting to home page');
-          navigate('/');
+          console.log('Already on home page (Comparilista), not redirecting');
         }
         
         // Limpiar el flag

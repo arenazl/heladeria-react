@@ -7,6 +7,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { RelatedProductsProvider } from './context/RelatedProductsContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import TestFooter from './components/TestFooter';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopOnMount from './components/ScrollToTopOnMount';
 import RefreshHandler from './components/RefreshHandler';
@@ -91,7 +92,8 @@ const AnimatedRoutes = () => {
       >
         <RefreshHandler />
         <Routes location={location}>
-          <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/" element={<QRCodePage />} />
+          <Route path="/welcome" element={<WelcomeScreen />} />
           <Route path="/menu/:companyId/:priceListId" element={<MenuLoader />} />
           <Route path="/products" element={<ProductBrowsing />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
@@ -102,7 +104,6 @@ const AnimatedRoutes = () => {
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
-          <Route path="/qr-example" element={<QRCodePage />} />
           <Route path="/test-api" element={<TestApi />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
@@ -143,9 +144,16 @@ function App() {
               <div className="app">
                 <TitleUpdater />
                 <ScrollToTopOnMount />
-                {/* Only show header when data is loaded */}
-                {isDataLoaded && <Header />}
+                {/* Only show header on specific pages */}
+                {isDataLoaded && (
+                  window.location.hash.includes('/products') || 
+                  window.location.hash.includes('/cart') || 
+                  window.location.hash.includes('/confirmation') || 
+                  window.location.hash.includes('/payment') || 
+                  window.location.hash.includes('/order')
+                ) && <Header />}
                 <AnimatedRoutes />
+                {/* Footer is controlled by its own internal logic */}
                 <Footer />
                 <ScrollToTop />
               </div>

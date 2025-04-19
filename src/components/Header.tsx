@@ -70,6 +70,19 @@ const Header: React.FC = () => {
     navigate('/settings');
   };
   
+  const handleLogoClick = () => {
+    // Limpiar toda la sesión (sessionStorage)
+    sessionStorage.clear();
+    
+    // Redirigir a la página principal (Comparilista)
+    navigate('/');
+    
+    // Limpiar el carrito
+    clearOrder();
+    
+    console.log('Sesión limpiada y redirigido a la página principal');
+  };
+  
   const handleClosePrompt = () => {
     setShowInstallPrompt(false);
     // Store in localStorage that we've shown the prompt
@@ -121,11 +134,12 @@ const Header: React.FC = () => {
       
       <div className="header-center">
         <div className="header-brand">
-          <div className="header-logo-container">
+          <div className="header-logo-container" onClick={handleLogoClick}>
           <img 
             src={require('../assets/images/istockphoto-1138202866-612x612.jpg')} 
             alt="Mexican Food Logo" 
             className="header-logo" 
+            style={{ cursor: 'pointer' }}
           />
         </div>
           <h1 className="header-title">

@@ -1,7 +1,7 @@
 {
-  "short_name": "Menú Digital",
-  "name": "Menú Digital",
-  "description": "Ordena comida deliciosa para llevar",
+  "short_name": "Comparilista",
+  "name": "Comparilista",
+  "description": "Escanea códigos QR y accede rápidamente a tus empresas favoritas",
   "icons": [
     {
       "src": "favicon.ico",
@@ -38,10 +38,17 @@
   ],
   "shortcuts": [
     {
-      "name": "Comenzar Pedido",
-      "short_name": "Pedido",
-      "description": "Comienza un nuevo pedido",
-      "url": "/products",
+      "name": "Escanear QR",
+      "short_name": "Escanear",
+      "description": "Escanea un código QR para acceder a una empresa",
+      "url": "/",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Empresas Visitadas",
+      "short_name": "Empresas",
+      "description": "Ver tus empresas visitadas",
+      "url": "/",
       "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
     }
   ]

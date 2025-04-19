@@ -4,6 +4,7 @@ import { dataService } from '../services/data.service';
 import { API_CONFIG } from '../config/api.config';
 import IOSInstallPrompt from '../components/IOSInstallPrompt';
 import { isInStandaloneMode } from '../utils/pwaUtils';
+import { visitedCompaniesService } from '../services/visited-companies.service';
 import '../styles/MenuLoader.css';
 
 const MenuLoader: React.FC = () => {
@@ -52,6 +53,16 @@ const MenuLoader: React.FC = () => {
           // Get company name
           const name = dataService.getCompanyName();
           setCompanyName(name);
+          
+          // Save visited company to localStorage
+          if (companyId && priceListId && name) {
+            visitedCompaniesService.saveVisitedCompany({
+              id: companyId,
+              name: name,
+              priceListId: priceListId,
+              visitDate: new Date().toISOString()
+            });
+          }
           
           // Show company name for a few seconds before redirecting
           setShowCompanyName(true);
