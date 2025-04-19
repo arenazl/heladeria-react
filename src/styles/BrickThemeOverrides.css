@@ -1,0 +1,424 @@
+/* Estilos adicionales para el tema ladrillo */
+[data-theme="brick"] body,
+[data-theme="brick"] .app {
+  background-color: white;
+  color: #333333;
+}
+
+/* Ajustes para tarjetas de productos */
+[data-theme="brick"] .product-card,
+[data-theme="brick"] .cart-item,
+[data-theme="brick"] .order-item,
+[data-theme="brick"] .product-detail-card {
+  background-color: white;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.1);
+}
+
+[data-theme="brick"] .product-card:hover {
+  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.2);
+}
+
+/* Colores de texto en tarjetas de productos */
+[data-theme="brick"] .product-card .product-name,
+[data-theme="brick"] .product-card h1, 
+[data-theme="brick"] .product-card h2, 
+[data-theme="brick"] .product-card h3,
+[data-theme="brick"] .product-detail-card h1,
+[data-theme="brick"] .product-detail-card h2,
+[data-theme="brick"] .product-detail-card h3,
+[data-theme="brick"] .product-detail-card .product-name {
+  color: #333333;
+}
+
+[data-theme="brick"] .product-card .product-price,
+[data-theme="brick"] .product-detail-card .product-price {
+  color: #b22222;
+  font-weight: bold;
+}
+
+/* Botones de acción en tarjetas de productos */
+[data-theme="brick"] .product-card button,
+[data-theme="brick"] .product-detail-card button,
+[data-theme="brick"] .product-card .add-button,
+[data-theme="brick"] .product-card .quantity-button,
+[data-theme="brick"] .product-card .action-button {
+  background-color: #b22222;
+  color: white;
+  border: none;
+}
+
+[data-theme="brick"] .product-card button:hover,
+[data-theme="brick"] .product-detail-card button:hover,
+[data-theme="brick"] .product-card .add-button:hover,
+[data-theme="brick"] .product-card .quantity-button:hover,
+[data-theme="brick"] .product-card .action-button:hover {
+  background-color: #cd5c5c;
+}
+
+/* Ajustes para botones */
+[data-theme="brick"] .button,
+[data-theme="brick"] button:not(.header-settings-button):not(.header-back-button) {
+  background-color: #b22222;
+  color: white;
+  border: none;
+}
+
+[data-theme="brick"] .button:hover,
+[data-theme="brick"] button:not(.header-settings-button):not(.header-back-button):hover {
+  background-color: #cd5c5c;
+}
+
+/* Ajustes para inputs */
+[data-theme="brick"] input,
+[data-theme="brick"] textarea,
+[data-theme="brick"] select {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] input:focus,
+[data-theme="brick"] textarea:focus,
+[data-theme="brick"] select:focus {
+  border-color: #b22222;
+  box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.2);
+}
+
+/* Ajustes para barras de navegación y tabs */
+[data-theme="brick"] .nav-tab,
+[data-theme="brick"] .category-bar,
+[data-theme="brick"] .subcategory-bar {
+  background-color: #fff5f5;
+  border-color: #e6b8b8;
+}
+
+/* Estilos para categorías y subcategorías */
+[data-theme="brick"] .category-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] .category-icon {
+  background-color: #ffebeb;
+}
+
+[data-theme="brick"] .category-name {
+  color: #333333;
+}
+
+[data-theme="brick"] .subcategory-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] .subcategory-name {
+  color: #333333;
+}
+
+[data-theme="brick"] .nav-tab.active,
+[data-theme="brick"] .category-item.active,
+[data-theme="brick"] .subcategory-item.active {
+  background-color: #b22222;
+  color: white;
+  border-color: #b22222;
+}
+
+[data-theme="brick"] .category-item.active .category-name,
+[data-theme="brick"] .subcategory-item.active .subcategory-name {
+  color: white;
+}
+
+[data-theme="brick"] .category-item.active .category-icon {
+  background-color: #cd5c5c;
+}
+
+/* Botones de navegación y filtros */
+[data-theme="brick"] .filter-button,
+[data-theme="brick"] .tab-button,
+[data-theme="brick"] .nav-button,
+[data-theme="brick"] button[class*="filter"],
+[data-theme="brick"] button[class*="tab"],
+[data-theme="brick"] .todos-button {
+  background-color: #ffebeb;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] .filter-button:hover,
+[data-theme="brick"] .tab-button:hover,
+[data-theme="brick"] .nav-button:hover,
+[data-theme="brick"] button[class*="filter"]:hover,
+[data-theme="brick"] button[class*="tab"]:hover,
+[data-theme="brick"] .todos-button:hover,
+[data-theme="brick"] .category-item:hover {
+  background-color: #e6b8b8;
+}
+
+[data-theme="brick"] .filter-button.active,
+[data-theme="brick"] .tab-button.active,
+[data-theme="brick"] .nav-button.active,
+[data-theme="brick"] button[class*="filter"].active,
+[data-theme="brick"] button[class*="tab"].active,
+[data-theme="brick"] .todos-button.active {
+  background-color: #b22222;
+  color: white;
+  border-color: #b22222;
+}
+
+/* Estilos específicos para la barra de navegación inferior */
+[data-theme="brick"] .bottom-nav,
+[data-theme="brick"] .filter-bar,
+[data-theme="brick"] .tab-bar {
+  background-color: #fff5f5;
+  border-top: 1px solid #e6b8b8;
+}
+
+/* Ajustes para fondos de página */
+[data-theme="brick"] .page-container,
+[data-theme="brick"] .section-container {
+  background-color: white;
+}
+
+/* Ajustes para el footer */
+[data-theme="brick"] .app-footer {
+  background-color: #b22222;
+  color: white;
+  border-top: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] .app-footer a,
+[data-theme="brick"] .app-footer button,
+[data-theme="brick"] .app-footer .footer-link {
+  color: white;
+}
+
+[data-theme="brick"] .app-footer .footer-icon {
+  color: white;
+  fill: white;
+}
+
+/* Ajustes para modales y diálogos */
+[data-theme="brick"] .modal,
+[data-theme="brick"] .dialog {
+  background-color: white;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 4px 16px rgba(178, 34, 34, 0.1);
+}
+
+/* Ajustes para divisores */
+[data-theme="brick"] hr,
+[data-theme="brick"] .divider {
+  border-color: #e6b8b8;
+}
+
+/* Ajustes para el fondo de la página de productos */
+[data-theme="brick"] .product-browsing-container,
+[data-theme="brick"] .product-listing-container,
+[data-theme="brick"] .product-grid,
+[data-theme="brick"] .product-list {
+  background-color: #fff5f5;
+}
+
+/* Títulos de categoría y subcategoría */
+[data-theme="brick"] .category-title,
+[data-theme="brick"] .subcategory-title,
+[data-theme="brick"] .category-section h1,
+[data-theme="brick"] .subcategory-section h2 {
+  color: #b22222;
+}
+
+/* Colores para tarjetas de productos en la página de listado */
+[data-theme="brick"] .product-item,
+[data-theme="brick"] .product-listing-item,
+[data-theme="brick"] .product-grid-item,
+[data-theme="brick"] .product-list-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.1);
+}
+
+/* Ajustes para el carrito */
+[data-theme="brick"] .cart-container,
+[data-theme="brick"] .order-container {
+  background-color: #fff5f5;
+}
+
+/* Colores para elementos del carrito/pedido */
+[data-theme="brick"] .cart-item,
+[data-theme="brick"] .order-item,
+[data-theme="brick"] .cart-list-item,
+[data-theme="brick"] .order-list-item,
+[data-theme="brick"] .cart-summary,
+[data-theme="brick"] .order-summary {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.1);
+}
+
+/* Título del pedido */
+[data-theme="brick"] .order-title,
+[data-theme="brick"] .cart-title {
+  color: #b22222;
+}
+
+/* Ajustes para la página de configuración */
+[data-theme="brick"] .settings-container {
+  background-color: #fff5f5;
+}
+
+[data-theme="brick"] .settings-section {
+  background-color: white;
+}
+
+[data-theme="brick"] .theme-option {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+[data-theme="brick"] .theme-name {
+  color: #333333;
+}
+
+/* Ajustes para la página de selección de pago */
+[data-theme="brick"] .payment-order-summary,
+[data-theme="brick"] .payment-methods-container {
+  background-color: white;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 4px 15px rgba(178, 34, 34, 0.1);
+}
+
+[data-theme="brick"] .payment-order-summary h3,
+[data-theme="brick"] .payment-methods-container h3 {
+  color: #b22222;
+  border-bottom: 2px solid rgba(178, 34, 34, 0.2);
+}
+
+[data-theme="brick"] .payment-total {
+  background-color: #ffebeb;
+  color: #333333;
+  box-shadow: 0 3px 10px rgba(178, 34, 34, 0.1);
+}
+
+[data-theme="brick"] .payment-method-card {
+  background-color: white;
+  border: 2px solid #e6b8b8;
+  color: #333333;
+}
+
+[data-theme="brick"] .payment-method-card:hover {
+  box-shadow: 0 8px 15px rgba(178, 34, 34, 0.2);
+}
+
+[data-theme="brick"] .payment-method-card.selected {
+  border-color: #b22222;
+  background-color: #ffebeb;
+}
+
+/* Ajustes para la página de éxito de pago */
+[data-theme="brick"] .success-content h2 {
+  color: #b22222;
+}
+
+[data-theme="brick"] .order-status-container {
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.1);
+}
+
+[data-theme="brick"] .status-icon {
+  background-color: #b22222;
+  color: white;
+}
+
+[data-theme="brick"] .order-progress-bar {
+  background-color: #e6b8b8;
+}
+
+[data-theme="brick"] .progress-dot {
+  background-color: #e6b8b8;
+  border: 2px solid white;
+}
+
+[data-theme="brick"] .progress-label.completed .progress-dot {
+  background-color: #b22222;
+}
+
+[data-theme="brick"] .progress-label.active .progress-dot {
+  box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.3);
+  background-color: #b22222;
+}
+
+[data-theme="brick"] .progress-label.completed span {
+  color: #b22222;
+}
+
+[data-theme="brick"] .new-order-button {
+  background-color: #b22222;
+  color: white;
+}
+
+[data-theme="brick"] .new-order-button:hover {
+  background-color: #cd5c5c;
+}
+
+/* Ajustes para la página de detalles del producto */
+[data-theme="brick"] .product-detail-container {
+  background-color: #fff5f5;
+}
+
+/* Colores para la página de detalle del producto */
+[data-theme="brick"] .product-detail-wrapper,
+[data-theme="brick"] .product-detail-content,
+[data-theme="brick"] .product-detail-info,
+[data-theme="brick"] .product-detail-card,
+[data-theme="brick"] .product-detail-box {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.1);
+}
+
+/* Secciones de precio en detalle de producto */
+[data-theme="brick"] .product-price-section,
+[data-theme="brick"] .product-detail-price,
+[data-theme="brick"] .price-container {
+  background-color: #ffebeb;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+}
+
+/* Ajustes para la página de confirmación de pedido */
+[data-theme="brick"] .order-confirmation-container {
+  background-color: #fff5f5;
+}
+
+/* Colores para la sección de productos recomendados */
+[data-theme="brick"] .recommended-products,
+[data-theme="brick"] .recommended-section,
+[data-theme="brick"] .related-products,
+[data-theme="brick"] .product-recommendations {
+  background-color: #fff5f5;
+  color: #333333;
+}
+
+[data-theme="brick"] .recommended-products h2,
+[data-theme="brick"] .recommended-section h2,
+[data-theme="brick"] .related-products h2,
+[data-theme="brick"] .product-recommendations h2 {
+  color: #b22222;
+}
+
+[data-theme="brick"] .recommended-product-card,
+[data-theme="brick"] .recommended-item,
+[data-theme="brick"] .related-product-card,
+[data-theme="brick"] .recommendation-card {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #e6b8b8;
+  box-shadow: 0 2px 8px rgba(178, 34, 34, 0.1);
+}

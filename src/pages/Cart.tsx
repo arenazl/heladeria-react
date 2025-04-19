@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
+import { useRelatedProducts } from '../context/RelatedProductsContext';
 import { dataService } from '../services/data.service';
 import RecommendedProducts from '../components/RecommendedProducts';
 import '../styles/Cart.css';
-import { IMAGE_BASE_URL } from '../config/image.config';
+import { getProductImageUrl } from '../config/image.config';
 import { Product } from '../models/types';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { order, updateQuantity, removeFromOrder } = useOrder();
+  const { showRelatedProducts } = useRelatedProducts();
   const [recommendedProducts, setRecommendedProducts] = useState<any[]>([]);
   const [showRecommendations, setShowRecommendations] = useState<boolean>(true);
   const cartRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,11 @@ const Cart: React.FC = () => {
             {order.items.map((item) => (
               <div key={item.productId} className="cart-item">
                 <div className="cart-item-image-container">
-                  <img src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `${IMAGE_BASE_URL}${item.product.image}`) : ''} alt={item.product.name} className="cart-item-image" />
+                  <img 
+                    src={item.product.image ? getProductImageUrl(item.product.image) : ''} 
+                    alt={item.product.name} 
+                    className="cart-item-image"
+                  />
                 </div>
                 
                 <div className="cart-item-content">
@@ -167,8 +173,9 @@ const Cart: React.FC = () => {
         
       </div>
 
-              {/* Productos recomendados con animación */}
-              <div className={`recommended-products-container ${showRecommendations ? 'show' : 'hide'}`}>
+      {/* Productos recomendados con animación */}
+      {showRelatedProducts && (
+        <div className={`recommended-products-container ${showRecommendations ? 'show' : 'hide'}`}>
           {recommendedProducts.length > 0 && (
             <RecommendedProducts 
               title="Productos Recomendados" 
@@ -176,6 +183,7 @@ const Cart: React.FC = () => {
             />
           )}
         </div>
+      )}
 
     </div>
   );

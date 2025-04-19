@@ -1,15 +1,15 @@
-/* Recommendations section */
+/* Estilos para productos recomendados - diseño con precio y botón abajo */
 .recommendations-section {
   margin-top: var(--spacing-small);
   margin-bottom: var(--spacing-small);
-  background-color: white;
+  background-color: var(--bg-light, white);
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-small, 0 1px 6px rgba(0, 0, 0, 0.06));
 }
 
 .recommendations-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: var(--spacing-medium);
   color: var(--text-dark);
   font-weight: 600;
@@ -25,46 +25,60 @@
   padding-bottom: var(--spacing-small);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  gap: var(--spacing-medium);
+  gap: 15px;
   padding: 10px 5px;
 }
 
 .recommendations-scroll::-webkit-scrollbar {
-  height: 6px;
+  height: 4px;
 }
 
 .recommendations-scroll::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .recommendations-scroll::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
-  border-radius: 3px;
+  background-color: var(--bg-dark, #f0f0f0);
+  border-radius: 2px;
 }
 
+/* Tarjeta de recomendación con nueva estructura */
 .recommendation-card {
-  background-color: white;
-  border-radius: var(--border-radius-medium);
+  background-color: var(--bg-light, white);
+  border-radius: var(--border-radius-medium, 6px);
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  flex: 11 0 289px;
-  max-width: 290px;
+  box-shadow: var(--shadow-small, 0 1px 4px rgba(0, 0, 0, 0.06));
+  flex: 0 0 220px;
+  max-width: 220px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #eee;
+  border: 1px solid var(--bg-dark, #eee);
   display: flex;
   flex-direction: column;
+  padding: 10px;
 }
 
 .recommendation-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium, 0 3px 8px rgba(0, 0, 0, 0.1));
 }
 
+/* Parte superior: imagen a la izquierda y texto a la derecha */
+.recommendation-top {
+  display: flex;
+  margin-bottom: 10px;
+  min-height: 80px;
+}
+
+/* Contenedor de imagen a la izquierda */
 .recommendation-image-container {
-  height: 120px;
+  width: 70px;
+  height: 80px;
+  flex-shrink: 0;
   overflow: hidden;
   position: relative;
+  margin-right: 10px;
+  border-radius: 4px;
 }
 
 .recommendation-image {
@@ -78,169 +92,89 @@
   transform: scale(1.05);
 }
 
-.recommendation-details {
-  padding: var(--spacing-small);
+/* Encabezado con título y descripción */
+.recommendation-header {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-.recommendation-details h4 {
+.recommendation-title {
   margin: 0 0 4px 0;
   font-weight: 600;
   color: var(--text-dark);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .recommendation-description {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: var(--text-medium);
-  margin: 0 0 8px 0;
+  margin: 0 0 0.8rem 0;
+  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: normal;
-  line-height: 1.2;
-  max-height: 2.4em;
-  display: block;
-  word-wrap: break-word;
+  max-width: 100%;
 }
 
-.recommendation-price-action {
+.recommendation-description {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  margin: 0 0 0.8rem 0;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-top: 5px;
+  line-height: 0.9;
+}
+
+/* Parte inferior: precio y botón */
+.recommendation-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   margin-top: auto;
+  border-top: 1px solid var(--bg-dark, #eee);
+  padding-top: 8px;
 }
 
 .recommendation-price {
   font-weight: bold;
   color: var(--primary-color);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin: 0;
 }
 
 .add-recommendation-button {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--text-light, white);
   border: none;
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.8rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 0.75rem;
+  box-shadow: var(--shadow-small, 0 1px 3px rgba(0, 0, 0, 0.1));
 }
 
 .add-recommendation-button:hover {
-  background-color: #5a8622;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Contenedor de productos recomendados con animación */
-.recommended-products-container {
-  overflow: hidden;
-  /* Transiciones más lentas y con curvas personalizadas para mayor suavidad */
-  transition: max-height 1.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-              opacity 1.5s cubic-bezier(0.4, 0.0, 0.2, 1),
-              transform 1.5s cubic-bezier(0.4, 0.0, 0.2, 1),
-              margin 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-  will-change: max-height, opacity, transform;
-  position: relative;
-  transform-origin: top center;
-}
-
-.recommended-products-container.show {
-  max-height: 500px; /* Altura máxima suficiente para el contenido */
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  visibility: visible;
-  /* Viene desde abajo hacia arriba */
-  transition: max-height 1.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-              opacity 1.5s cubic-bezier(0.4, 0.0, 0.2, 1),
-              transform 1.5s cubic-bezier(0.4, 0.0, 0.2, 1),
-              margin 1.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-              visibility 0s;
-}
-
-.recommended-products-container.hide {
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(50px) scale(0.9) rotate(1deg); /* Efecto más dramático con rotación ligera */
-  margin-top: 0;
-  margin-bottom: 0;
-  filter: blur(2px); /* Efecto de desenfoque al desaparecer */
-  visibility: hidden;
-  /* Transición más suave con efecto de rebote */
-  transition: max-height 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-              opacity 1.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-              transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-              margin 1.0s cubic-bezier(0.4, 0.0, 0.2, 1),
-              filter 1.0s ease,
-              visibility 0s 1.2s;
-}
-
-/* Animar también el contenido interno para un efecto más completo */
-.recommended-products-container .recommendations-scroll {
-  transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-              opacity 1.0s cubic-bezier(0.4, 0.0, 0.2, 1),
-              filter 0.8s ease;
-}
-
-.recommended-products-container.hide .recommendations-scroll {
-  transform: translateY(30px) rotate(0.5deg);
-  opacity: 0.2;
-  filter: blur(1px);
-}
-
-.recommended-products-container.show .recommendations-scroll {
-  transform: translateY(0) rotate(0deg);
-  opacity: 1;
-  filter: blur(0);
-}
-
-/* Animar cada tarjeta individualmente con un pequeño retraso */
-.recommendation-card {
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-              opacity 0.5s ease,
-              box-shadow 0.3s ease;
-}
-
-.recommended-products-container.hide .recommendation-card {
-  transform: translateY(20px) scale(0.95);
-  opacity: 0;
-  transition-delay: calc(var(--card-index, 0) * 0.05s);
-}
-
-.recommended-products-container.show .recommendation-card {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  transition-delay: calc(var(--card-index, 0) * 0.1s);
-}
-
-/* Asegurarse de que el contenedor principal permita el overflow para las animaciones */
-.recommendations-section {
-  overflow: visible !important;
+  background-color: var(--secondary-color, #5a8622);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium, 0 2px 4px rgba(0, 0, 0, 0.12));
 }
 
 /* Animación de fade out cuando se agrega un producto al carrito */
-.recommendation-card {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1¿0.5s ease, transform 0.5s ease;
-}
-
 .recommendation-card.fading-out {
   opacity: 0 !important;
-  transform: translateY(30px) !important;
+  transform: translateY(20px) !important;
   transition: opacity 0.5s ease, transform 0.5s ease !important;
-  pointer-events: none !important; /* Evitar clics adicionales durante la animación */
+  pointer-events: none !important;
   z-index: 100 !important;
   position: relative !important;
 }
@@ -256,7 +190,52 @@
   }
   50% {
     transform: scale(1.1);
-    background-color: #4a7a1b;
+    background-color: var(--secondary-color, #4a7a1b);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .recommendations-section {
+  background-color: var(--bg-medium, #333333);
+}
+
+[data-theme="dark"] .recommendation-card {
+  background-color: var(--primary-color, #1e2a38);
+  border-color: var(--bg-medium, #444444);
+}
+
+[data-theme="dark"] .recommendation-footer {
+  border-top-color: var(--bg-medium, #444444);
+}
+
+[data-theme="dark"] .recommendation-title {
+  color: var(--text-light, #ffffff);
+}
+
+[data-theme="dark"] .recommendation-description {
+  color: var(--text-medium, #cccccc);
+}
+
+/* Turquoise theme overrides */
+[data-theme="turquoise"] .add-recommendation-button:hover {
+  background-color: var(--secondary-color, #48d1cc);
+}
+
+/* Turquoise theme button pulse animation */
+[data-theme="turquoise"] .add-recommendation-button:active {
+  animation: turquoise-button-pulse 0.3s ease;
+}
+
+@keyframes turquoise-button-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: var(--secondary-color, #48d1cc);
   }
   100% {
     transform: scale(1);

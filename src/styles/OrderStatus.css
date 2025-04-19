@@ -1055,9 +1055,9 @@
 
 .payment-method-icon {
   background-color: rgba(34, 197, 94, 0.1);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 33px;
+  height: 27px;
+  border-radius: 15%;
   display: flex;
   align-items: center;
   justify-content: center;

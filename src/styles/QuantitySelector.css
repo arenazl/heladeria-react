@@ -25,7 +25,8 @@
 }
 
 .add-button:hover {
-  background-color: #5a8622;
+  background-color: var(--primary-color);
+  filter: brightness(0.9);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -70,7 +71,8 @@
 
 .increment-button:hover,
 .decrement-button:hover {
-  background-color: #5a8622;
+  background-color: var(--primary-color);
+  filter: brightness(0.9);
 }
 
 .decrement-button {

@@ -115,12 +115,17 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
   };
 
   const clearOrder = () => {
+    // Clear all order information, including customer
     setOrder({
       items: [],
-      total: 0,
-      customerId: undefined,
-      customer: undefined
+      total: 0
     });
+    
+    // For native, we would use AsyncStorage instead of localStorage
+    // This is just a placeholder for consistency with the web version
+    // AsyncStorage.removeItem('mpOrderData');
+    // AsyncStorage.removeItem('mpPreferenceId');
+    // AsyncStorage.removeItem('mpOrderDataProcessed');
   };
 
   return (

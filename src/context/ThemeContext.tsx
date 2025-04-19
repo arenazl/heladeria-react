@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Definir los tipos de temas disponibles
-export type ThemeType = 'green' | 'turquoise' | 'dark';
+export type ThemeType = 'green' | 'turquoise' | 'dark' | 'orange' | 'brick';
 
 // Definir la interfaz del contexto
 interface ThemeContextType {

@@ -4,7 +4,7 @@ import { dataService } from '../services/data.service';
 import { Category } from '../models/types';
 import QuantitySelector from './QuantitySelector';
 import '../styles/AllProductsListing.css';
-import { IMAGE_BASE_URL } from '../config/image.config';
+import { getProductImageUrl } from '../config/image.config';
 import { toProperCase } from '../services/data.service';
 
 const AllProductsList: React.FC = () => {
@@ -48,7 +48,11 @@ const AllProductsList: React.FC = () => {
                       onClick={() => handleProductClick(product.id)}
                     >
                       <div className="product-image-container">
-<img src={`${IMAGE_BASE_URL}${product.image}`} alt={product.name} className="product-image" />
+<img 
+  src={product.image ? getProductImageUrl(product.image) : ''} 
+  alt={product.name} 
+  className="product-image"
+/>
                       </div>
                       <div className="product-content">
                         <h3 className="product-title">{product.name}</h3>

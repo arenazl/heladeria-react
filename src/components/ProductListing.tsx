@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataService } from '../services/data.service';
 import QuantitySelector from './QuantitySelector';
+import ImageWithFallback from './ImageWithFallback';
 import '../styles/ProductListing.css';
-import { IMAGE_BASE_URL } from '../config/image.config';
 import { toProperCase } from '../services/data.service';
 
 interface ProductListingProps {
@@ -44,7 +44,11 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
               onClick={() => handleProductClick(product.id)}
             >
               <div className="product-image-container">
-<img src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} alt={product.name} className="product-image" />
+                <ImageWithFallback 
+                  src={product.image || ''} 
+                  alt={product.name} 
+                  className="product-image"
+                />
               </div>
               <div className="product-content">
                 <h3 className="product-title">{product.name}</h3>
@@ -91,7 +95,11 @@ const ProductListing: React.FC<ProductListingProps> = ({ categoryId, selectedSub
                   onClick={() => handleProductClick(product.id)}
                 >
                   <div className="product-image-container">
-<img src={`${IMAGE_BASE_URL}${product.image}`} alt={product.name} className="product-image" />
+                    <ImageWithFallback 
+                      src={product.image || ''} 
+                      alt={product.name} 
+                      className="product-image"
+                    />
                   </div>
                   <div className="product-content">
                     <h3 className="product-title">{product.name}</h3>

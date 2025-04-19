@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { dataService } from '../services/data.service';
 import { useOrder } from '../context/OrderContext';
+import { useRelatedProducts } from '../context/RelatedProductsContext';
 import QuantitySelector from '../components/QuantitySelector';
+import ImageWithFallback from '../components/ImageWithFallback';
 import '../styles/ProductDetail.css';
 import RecommendedProducts from '../components/RecommendedProducts';
-import { IMAGE_BASE_URL } from '../config/image.config';
 
 const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const { productId } = useParams<{ productId: string }>();
   const { order, addToOrder } = useOrder();
+  const { showRelatedProducts } = useRelatedProducts();
   const [recommendations, setRecommendations] = useState<any[]>([]);
-  const [showRecommendations, setShowRecommendations] = useState<boolean>(true);
   
   const productIdNumber = productId ? parseInt(productId, 10) : 0;
   const product = dataService.getProductById(productIdNumber);
@@ -58,7 +59,11 @@ const relatedProducts = dataService.getRelatedProducts(product.id, excludedProdu
     <div className="product-detail-container">
       <div className="product-detail-content">
         <div className="product-detail-image-container">
-<img src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} alt={product.name} className="product-detail-image" />
+          <ImageWithFallback 
+            src={product.image || ''} 
+            alt={product.name} 
+            className="product-detail-image"
+          />
         </div>
         
         <div className="product-detail-info">
@@ -80,7 +85,9 @@ const relatedProducts = dataService.getRelatedProducts(product.id, excludedProdu
         </div>
       </div>
       
-<RecommendedProducts title="Productos Relacionados" products={recommendations} />
+{showRelatedProducts && recommendations.length > 0 && (
+  <RecommendedProducts title="Productos Relacionados" products={recommendations} />
+)}
     </div>
   );
 };

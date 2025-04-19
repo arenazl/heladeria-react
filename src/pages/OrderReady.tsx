@@ -2,18 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { formatTime } from '../utils/orderUtils';
+import { API_CONFIG } from '../config/api.config';
 import '../styles/OrderReady.css';
 
 const OrderReady: React.FC = () => {
   const navigate = useNavigate();
   const { order, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime } = useOrder();
   const [dataRestored, setDataRestored] = useState<boolean>(false);
+  const [orderNumber, setOrderNumber] = useState<string>('');
 
   // Efecto para verificar si hay datos en localStorage y restaurarlos si es necesario
   useEffect(() => {
     // Si ya hay una orden con items, no necesitamos restaurar nada
     if (order && order.items.length > 0) {
       setDataRestored(true);
+      
+      // Maintain the flag that indicates we're coming from payment success flow
+      // This ensures the back button won't clear the cart if we came from payment success
+      if (sessionStorage.getItem('fromPaymentSuccess') === 'true') {
+        console.log('Maintaining fromPaymentSuccess flag in OrderReady');
+      }
+      
       return;
     }
 
@@ -25,6 +34,20 @@ const OrderReady: React.FC = () => {
       try {
         const parsedData = JSON.parse(storedData);
         console.log('Retrieved order data from localStorage in OrderReady:', parsedData);
+        
+        // Obtener el número de orden si existe
+        if (parsedData.orderNumber) {
+          setOrderNumber(parsedData.orderNumber);
+        } else {
+          // Generar un número de orden aleatorio si no existe
+          const generateOrderNumber = () => {
+            const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+            const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+            return `${randomLetter}${randomNumber}`;
+          };
+          setOrderNumber(generateOrderNumber());
+        }
         
         // Restaurar los items al OrderContext
         if (parsedData.items && parsedData.items.length > 0) {
@@ -61,14 +84,17 @@ const OrderReady: React.FC = () => {
           localStorage.removeItem('mpOrderData');
         } else {
           console.warn('No items found in stored order data in OrderReady');
+          // Navigate to home page
           navigate('/');
         }
       } catch (error) {
         console.error('Error parsing stored order data in OrderReady:', error);
+        // Navigate to home page
         navigate('/');
       }
     } else {
       console.log('No stored order data found in OrderReady, redirecting to home');
+      // Navigate to home page
       navigate('/');
     }
   }, [order, navigate, clearOrder, addToOrder, setCustomer, setCustomerName, setEstimatedPickupTime]);
@@ -78,12 +104,28 @@ const OrderReady: React.FC = () => {
     // Si ya intentamos restaurar los datos y aún no hay orden o items, redirigir a home
     if (dataRestored && (!order || order.items.length === 0)) {
       console.log('No order data after restoration attempt, redirecting to home');
+      // Navigate to home page
       navigate('/');
     }
   }, [dataRestored, order, navigate]);
 
   const handleBackToHome = () => {
-    navigate('/');
+    // Clear the fromPaymentSuccess flag when explicitly going back to home
+    sessionStorage.removeItem('fromPaymentSuccess');
+    
+    // Clear the order and navigate to home
+    clearOrder();
+    
+    // Check if we have company ID and price list ID in sessionStorage
+    const companyId = sessionStorage.getItem('companyId');
+    const priceListId = sessionStorage.getItem('priceListId');
+    
+    // Navigate to menu page if we have company ID and price list ID, otherwise navigate to home page
+    if (companyId && priceListId) {
+      navigate(`/menu/${companyId}/${priceListId}`);
+    } else {
+      navigate('/');
+    }
   };
 
   if (!order || order.items.length === 0) {
@@ -94,9 +136,23 @@ const OrderReady: React.FC = () => {
     <div className="order-ready-container">
       <div className="order-ready-card">
         <div className="order-ready-header">
-          <div className="order-ready-icon">✅</div>
+          <div className="order-ready-icon-container">
+            <div className="order-ready-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
           <h1 className="order-ready-title">¡Tu pedido está listo!</h1>
           <p className="order-ready-subtitle">Por favor retira por mostrador</p>
+          
+          {/* Número de orden */}
+          {orderNumber && (
+            <div className="order-number">
+              <span className="order-number-label">Orden</span>
+              <span className="order-number-value">#{orderNumber}</span>
+            </div>
+          )}
         </div>
 
         <div className="order-ready-details">
@@ -149,5 +205,6 @@ const OrderReady: React.FC = () => {
     </div>
   );
 };
+
 
 export default OrderReady;

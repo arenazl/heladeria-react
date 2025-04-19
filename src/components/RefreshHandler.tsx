@@ -47,11 +47,18 @@ const RefreshHandler: React.FC = () => {
         clearOrder();
         
         // Verificar si hay un companyId y priceListId en sessionStorage
-        const companyId = sessionStorage.getItem('companyId') || '1';
-        const priceListId = sessionStorage.getItem('priceListId') || '1';
+        const companyId = sessionStorage.getItem('companyId');
+        const priceListId = sessionStorage.getItem('priceListId');
         
-        // Redirigir a la página de menú
-        navigate('/menu/' + companyId + '/' + priceListId);
+        // Solo redirigir a la página de menú si tenemos ambos valores
+        if (companyId && priceListId) {
+          console.log(`Redirecting to menu with companyId: ${companyId}, priceListId: ${priceListId}`);
+          navigate('/menu/' + companyId + '/' + priceListId);
+        } else {
+          // Si no tenemos los valores, redirigir a la página de inicio
+          console.log('No companyId or priceListId found, redirecting to home page');
+          navigate('/');
+        }
         
         // Limpiar el flag
         sessionStorage.removeItem('isRefreshing');

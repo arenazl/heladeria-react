@@ -4,7 +4,9 @@
   /* Primary Colors */
   --primary-gradient: linear-gradient(179deg, rgb(173 173 173 / 5%), rgb(173 173 173 / 5%));
   --primary-color: #61862d;
+  --primary-color-rgb: 97, 134, 45;
   --secondary-color: #bcd819;
+  --secondary-color-rgb: 188, 216, 25;
   
   /* Text Colors */
   --text-dark: #343a40;
@@ -40,7 +42,9 @@
 /* Tema Turquesa */
 :root[data-theme="turquoise"] {
   --primary-color: #20b2aa; /* Turquesa */
+  --primary-color-rgb: 32, 178, 170;
   --secondary-color: #48d1cc; /* Turquesa medio */
+  --secondary-color-rgb: 72, 209, 204;
   
   /* El resto de variables se mantienen igual */
   --text-dark: #343a40;
@@ -57,7 +61,9 @@
 /* Tema Oscuro */
 :root[data-theme="dark"] {
   --primary-color: #1e2a38; /* Azul muy oscuro, casi negro */
+  --primary-color-rgb: 30, 42, 56;
   --secondary-color: #2c3e50; /* Azul oscuro */
+  --secondary-color-rgb: 44, 62, 80;
   
   /* Colores de texto invertidos */
   --text-dark: #ffffff;
@@ -75,6 +81,56 @@
   --shadow-large: 0 6px 12px rgba(0, 0, 0, 0.5);
   
   --error-color: #ff6b6b;
+}
+
+/* Tema Naranja */
+:root[data-theme="orange"] {
+  --primary-color: #ff8c00; /* Naranja oscuro */
+  --primary-color-rgb: 255, 140, 0;
+  --secondary-color: #ffa500; /* Naranja */
+  --secondary-color-rgb: 255, 165, 0;
+  
+  /* Colores de texto */
+  --text-dark: #333333;
+  --text-medium: #555555;
+  --text-light: white;
+  
+  /* Fondos */
+  --bg-light: white;
+  --bg-medium: #fff9f0; /* Blanco con tinte naranja muy sutil */
+  --bg-dark: #fff4e0; /* Blanco con tinte naranja más notable */
+  
+  /* Sombras */
+  --shadow-small: 0 2px 4px rgba(255, 140, 0, 0.1);
+  --shadow-medium: 0 4px 8px rgba(255, 140, 0, 0.1);
+  --shadow-large: 0 6px 12px rgba(255, 140, 0, 0.1);
+  
+  --error-color: #ff5252;
+}
+
+/* Tema Ladrillo */
+:root[data-theme="brick"] {
+  --primary-color: #b22222; /* Rojo ladrillo */
+  --primary-color-rgb: 178, 34, 34;
+  --secondary-color: #cd5c5c; /* Rojo indio */
+  --secondary-color-rgb: 205, 92, 92;
+  
+  /* Colores de texto */
+  --text-dark: #333333;
+  --text-medium: #555555;
+  --text-light: white;
+  
+  /* Fondos */
+  --bg-light: white;
+  --bg-medium: #fff5f5; /* Blanco con tinte rojizo muy sutil */
+  --bg-dark: #ffebeb; /* Blanco con tinte rojizo más notable */
+  
+  /* Sombras */
+  --shadow-small: 0 2px 4px rgba(178, 34, 34, 0.1);
+  --shadow-medium: 0 4px 8px rgba(178, 34, 34, 0.1);
+  --shadow-large: 0 6px 12px rgba(178, 34, 34, 0.1);
+  
+  --error-color: #ff5252;
 }
 
 /* Estilos adicionales para el tema oscuro */

@@ -42,6 +42,10 @@ const MenuLoader: React.FC = () => {
       try {
         setLoading(true);
         
+        // Save companyId and priceListId to sessionStorage for future API calls
+        sessionStorage.setItem('companyId', companyId);
+        sessionStorage.setItem('priceListId', priceListId);
+        
         const success = await dataService.loadData(companyId, priceListId);
         
         if (success) {
@@ -56,7 +60,7 @@ const MenuLoader: React.FC = () => {
           // Redirect to products page after a delay
           setTimeout(() => {
             navigate('/products');
-          }, 5500); 
+          }, 500); 
         } else {
           setError('Error al cargar los datos del menú');
           setLoading(false);
@@ -77,7 +81,11 @@ const MenuLoader: React.FC = () => {
       <div className="menu-loader error">
         <h2>Error</h2>
         <p>{error}</p>
-        <button onClick={() => navigate('/')}>Volver al inicio</button>
+        <button onClick={() => {
+          // Get company ID and price list ID from sessionStorage or use default values
+          // Navigate to the welcome screen instead of using default values
+          navigate('/');
+        }}>Volver al inicio</button>
       </div>
     );
   }

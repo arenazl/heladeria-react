@@ -1,0 +1,26 @@
+.image-with-fallback {
+  transition: opacity 0.3s ease;
+}
+
+.image-with-fallback.loading {
+  opacity: 0.5;
+}
+
+.image-with-fallback.error {
+  /* Add a subtle border to indicate the image failed to load */
+  border: 1px dashed var(--text-medium, #ccc);
+  background-color: var(--bg-dark, #f0f0f0);
+  object-fit: contain;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .image-with-fallback.error {
+  border: 1px dashed #444;
+  background-color: #333;
+}
+
+/* Turquoise theme overrides */
+[data-theme="turquoise"] .image-with-fallback.error {
+  border: 1px dashed #48d1cc;
+  background-color: #f0f8ff;
+}

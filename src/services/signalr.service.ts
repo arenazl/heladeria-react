@@ -99,10 +99,12 @@ class SignalRService {
       console.log('Joined MercadoPagoCheckoutNotificationGroup');
       
       // Join company-specific groups if needed
-      const companyId = API_CONFIG.COMPANY_ID;
+      const companyId = sessionStorage.getItem('companyId');
       if (companyId) {
         await this.connection.invoke('AddToGroup', `PartnerOrderGroup${companyId}`);
         console.log(`Joined PartnerOrderGroup${companyId}`);
+      } else {
+        console.warn('No companyId found in sessionStorage, skipping company-specific group');
       }
     } catch (error) {
       console.error('Error joining SignalR groups:', error);

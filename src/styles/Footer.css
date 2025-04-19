@@ -15,6 +15,7 @@
   align-items: center;
   height: 100%;
   gap: var(--spacing-medium);
+  flex-direction: row;
 }
 
 /* Add products button */
@@ -30,6 +31,7 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
+  min-width: 120px;
 }
 
 .add-products-button:hover {
@@ -53,6 +55,7 @@
   cursor: pointer;
   transition: background-color 0.3s;
   flex-grow: 1;
+  margin-left: 0;
 }
 
 .cart-button:hover {
@@ -174,6 +177,7 @@
   /* Mobile styles for add products button */
   .add-products-button {
     padding: 0.5rem;
+    min-width: 100px;
   }
   
   .add-products-text {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
-import { IMAGE_BASE_URL } from '../config/image.config';
+import ImageWithFallback from './ImageWithFallback';
 import '../styles/RecommendedProducts.css';
 
 interface RecommendedProductsProps {
@@ -54,31 +54,36 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ title, produc
               className={`recommendation-card ${fadingProducts[product.id] ? 'fading-out' : ''}`}
               style={{ '--card-index': index } as React.CSSProperties}
             >
-              <div className="recommendation-image-container">
-                <img 
-                  src={product.image ? (product.image.startsWith('http') ? product.image : `${IMAGE_BASE_URL}${product.image}`) : ''} 
-                  alt={product.name} 
-                  className="recommendation-image" 
-                />
-              </div>
-              <div className="recommendation-details">
-                <h4>{product.name}</h4>
-                <p className="recommendation-description">
-                  {product.description 
-                    ? (product.description.length > 40 
-                        ? product.description.substring(0, 40) + "..." 
-                        : product.description)
-                    : "Esta es la descripción de un producto..."}
-                </p>
-                <div className="recommendation-price-action">
-                  <span className="recommendation-price">$ {product.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                  <button 
-                    className="add-recommendation-button"
-                    onClick={(e) => handleAddRecommendedProduct(product.id, e)}
-                  >
-                    Agregar
-                  </button>
+              {/* Parte superior: Imagen a la izquierda y textos a la derecha */}
+              <div className="recommendation-top">
+                <div className="recommendation-image-container">
+                  <ImageWithFallback 
+                    src={product.image || ''} 
+                    alt={product.name} 
+                    className="recommendation-image"
+                  />
                 </div>
+                <div className="recommendation-header">
+                  <h4 className="recommendation-title">{product.name}</h4>
+                  <p className="recommendation-description">
+                    {product.description 
+                      ? (product.description.length > 60
+                          ? product.description.substring(0, 60) + "..." 
+                          : product.description)
+                      : "Esta es la descripción de un producto..."}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Parte inferior: Precio y botón en un div separado */}
+              <div className="recommendation-footer">
+                <span className="recommendation-price">$ {product.price.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                <button 
+                  className="add-recommendation-button"
+                  onClick={(e) => handleAddRecommendedProduct(product.id, e)}
+                >
+                  Agregar
+                </button>
               </div>
             </div>
           )

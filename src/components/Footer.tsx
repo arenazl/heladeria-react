@@ -59,18 +59,6 @@ const Footer: React.FC = () => {
   return (
     <footer className="app-footer">
       <div className="cart-actions">
-        <div className="cart-button" onClick={isCartPage ? handleFinalizeClick : handleCartClick}>
-          <div className="cart-icon">
-            🛒
-            <span className="cart-badge">{itemCount}</span>
-          </div>
-          <div className="cart-info">
-            {itemCount > 0 && <span className="cart-total">$ {order.total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>}
-          </div>
-          <div className="cart-action">
-            {isCartPage ? 'Finalizar →' : 'Ver Carrito →'}
-          </div>
-        </div>
         {isCartPage ? (
           <button 
             className="add-products-button" 
@@ -89,6 +77,18 @@ const Footer: React.FC = () => {
             <TrashIcon />
           </button>
         )}
+        <div className="cart-button" onClick={isCartPage ? handleFinalizeClick : handleCartClick}>
+          <div className="cart-icon">
+            🛒
+            <span className="cart-badge">{itemCount}</span>
+          </div>
+          <div className="cart-info">
+            {itemCount > 0 && <span className="cart-total">$ {order.total.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>}
+          </div>
+          <div className="cart-action">
+            {isCartPage ? 'Finalizar →' : 'Ver Carrito →'}
+          </div>
+        </div>
       </div>
     </footer>
   );

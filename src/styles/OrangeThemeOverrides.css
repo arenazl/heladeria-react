@@ -1,0 +1,424 @@
+/* Estilos adicionales para el tema naranja */
+[data-theme="orange"] body,
+[data-theme="orange"] .app {
+  background-color: white;
+  color: #333333;
+}
+
+/* Ajustes para tarjetas de productos */
+[data-theme="orange"] .product-card,
+[data-theme="orange"] .cart-item,
+[data-theme="orange"] .order-item,
+[data-theme="orange"] .product-detail-card {
+  background-color: white;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.1);
+}
+
+[data-theme="orange"] .product-card:hover {
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
+}
+
+/* Colores de texto en tarjetas de productos */
+[data-theme="orange"] .product-card .product-name,
+[data-theme="orange"] .product-card h1, 
+[data-theme="orange"] .product-card h2, 
+[data-theme="orange"] .product-card h3,
+[data-theme="orange"] .product-detail-card h1,
+[data-theme="orange"] .product-detail-card h2,
+[data-theme="orange"] .product-detail-card h3,
+[data-theme="orange"] .product-detail-card .product-name {
+  color: #333333;
+}
+
+[data-theme="orange"] .product-card .product-price,
+[data-theme="orange"] .product-detail-card .product-price {
+  color: #ff8c00;
+  font-weight: bold;
+}
+
+/* Botones de acción en tarjetas de productos */
+[data-theme="orange"] .product-card button,
+[data-theme="orange"] .product-detail-card button,
+[data-theme="orange"] .product-card .add-button,
+[data-theme="orange"] .product-card .quantity-button,
+[data-theme="orange"] .product-card .action-button {
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+}
+
+[data-theme="orange"] .product-card button:hover,
+[data-theme="orange"] .product-detail-card button:hover,
+[data-theme="orange"] .product-card .add-button:hover,
+[data-theme="orange"] .product-card .quantity-button:hover,
+[data-theme="orange"] .product-card .action-button:hover {
+  background-color: #ffa500;
+}
+
+/* Ajustes para botones */
+[data-theme="orange"] .button,
+[data-theme="orange"] button:not(.header-settings-button):not(.header-back-button) {
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+}
+
+[data-theme="orange"] .button:hover,
+[data-theme="orange"] button:not(.header-settings-button):not(.header-back-button):hover {
+  background-color: #ffa500;
+}
+
+/* Ajustes para inputs */
+[data-theme="orange"] input,
+[data-theme="orange"] textarea,
+[data-theme="orange"] select {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] input:focus,
+[data-theme="orange"] textarea:focus,
+[data-theme="orange"] select:focus {
+  border-color: #ff8c00;
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+}
+
+/* Ajustes para barras de navegación y tabs */
+[data-theme="orange"] .nav-tab,
+[data-theme="orange"] .category-bar,
+[data-theme="orange"] .subcategory-bar {
+  background-color: #fff9f0;
+  border-color: #ffcc80;
+}
+
+/* Estilos para categorías y subcategorías */
+[data-theme="orange"] .category-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] .category-icon {
+  background-color: #fff4e0;
+}
+
+[data-theme="orange"] .category-name {
+  color: #333333;
+}
+
+[data-theme="orange"] .subcategory-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] .subcategory-name {
+  color: #333333;
+}
+
+[data-theme="orange"] .nav-tab.active,
+[data-theme="orange"] .category-item.active,
+[data-theme="orange"] .subcategory-item.active {
+  background-color: #ff8c00;
+  color: white;
+  border-color: #ff8c00;
+}
+
+[data-theme="orange"] .category-item.active .category-name,
+[data-theme="orange"] .subcategory-item.active .subcategory-name {
+  color: white;
+}
+
+[data-theme="orange"] .category-item.active .category-icon {
+  background-color: #ffa500;
+}
+
+/* Botones de navegación y filtros */
+[data-theme="orange"] .filter-button,
+[data-theme="orange"] .tab-button,
+[data-theme="orange"] .nav-button,
+[data-theme="orange"] button[class*="filter"],
+[data-theme="orange"] button[class*="tab"],
+[data-theme="orange"] .todos-button {
+  background-color: #fff4e0;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] .filter-button:hover,
+[data-theme="orange"] .tab-button:hover,
+[data-theme="orange"] .nav-button:hover,
+[data-theme="orange"] button[class*="filter"]:hover,
+[data-theme="orange"] button[class*="tab"]:hover,
+[data-theme="orange"] .todos-button:hover,
+[data-theme="orange"] .category-item:hover {
+  background-color: #ffcc80;
+}
+
+[data-theme="orange"] .filter-button.active,
+[data-theme="orange"] .tab-button.active,
+[data-theme="orange"] .nav-button.active,
+[data-theme="orange"] button[class*="filter"].active,
+[data-theme="orange"] button[class*="tab"].active,
+[data-theme="orange"] .todos-button.active {
+  background-color: #ff8c00;
+  color: white;
+  border-color: #ff8c00;
+}
+
+/* Estilos específicos para la barra de navegación inferior */
+[data-theme="orange"] .bottom-nav,
+[data-theme="orange"] .filter-bar,
+[data-theme="orange"] .tab-bar {
+  background-color: #fff9f0;
+  border-top: 1px solid #ffcc80;
+}
+
+/* Ajustes para fondos de página */
+[data-theme="orange"] .page-container,
+[data-theme="orange"] .section-container {
+  background-color: white;
+}
+
+/* Ajustes para el footer */
+[data-theme="orange"] .app-footer {
+  background-color: #ff8c00;
+  color: white;
+  border-top: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] .app-footer a,
+[data-theme="orange"] .app-footer button,
+[data-theme="orange"] .app-footer .footer-link {
+  color: white;
+}
+
+[data-theme="orange"] .app-footer .footer-icon {
+  color: white;
+  fill: white;
+}
+
+/* Ajustes para modales y diálogos */
+[data-theme="orange"] .modal,
+[data-theme="orange"] .dialog {
+  background-color: white;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.1);
+}
+
+/* Ajustes para divisores */
+[data-theme="orange"] hr,
+[data-theme="orange"] .divider {
+  border-color: #ffcc80;
+}
+
+/* Ajustes para el fondo de la página de productos */
+[data-theme="orange"] .product-browsing-container,
+[data-theme="orange"] .product-listing-container,
+[data-theme="orange"] .product-grid,
+[data-theme="orange"] .product-list {
+  background-color: #fff9f0;
+}
+
+/* Títulos de categoría y subcategoría */
+[data-theme="orange"] .category-title,
+[data-theme="orange"] .subcategory-title,
+[data-theme="orange"] .category-section h1,
+[data-theme="orange"] .subcategory-section h2 {
+  color: #ff8c00;
+}
+
+/* Colores para tarjetas de productos en la página de listado */
+[data-theme="orange"] .product-item,
+[data-theme="orange"] .product-listing-item,
+[data-theme="orange"] .product-grid-item,
+[data-theme="orange"] .product-list-item {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.1);
+}
+
+/* Ajustes para el carrito */
+[data-theme="orange"] .cart-container,
+[data-theme="orange"] .order-container {
+  background-color: #fff9f0;
+}
+
+/* Colores para elementos del carrito/pedido */
+[data-theme="orange"] .cart-item,
+[data-theme="orange"] .order-item,
+[data-theme="orange"] .cart-list-item,
+[data-theme="orange"] .order-list-item,
+[data-theme="orange"] .cart-summary,
+[data-theme="orange"] .order-summary {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.1);
+}
+
+/* Título del pedido */
+[data-theme="orange"] .order-title,
+[data-theme="orange"] .cart-title {
+  color: #ff8c00;
+}
+
+/* Ajustes para la página de configuración */
+[data-theme="orange"] .settings-container {
+  background-color: #fff9f0;
+}
+
+[data-theme="orange"] .settings-section {
+  background-color: white;
+}
+
+[data-theme="orange"] .theme-option {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+[data-theme="orange"] .theme-name {
+  color: #333333;
+}
+
+/* Ajustes para la página de selección de pago */
+[data-theme="orange"] .payment-order-summary,
+[data-theme="orange"] .payment-methods-container {
+  background-color: white;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.1);
+}
+
+[data-theme="orange"] .payment-order-summary h3,
+[data-theme="orange"] .payment-methods-container h3 {
+  color: #ff8c00;
+  border-bottom: 2px solid rgba(255, 140, 0, 0.2);
+}
+
+[data-theme="orange"] .payment-total {
+  background-color: #fff4e0;
+  color: #333333;
+  box-shadow: 0 3px 10px rgba(255, 140, 0, 0.1);
+}
+
+[data-theme="orange"] .payment-method-card {
+  background-color: white;
+  border: 2px solid #ffcc80;
+  color: #333333;
+}
+
+[data-theme="orange"] .payment-method-card:hover {
+  box-shadow: 0 8px 15px rgba(255, 140, 0, 0.2);
+}
+
+[data-theme="orange"] .payment-method-card.selected {
+  border-color: #ff8c00;
+  background-color: #fff4e0;
+}
+
+/* Ajustes para la página de éxito de pago */
+[data-theme="orange"] .success-content h2 {
+  color: #ff8c00;
+}
+
+[data-theme="orange"] .order-status-container {
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.1);
+}
+
+[data-theme="orange"] .status-icon {
+  background-color: #ff8c00;
+  color: white;
+}
+
+[data-theme="orange"] .order-progress-bar {
+  background-color: #ffcc80;
+}
+
+[data-theme="orange"] .progress-dot {
+  background-color: #ffcc80;
+  border: 2px solid white;
+}
+
+[data-theme="orange"] .progress-label.completed .progress-dot {
+  background-color: #ff8c00;
+}
+
+[data-theme="orange"] .progress-label.active .progress-dot {
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.3);
+  background-color: #ff8c00;
+}
+
+[data-theme="orange"] .progress-label.completed span {
+  color: #ff8c00;
+}
+
+[data-theme="orange"] .new-order-button {
+  background-color: #ff8c00;
+  color: white;
+}
+
+[data-theme="orange"] .new-order-button:hover {
+  background-color: #ffa500;
+}
+
+/* Ajustes para la página de detalles del producto */
+[data-theme="orange"] .product-detail-container {
+  background-color: #fff9f0;
+}
+
+/* Colores para la página de detalle del producto */
+[data-theme="orange"] .product-detail-wrapper,
+[data-theme="orange"] .product-detail-content,
+[data-theme="orange"] .product-detail-info,
+[data-theme="orange"] .product-detail-card,
+[data-theme="orange"] .product-detail-box {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.1);
+}
+
+/* Secciones de precio en detalle de producto */
+[data-theme="orange"] .product-price-section,
+[data-theme="orange"] .product-detail-price,
+[data-theme="orange"] .price-container {
+  background-color: #fff4e0;
+  color: #333333;
+  border: 1px solid #ffcc80;
+}
+
+/* Ajustes para la página de confirmación de pedido */
+[data-theme="orange"] .order-confirmation-container {
+  background-color: #fff9f0;
+}
+
+/* Colores para la sección de productos recomendados */
+[data-theme="orange"] .recommended-products,
+[data-theme="orange"] .recommended-section,
+[data-theme="orange"] .related-products,
+[data-theme="orange"] .product-recommendations {
+  background-color: #fff9f0;
+  color: #333333;
+}
+
+[data-theme="orange"] .recommended-products h2,
+[data-theme="orange"] .recommended-section h2,
+[data-theme="orange"] .related-products h2,
+[data-theme="orange"] .product-recommendations h2 {
+  color: #ff8c00;
+}
+
+[data-theme="orange"] .recommended-product-card,
+[data-theme="orange"] .recommended-item,
+[data-theme="orange"] .related-product-card,
+[data-theme="orange"] .recommendation-card {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #ffcc80;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.1);
+}

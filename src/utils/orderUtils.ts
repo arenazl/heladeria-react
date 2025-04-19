@@ -85,8 +85,8 @@ export const sendNotification = (title: string, options?: NotificationOptions): 
 
   // Set default options for better mobile experience
   const defaultOptions: ExtendedNotificationOptions = {
-              icon: '/logo192.png',
-    badge: API_CONFIG.COMPANY_ID, // For Android
+    icon: '/logo192.png',
+    badge: sessionStorage.getItem('companyId') || '/logo192.png', // For Android, use logo as fallback
     vibrate: [200, 100, 200], // Vibration pattern for mobile devices
     requireInteraction: true, // Keep notification until user interacts with it
     ...options

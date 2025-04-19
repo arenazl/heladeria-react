@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { loginService } from '../services/login.service';
-import { apiService } from '../services/api.service';
 
 const TestApi: React.FC = () => {
   const [result, setResult] = useState<string>('');
@@ -56,13 +55,15 @@ const TestApi: React.FC = () => {
     setResult('Testing GetCompanyById...');
     
     try {
-      apiService.setHeaders(companyId, "");
-      const response = await apiService.getCompanyById(companyId);
+      //apiService.setHeaders(companyId, "");
+      //const response = await apiService.getCompanyById(companyId);
       
       // Log all headers to see what's available
-      setResult(prev => prev + `\nGetCompanyById response headers: ${JSON.stringify(response.headers, null, 2)}`);
+
+      //setResult(prev => prev + `\nGetCompanyById response headers: ${JSON.stringify(response.headers, null, 2)}`);
       
       // Specifically check for Authorization header
+      /*
       if (response.headers && response.headers.authorization) {
         setResult(prev => prev + `\nAuthorization header: ${response.headers.authorization}`);
         
@@ -79,6 +80,8 @@ const TestApi: React.FC = () => {
       setCompanyData(response.data)
       
       setResult(prev => prev + `\nGetCompanyById result: ${JSON.stringify(response.data, null, 2)}`);
+      */
+
     } catch (error) {
       console.error('Error in testGetCompanyById:', error);
       
@@ -111,6 +114,8 @@ const TestApi: React.FC = () => {
   };
 
   const testGetMenuCommensal = async () => {
+
+    /*
     setLoading(true);
     setResult('Testing GetMenuCommensal...');
     
@@ -163,11 +168,16 @@ const TestApi: React.FC = () => {
       }
       
       setResult(prev => prev + `\nError: ${errorMessage}`);
+
+   
+
     } finally {
       setLoading(false);
     }
+      */
   };
 
+  /*
   const testFullFlow = async () => {
     
     setLoading(true);
@@ -245,7 +255,7 @@ const TestApi: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };*/
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
@@ -299,7 +309,7 @@ const TestApi: React.FC = () => {
         </button>
         
         <button 
-          onClick={testFullFlow} 
+          onClick={testGetMenuCommensal} 
           disabled={loading}
           style={{ padding: '8px 16px', backgroundColor: '#4CAF50', color: 'white', border: 'none' }}
         >

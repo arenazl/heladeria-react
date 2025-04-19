@@ -10,8 +10,6 @@ const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
   const [showPWAButton, setShowPWAButton] = useState<boolean>(false);
   const [showInstallPrompt, setShowInstallPrompt] = useState<boolean>(false);
-  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
-  
   useEffect(() => {
     // Check if we should show the PWA button (iOS device and not in standalone mode)
     const shouldShowButton = !isInStandaloneMode();
@@ -24,16 +22,7 @@ const WelcomeScreen: React.FC = () => {
       localStorage.removeItem('iosInstallPromptLastShown');
       setShowInstallPrompt(true);
     }
-    
-    // Check if data is loaded
-    const isLoaded = dataService.isLoaded();
-    setDataLoaded(isLoaded);
-    
-    // If data is already loaded, redirect to products page
-    if (isLoaded) {
-      navigate('/products');
-    }
-  }, [navigate]);
+  }, []);
 
   const handleInstallClick = () => {
     // Show the iOS install prompt when the button is clicked
@@ -47,7 +36,16 @@ const WelcomeScreen: React.FC = () => {
   };
 
   const handleScanQR = () => {
-    navigate('/menu/' + API_CONFIG.COMPANY_ID + '/1');
+    // Check if we have a company ID in sessionStorage
+    const companyId = sessionStorage.getItem('companyId');
+    
+    if (companyId) {
+      // If we have a company ID, navigate to the menu with that company ID
+      navigate(`/menu/${companyId}/1`);
+    } else {
+      // If we don't have a company ID, navigate to the QR code page
+      navigate('/qr-example');
+    }
   };
 
   return (

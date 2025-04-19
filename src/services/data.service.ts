@@ -10,9 +10,9 @@ import {
   Product 
 } from '../models/types';
 import { sessionService } from './session.service';
-import { apiService } from './api.service';
 import { loginService } from './login.service';
 import { API_CONFIG } from '../config/api.config';
+import { menuCommensalService } from './menu-commensal.service';
 
 class DataService {
   private categories: Category[] = [];
@@ -63,14 +63,33 @@ class DataService {
           price = apiProduct.ProductSizes[0].Price;
         }
 
+        // Process the image path
+        let imagePath = undefined;
+        if (apiProduct.PicturePath) {
+          // Check if the PicturePath is a valid image path
+          const picturePath = apiProduct.PicturePath.trim();
+          
+          // Only use the PicturePath if it's not empty and looks like a valid image path
+          if (picturePath !== '') {
+            // Check if it has a valid image extension or is a numeric ID
+            const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+            const hasValidExtension = validExtensions.some(ext => picturePath.toLowerCase().endsWith(ext));
+            const isNumericId = /^\d+$/.test(picturePath) || /^\d+\.\w+$/.test(picturePath);
+            
+            if (hasValidExtension || isNumericId) {
+              imagePath = picturePath;
+            }
+          }
+        }
+        
         // Add product
         this.products.push({
           id: apiProduct.Id,
           subcategoryId: apiProduct.SubRubroId,
           name: apiProduct.ProductName,
-description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
+          description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
           price: price,
-          image: apiProduct.PicturePath || undefined
+          image: imagePath
         });
       });
     });
@@ -82,19 +101,11 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
   // Load data from API or session
   async loadData(companyId: string, priceListId: string): Promise<boolean> {
     try {
-
-
-      // Set headers with just the company ID
-      apiService.setHeaders(companyId, companyId);
-      
       // Get company data
-      const companyResponse = await apiService.getCompanyById(companyId);
+      const companyResponse = await menuCommensalService.getCompanyById(companyId);
       const company = companyResponse.data;
       
       if (company) {
-        // Set headers with company ID and prefix
-        apiService.setHeaders(company.Id, company.Prefix);
-        
         // Create search parameters
         const searchParams: MenuCommensalSearch = {
           PriceListId: parseInt(priceListId),
@@ -103,14 +114,20 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
         };
         
         // Get menu data
-        const menuResponse = await apiService.getMenuCommensal(searchParams);
+        const menuResponse = await menuCommensalService.getMenuCommensal(searchParams);
         const menuData = menuResponse.data;
 
         // Set company name 
         this.companyName = company.Name;
           
         // Save to session
-        sessionService.saveMenuDataInLocalStorage(menuData);
+        // Agregar el nombre de la compañía a los datos del menú para que esté disponible en sessionStorage
+        const menuDataWithCompany = {
+          ...menuData,
+          companyName: company.Name
+        };
+        
+        sessionService.saveMenuDataInLocalStorage(menuDataWithCompany);
         sessionService.saveSystemConfigurationInLocalStorage(menuData.SystemConfiguration);
   
         // Set country name
@@ -130,7 +147,7 @@ description: (apiProduct.ProductDescription || '').replace(/<[^>]*>/g, ''),
 
   // Get company name
   getCompanyName(): string {
-    return this.companyName || 'Heladería';
+    return this.companyName;
   }
 
   // Get country name

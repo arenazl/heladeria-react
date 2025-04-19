@@ -4,19 +4,22 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { OrderProvider } from './context/OrderContext';
 import { useOrder } from './context/OrderContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { RelatedProductsProvider } from './context/RelatedProductsContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopOnMount from './components/ScrollToTopOnMount';
 import RefreshHandler from './components/RefreshHandler';
+import TitleUpdater from './components/TitleUpdater';
 import { dataService } from './services/data.service';
+import { initializeBlobStorage } from './config/image.config';
+import { sessionService } from './services/session.service';
 import WelcomeScreen from './pages/WelcomeScreen';
 import ProductBrowsing from './pages/ProductBrowsing';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import OrderConfirmation from './pages/OrderConfirmation';
 import PaymentSelection from './pages/PaymentSelection';
-import PaymentProcessor from './pages/PaymentProcessor';
 import PaymentSuccess from './pages/PaymentSuccess';
 import OrderStatus from './pages/OrderStatus';
 import OrderReady from './pages/OrderReady';
@@ -25,6 +28,9 @@ import QRCodePage from './pages/QRCodePage';
 import TestApi from './pages/TestApi';
 import Settings from './pages/Settings';
 import './App.css';
+import './styles/DarkThemeOverrides.css';
+import './styles/OrangeThemeOverrides.css';
+import './styles/BrickThemeOverrides.css';
 import { API_CONFIG } from './config/api.config';
 
 // Route guard component to check for existing customer
@@ -63,6 +69,15 @@ const pageTransition = {
 const AnimatedRoutes = () => {
   const location = useLocation();
   
+  // Actualizar el título de la página cuando cambia la ruta
+  useEffect(() => {
+    // Intentar obtener el nombre de la compañía de localStorage
+    const companyName = localStorage.getItem('companyName');
+    if (companyName) {
+      document.title = companyName;
+    }
+  }, [location.pathname]);
+  
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.main
@@ -83,12 +98,11 @@ const AnimatedRoutes = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/confirmation" element={<OrderConfirmation />} />
           <Route path="/payment" element={<PaymentSelection />} />
-          <Route path="/payment-processor" element={<PaymentProcessor />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/order-status" element={<OrderStatus />} />
           <Route path="/order-ready" element={<OrderReady />} />
           <Route path="/qr" element={<QRCodePage />} />
-          <Route path="/qr-example" element={<QRCodePage defaultCompanyId={API_CONFIG.COMPANY_ID} defaultPriceListId="1" />} />
+          <Route path="/qr-example" element={<QRCodePage />} />
           <Route path="/test-api" element={<TestApi />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
@@ -100,7 +114,7 @@ const AnimatedRoutes = () => {
 function App() {
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
 
-  // Check if data is loaded
+  // Check if data is loaded and initialize blob storage
   useEffect(() => {
     const checkDataLoaded = () => {
       const loaded = dataService.isLoaded();
@@ -113,24 +127,32 @@ function App() {
     // Set up an interval to check periodically
     const interval = setInterval(checkDataLoaded, 1000);
 
+    // Initialize blob storage
+    initializeBlobStorage().catch((error: unknown) => {
+      console.error('Failed to initialize blob storage:', error);
+    });
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <ThemeProvider>
-      <OrderProvider>
-        <Router>
-          <div className="app">
-            <ScrollToTopOnMount />
-            {/* Only show header when data is loaded */}
-            {isDataLoaded && <Header />}
-            <AnimatedRoutes />
-            <Footer />
-            <ScrollToTop />
-          </div>
-        </Router>
-      </OrderProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <RelatedProductsProvider>
+          <OrderProvider>
+            <Router>
+              <div className="app">
+                <TitleUpdater />
+                <ScrollToTopOnMount />
+                {/* Only show header when data is loaded */}
+                {isDataLoaded && <Header />}
+                <AnimatedRoutes />
+                <Footer />
+                <ScrollToTop />
+              </div>
+            </Router>
+          </OrderProvider>
+        </RelatedProductsProvider>
+      </ThemeProvider>
   );
 }
 

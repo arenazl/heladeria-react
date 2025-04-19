@@ -110,8 +110,7 @@ const OrderStatus: React.FC = () => {
     try {
       // Generar el JSON del pedido y enviarlo al servidor
       const orderJson = generateOrderJson();
-      // Asegurarse de que los headers estén configurados
-      menuCommensalService.setHeaders(API_CONFIG.COMPANY_ID);
+      // Llamar al servicio para guardar el pedido
       const response = await menuCommensalService.savePartnerOrder(orderJson);
       
       // Si hay errores en la respuesta, mostrarlos

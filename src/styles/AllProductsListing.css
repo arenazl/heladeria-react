@@ -101,7 +101,7 @@
 }
 
 .product-price {
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--primary-color);
   margin: 0;
@@ -152,6 +152,6 @@
     -webkit-line-clamp: 2;
   }
   .product-price {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }

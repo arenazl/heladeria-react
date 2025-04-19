@@ -6,13 +6,6 @@ class OrderService {
   // Método para rechazar un pedido
   async rejectOrder(orderData: any) {
     try {
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      };
-
       const baseUrl = API_CONFIG.BASE_URL || '';
       console.log('URL base de la API:', baseUrl);
       const endpoint = 'PartnerOrder/RejectOrder';
@@ -22,8 +15,7 @@ class OrderService {
       // Llamada al endpoint PartnerOrder/RejectOrder del controlador
       const response = await axiosWithInterceptors.post(
         endpoint,
-        orderData,
-        options
+        orderData
       );
       
       return response.data;
@@ -36,13 +28,6 @@ class OrderService {
   // Método para obtener los partners configurados
   async getPartnersConfigured() {
     try {
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      };
-
       const baseUrl = API_CONFIG.BASE_URL || '';
       console.log('URL base de la API:', baseUrl);
       const endpoint = 'PartnerOrder/GetPartnersConfigured';
@@ -50,8 +35,7 @@ class OrderService {
 
       // Llamada al endpoint PartnerOrder/GetPartnersConfigured del controlador
       const response = await axiosWithInterceptors.get(
-        endpoint,
-        options
+        endpoint
       );
       
       return response.data;

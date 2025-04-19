@@ -4,6 +4,7 @@ import '../styles/Header.css';
 import { dataService } from '../services/data.service';
 import { isInStandaloneMode } from '../utils/pwaUtils';
 import IOSInstallPrompt from './IOSInstallPrompt';
+import { useOrder } from '../context/OrderContext';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +43,25 @@ const Header: React.FC = () => {
     setShowPWAButton(shouldShowButton);
   }, []);
   
+  const { clearOrder } = useOrder();
+  
   const handleBackClick = () => {
+    // Check if we're coming from Mercado Pago
+    const isMercadoPagoReturn = document.referrer.includes('mercadopago.com');
+    
+    // Check if we're coming from payment success page
+    const isFromPaymentSuccess = sessionStorage.getItem('fromPaymentSuccess') === 'true';
+    
+    // If coming from Mercado Pago but not from payment success, clear the cart
+    if (isMercadoPagoReturn && !isFromPaymentSuccess) {
+      console.log('Returning from Mercado Pago (not from success page). Clearing cart.');
+      clearOrder();
+    } else if (isMercadoPagoReturn && isFromPaymentSuccess) {
+      console.log('Returning from Mercado Pago success page. Keeping cart.');
+      // Remove the flag after using it
+      sessionStorage.removeItem('fromPaymentSuccess');
+    }
+    
     navigate(-1);
   };
   
@@ -57,8 +76,8 @@ const Header: React.FC = () => {
     localStorage.setItem('iosInstallPromptLastShown', new Date().getTime().toString());
   };
   
-  // Don't show back button on welcome screen
-  const showBackButton = location.pathname !== '/';
+  // Don't show back button on welcome screen or any menu page
+  const showBackButton = location.pathname !== '/' && !location.pathname.match(/^\/menu\/\d+\/\d+$/);
   
   // Get the current page name for screen reader accessibility
   const getPageName = () => {

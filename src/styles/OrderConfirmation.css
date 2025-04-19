@@ -304,17 +304,6 @@
   max-width: 100%;
 }
 
-.recommendation-description {
-  font-size: 0.9rem;
-  color: var(--text-medium);
-  margin: 0 0 0.8rem 0;
-  flex-grow: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
 .recommendation-padding-clean {
   padding-bottom: 0px !IMPORTANT;
   margin-bottom: 0px ! IMPORTANT;

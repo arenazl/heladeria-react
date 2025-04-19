@@ -133,12 +133,16 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
   };
 
   const clearOrder = () => {
-    setOrder(prevOrder => ({
+    // Clear all order information, including customer
+    setOrder({
       items: [],
-      total: 0,
-      customerId: prevOrder.customerId,
-      customer: prevOrder.customer
-    }));
+      total: 0
+    });
+    
+    // Also clear any order data stored in localStorage
+    localStorage.removeItem('mpOrderData');
+    localStorage.removeItem('mpPreferenceId');
+    localStorage.removeItem('mpOrderDataProcessed');
   };
 
   return (

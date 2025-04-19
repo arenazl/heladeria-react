@@ -7,11 +7,13 @@
     <meta name="theme-color" content="#61862d" />
     <meta
       name="description"
-      content="Mexican Food - Ordena comida mexicana deliciosa para llevar"
+      content="Ordena comida deliciosa para llevar"
+      id="meta-description"
+      data-default="Ordena comida deliciosa para llevar"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Mexican Food" />
+    <meta name="apple-mobile-web-app-title" content="Menú Digital" id="meta-app-title" data-default="Menú Digital" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     
@@ -34,11 +36,13 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
-    <title>Mexican Food</title>
+    <title id="page-title" data-default="Menú Digital">Menú Digital</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    
+    <!-- El script para actualizar los metadatos ha sido movido a un componente React -->
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

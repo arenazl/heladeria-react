@@ -29,8 +29,8 @@ const createAxiosWithInterceptors = (): AxiosInstance => {
       
       // Add specific headers for MenuCommensal endpoints
       if (config.url && config.url.startsWith('MenuCommensal') && config.headers) {
-        config.headers['CompanyId'] = API_CONFIG.COMPANY_ID;
-        config.headers['Prefix'] = "_" + API_CONFIG.COMPANY_ID;
+        // Don't set CompanyId header here - it will be set by the specific API calls
+        // based on the URL parameters
         config.headers['CompanySchema'] = API_CONFIG.PARTNER.NAME;
       }
       

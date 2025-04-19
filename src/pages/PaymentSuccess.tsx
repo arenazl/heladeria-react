@@ -18,17 +18,27 @@ const PaymentSuccess: React.FC = () => {
   const [orderNumber, setOrderNumber] = useState<string>('');
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission | null>(null);
 
-  // Generar un número de orden al cargar el componente
+  // Obtener el número de orden de localStorage o generar uno nuevo
   useEffect(() => {
-    // Generate a random order number
-    const generateOrderNumber = () => {
-      const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-      const randomLetter = letters[Math.floor(Math.random() * letters.length)];
-      const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-      return `${randomLetter}${randomNumber}`;
-    };
-    
-    setOrderNumber(generateOrderNumber());
+    // Intentar obtener el número de orden de localStorage
+    const storedOrderData = localStorage.getItem('mpOrderData');
+    if (storedOrderData) {
+      try {
+        const parsedData = JSON.parse(storedOrderData);
+        if (parsedData.orderNumber) {
+          setOrderNumber(parsedData.orderNumber);
+        } else {
+          // Si no hay número de orden en localStorage, generar uno nuevo
+          generateNewOrderNumber();
+        }
+      } catch (error) {
+        console.error('Error parsing order data from localStorage:', error);
+        generateNewOrderNumber();
+      }
+    } else {
+      // Si no hay datos de orden en localStorage, generar un número de orden nuevo
+      generateNewOrderNumber();
+    }
     
     // Check notification permission on component mount
     const checkPermission = async () => {
@@ -38,6 +48,16 @@ const PaymentSuccess: React.FC = () => {
     
     checkPermission();
   }, []);
+
+  // Función para generar un nuevo número de orden
+  const generateNewOrderNumber = () => {
+    const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+    const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+    const newOrderNumber = `${randomLetter}${randomNumber}`;
+    setOrderNumber(newOrderNumber);
+    return newOrderNumber;
+  };
 
   // Función para generar el JSON del pedido según el contrato de la base de datos
   const generateOrderJson = () => {
@@ -123,6 +143,10 @@ const PaymentSuccess: React.FC = () => {
   useEffect(() => {
     console.log('Checking for stored order data...');
     
+    // Set a flag to indicate we're coming from payment success page
+    // This will be used by the Header component to decide whether to clear the cart
+    sessionStorage.setItem('fromPaymentSuccess', 'true');
+    
     // Verificar si hay datos de orden guardados en localStorage
     const storedData = localStorage.getItem('mpOrderData');
     if (storedData) {
@@ -200,9 +224,6 @@ const PaymentSuccess: React.FC = () => {
           }
           
           console.log('Generated order JSON:', orderJson);
-          
-          // Asegurarse de que los headers estén configurados
-          menuCommensalService.setHeaders(API_CONFIG.COMPANY_ID);
           
           // Llamar al servicio para guardar el pedido
           const response = await menuCommensalService.savePartnerOrder(orderJson);
@@ -339,11 +360,15 @@ const PaymentSuccess: React.FC = () => {
     clearOrder();
     
     // Verificar si hay un companyId y priceListId en sessionStorage
-    const companyId = sessionStorage.getItem('companyId') || '1';
-    const priceListId = sessionStorage.getItem('priceListId') || '1';
+    const companyId = sessionStorage.getItem('companyId');
+    const priceListId = sessionStorage.getItem('priceListId');
     
-    // Redirigir a la página de menú
-    navigate('/menu/' + companyId + '/' + priceListId);
+    // Redirigir a la página de menú o a la página de inicio si no hay companyId
+    if (companyId && priceListId) {
+      navigate('/menu/' + companyId + '/' + priceListId);
+    } else {
+      navigate('/');
+    }
   };
 
   const getStatusText = (): string => {
@@ -376,7 +401,13 @@ const PaymentSuccess: React.FC = () => {
     <div className="page-container">
       <div className="section-container">
         <div className="success-content">
-          <div className="success-icon">✅</div>
+          <div className="success-icon-container">
+            <div className="success-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
           <h2>¡Pago Exitoso!</h2>
           <p>Tu pedido ha sido confirmado y está siendo procesado.</p>
           
@@ -390,9 +421,25 @@ const PaymentSuccess: React.FC = () => {
           <div className={`order-status-container ${getStatusClass()}`}>
             <div className="order-status-header">
               <div className="status-icon">
-                {orderStatus === 'processing' && <span>⚙️</span>}
-                {orderStatus === 'preparing' && <span>👨‍🍳</span>}
-                {orderStatus === 'ready' && <span>✅</span>}
+                {orderStatus === 'processing' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#f57c00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 6V12L16 14" stroke="#f57c00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+                {orderStatus === 'preparing' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 11H18C19.6569 11 21 12.3431 21 14C21 15.6569 19.6569 17 18 17H15" stroke="#43a047" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 11H15V19C15 20.1046 14.1046 21 13 21H8C6.89543 21 6 20.1046 6 19V11Z" stroke="#43a047" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 11V7C6 5.89543 6.89543 5 8 5H13C14.1046 5 15 5.89543 15 7V11" stroke="#43a047" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 15H8" stroke="#43a047" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+                {orderStatus === 'ready' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="#1976d2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
               </div>
               <div className="order-status-text">{getStatusText()}</div>
             </div>

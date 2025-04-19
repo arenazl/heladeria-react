@@ -9,17 +9,16 @@ import {
 } from '../models/validation.types';
 
 class MenuCommensalService {
-  // This method is kept for backward compatibility but is no longer needed
-  // as headers are now set automatically by the HTTP interceptor
-  setHeaders(companyId: string, prefix: string = '') {
-    // No-op - headers are now set in the HTTP interceptor
-    console.log('setHeaders is deprecated - headers are now set automatically');
-  }
-
   // Get company by ID
   async getCompanyById(companyId: string) {
+    const headers = {
+      'CompanyId': companyId,
+      'Prefix': `_${companyId}`
+    };
+    
     const response = await axiosWithInterceptors.get<any>(
-      `MenuCommensal/GetCompanyById/${companyId}`
+      `MenuCommensal/GetCompanyById/${companyId}`,
+      { headers }
     );
     
     if (response.headers && response.headers['authorization']) {
@@ -45,8 +44,21 @@ class MenuCommensalService {
       params['TableId'] = searchTerm.TableId.toString();
     }
 
+    // Get companyId from sessionStorage - this is set by the MenuLoader component
+    const companyId = sessionStorage.getItem('companyId');
+    
+    // If companyId is not available, throw an error
+    if (!companyId) {
+      console.error('No companyId found in sessionStorage');
+      throw new Error('No companyId found in sessionStorage');
+    }
+    
     const options = {
-      params: params
+      params: params,
+      headers: {
+        'CompanyId': companyId,
+        'Prefix': `_${companyId}`
+      }
     };
     
     const response = await axiosWithInterceptors.get<MenuResponse>(
@@ -162,10 +174,25 @@ class MenuCommensalService {
       console.log('URL base de la API:', baseUrl);
       console.log('Datos a enviar al servidor:', JSON.stringify(partnerOrderVM, null, 2));
 
+      // Get companyId from sessionStorage
+      const companyId = sessionStorage.getItem('companyId');
+      
+      // If companyId is not available, throw an error
+      if (!companyId) {
+        console.error('No companyId found in sessionStorage');
+        throw new Error('No companyId found in sessionStorage');
+      }
+      
       // Llamada al endpoint SavePartnerOrder de MenuCommensal
       const response = await axiosWithInterceptors.post(
         'MenuCommensal/SavePartnerOrder',
-        partnerOrderVM
+        partnerOrderVM,
+        {
+          headers: {
+            'CompanyId': companyId,
+            'Prefix': `_${companyId}`
+          }
+        }
       );
       
       // Process the response to handle ValidationResult if present
@@ -183,7 +210,25 @@ class MenuCommensalService {
   async createPreference(order: any): Promise<MercadoPagoPreferenceResultVM> {
     try {
 
-      const response = await axiosWithInterceptors.post('MenuCommensal/CreatePreferenceCheckout', order);
+      // Get companyId from sessionStorage
+      const companyId = sessionStorage.getItem('companyId');
+      
+      // If companyId is not available, throw an error
+      if (!companyId) {
+        console.error('No companyId found in sessionStorage');
+        throw new Error('No companyId found in sessionStorage');
+      }
+      
+      const response = await axiosWithInterceptors.post(
+        'MenuCommensal/CreatePreferenceCheckout', 
+        order,
+        {
+          headers: {
+            'CompanyId': companyId,
+            'Prefix': `_${companyId}`
+          }
+        }
+      );
       // Process the response to handle ValidationResult if present
       return processApiResponse<MercadoPagoPreferenceResultVM>(response.data);
     } catch (error) {
@@ -199,7 +244,24 @@ class MenuCommensalService {
    */
   async getOrderById(id: number): Promise<ApiResponseWithValidation> {
     try {
-      const response = await axiosWithInterceptors.get(`MenuCommensal/GetOrderById/${id}`);
+      // Get companyId from sessionStorage
+      const companyId = sessionStorage.getItem('companyId');
+      
+      // If companyId is not available, throw an error
+      if (!companyId) {
+        console.error('No companyId found in sessionStorage');
+        throw new Error('No companyId found in sessionStorage');
+      }
+      
+      const response = await axiosWithInterceptors.get(
+        `MenuCommensal/GetOrderById/${id}`,
+        {
+          headers: {
+            'CompanyId': companyId,
+            'Prefix': `_${companyId}`
+          }
+        }
+      );
       // Process the response to handle ValidationResult if present
       return processApiResponse<ApiResponseWithValidation>(response.data);
     } catch (error) {
