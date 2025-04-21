@@ -28,11 +28,11 @@ const QRCodePage: React.FC<QRCodePageProps> = ({
   // Load visited companies and clear session storage values that might cause redirects
   useEffect(() => {
     // Clear companyId and priceListId from sessionStorage to prevent unwanted redirects
-    // when on the home page (Comparilista)
+    // when on the home page (QRMenu)
     if (window.location.hash === '#/' || window.location.hash === '') {
       sessionStorage.removeItem('companyId');
       sessionStorage.removeItem('priceListId');
-      console.log('Cleared companyId and priceListId from sessionStorage on Comparilista page');
+      console.log('Cleared companyId and priceListId from sessionStorage on QRMenu page');
     }
     
     // Load default company from manifest.json

@@ -46,7 +46,7 @@ const RefreshHandler: React.FC = () => {
         // Limpiar el carrito
         clearOrder();
         
-        // Verificar la URL actual para determinar si estamos en la página principal (Comparilista)
+        // Verificar la URL actual para determinar si estamos en la página principal (QRMenu)
         const currentPath = window.location.hash;
         const isHomePage = currentPath === '#/' || currentPath === '';
         
@@ -66,7 +66,7 @@ const RefreshHandler: React.FC = () => {
             navigate('/');
           }
         } else {
-          console.log('Already on home page (Comparilista), not redirecting');
+          console.log('Already on home page (QRMenu), not redirecting');
         }
         
         // Limpiar el flag

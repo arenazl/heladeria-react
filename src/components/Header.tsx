@@ -74,7 +74,7 @@ const Header: React.FC = () => {
     // Limpiar toda la sesión (sessionStorage)
     sessionStorage.clear();
     
-    // Redirigir a la página principal (Comparilista)
+    // Redirigir a la página principal (QRMenu)
     navigate('/');
     
     // Limpiar el carrito
